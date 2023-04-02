@@ -1,0 +1,85 @@
+.card-page{
+  overflow: hidden;
+  width: 100%;
+  max-width: var(--content-width);
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 4fr 8fr 4fr;
+  gap: var(--g-20);
+  grid-template-areas:
+  "buttons extended-answer-card"
+  "question-card extended-answer-card"
+  "answer-card extended-answer-card"
+  "keywords extended-answer-card";
+}
+
+.card{
+  line-height: 1.4em;
+  background: var(--card-color);
+  padding: var(--p-20);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  transition: all .3s linear;
+}
+
+.card__content{
+  height: 100%;
+  padding: var(--p-10);
+  overflow-y: auto;
+}
+
+.card__content::-webkit-scrollbar {
+  width: .6rem;
+}
+ 
+.card__content::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 .2rem var(--main-bg-color);
+  border-radius: .3rem;
+}
+ 
+.card__content::-webkit-scrollbar-thumb {
+  background-color: var(--main-color);
+  border-radius: .3rem;
+}
+
+.buttons{
+  grid-area: buttons;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: var(--g-20);
+}
+
+.question-card{
+  grid-area: question-card;
+}
+
+.answer-card{
+  grid-area: answer-card;
+  
+}
+
+.keyword-card{
+  grid-area: keywords;
+}
+
+.keyword-card > .card__content{
+  display: flex;
+  align-items: center;
+  row-gap: var(--g-20);
+  column-gap: var(--g-20);
+  flex-wrap: wrap;
+}
+
+.keyword{
+  line-height: 1em;
+  color: var(--light-font-color);
+  background-color: var(--main-color);
+  padding: 8px 10px;
+  border-radius: var(--button-radius);
+}
+
+.extended-answer-card{
+  grid-area: extended-answer-card;
+}

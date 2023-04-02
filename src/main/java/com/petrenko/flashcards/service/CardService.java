@@ -22,4 +22,13 @@ public class CardService {
         System.out.println(card);
         return card;
     }
+
+    public void save(Card card) {
+        cardRepository.save(card);
+    }
+
+    public void deleteById(String id) {
+        cardRepository.deleteById(id);
+    }
+
 }

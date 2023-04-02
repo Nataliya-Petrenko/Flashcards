@@ -7,6 +7,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 @Setter
@@ -18,12 +20,30 @@ public class Card {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+    @NotBlank(message = "Field is mandatory")
     @Type(type = "text")
     private String question;
 
     @Type(type = "text")
-    private String notation;
+    @Column(name = "short_answer")
+    private String shortAnswer;
 
     @Type(type = "text")
-    private String article;
+    @Column(name = "long_answer")
+    private String longAnswer;
+
+//    @NotBlank(message = "Field is mandatory")
+//    private String set;
+
+    @Column(name = "key_words")
+    @ManyToMany
+    private List<KeyWord> keyWords;
+
+    @Column(name = "study_priority")
+    private StudyPriority studyPriority;
+
+    @Column(name = "knowledge_level")
+    private KnowledgeLevel knowledgeLevel;
+
+    private Boolean know;
 }

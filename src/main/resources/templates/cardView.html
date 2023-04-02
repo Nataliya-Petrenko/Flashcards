@@ -3,34 +3,75 @@
       xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <title>Thymeleaf demo</title>
+    <meta charset="UTF-8">
+    <!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cardPage.css">
+    <link rel="stylesheet" href="css/header.css">
+    <title>Flashcards</title>
 
 </head>
 
 <body>
 
-<div id="menu" th:insert="menu :: menu_fragment"></div>
+<!--<div id="menu" th:insert="menu :: menu_fragment"></div>-->
 
-<div class="card mx-auto mt-2" style="width: fit-content">
-    <div class="card-body">
-        <h5 class="card-title" th:text="|Card question: ${card.question}|"></h5>
-    </div>
-</div>
-<div class="card mx-auto mt-2" style="width: fit-content">
-    <div class="card-body">
-        <p class="card-text" th:text="|Card notation: ${card.notation}|"></p>
-    </div>
-</div>
-<div class="card mx-auto mt-2" style="width: fit-content">
-    <div class="card-body">
-        <p class="card-text" th:text="|Card article: ${card.article}|"></p>
-    </div>
+<div class="wrapper">
+
+    <header class="header">
+        <div class="header__content">
+            <a href="#" class="link link-border">Flashcards</a>
+            <div class="search-profile__container">
+                <input class="search" type="text" placeholder="Search">
+                <a href="#" class="create-dropdown link link-border">+</a>
+                <a href="#" class="tutorial link link-border">?</a>
+                <a class="profile">
+                    <div class="profile__logo">
+                        <img src="#" alt="">
+                    </div>
+                    <p class="profile__text">ProfileName cvcgvgvcdgvg
+                        cdcdcd
+                    </p>
+                </a>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <section class="card-page">
+            <nav class="buttons">
+                <a class="link" href="#">Ed</a>
+                <a class="link" href="#">&#9754; Previous Card</a>
+                <a class="link" href="#">Next Card &#9755;</a>
+                <a class="link" href="#">Back to Start</a>
+            </nav>
+            <section class="card question-card">
+                <div class="card__content">
+                    <p th:text="${card.question}">Card question</p>
+                </div>
+            </section>
+            <section class="card answer-card">
+                <div class="card__content">
+                    <p th:text="${card.shortAnswer}">Card short answer</p>
+                </div>
+            </section>
+            <section class="card keyword-card">
+                <div class="card__content">
+                    <div class="card__content" th:each="keyWord : ${card.keyWords}">
+                        <p class="keyword" th:text="|${keyWord.name}|"></p>
+                    </div>
+                </div>
+            </section>
+            <section class="card extended-answer-card">
+                <div class="card__content">
+                    <p th:text="${card.longAnswer}">Card long answer</p>
+                </div>
+            </section>
+        </section>
+    </main>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-        crossorigin="anonymous"></script>
 </body>
 </html>

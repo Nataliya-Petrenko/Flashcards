@@ -1,0 +1,67 @@
+.card-edit-view{
+  overflow: hidden;
+  width: 100%;
+  max-width: var(--content-width);
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr;
+  gap: var(--g-20);
+  grid-template-areas:
+  "buttons extended-answer-card"
+  "set-card extended-answer-card"
+  "question-card extended-answer-card"
+  "question-card extended-answer-card"
+  "short-answer-card extended-answer-card"
+  "short-answer-card priority-card"
+  "short-answer-card priority-card"
+  "keywords-card knowledge-level-card"
+  "keywords-card knowledge-level-card";
+}
+
+.buttons{
+  grid-area: buttons;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: var(--g-20);
+}
+
+.set-card {
+  grid-area: set-card;
+}
+
+.question-card {
+  grid-area: question-card;
+}
+
+.short-answer-card {
+  grid-area: short-answer-card;
+}
+
+.keywords-card {
+  grid-area: keywords-card;
+}
+
+.extended-answer-card {
+  grid-area: extended-answer-card;
+}
+
+.priority-card {
+  grid-area: priority-card;
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-10);
+}
+
+.knowledge-level-card {
+  grid-area: knowledge-level-card;
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-10);
+}
+
+.knowledge-level__list{
+  display: flex;
+  gap: var(--g-20);
+}

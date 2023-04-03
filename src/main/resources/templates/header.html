@@ -1,0 +1,40 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/card-view.css">
+    <title>Flashcards</title>
+</head>
+
+<body>
+
+<div class="header__content" th:fragment="header_fragment">
+    <a href="#" class="button bg-dark light-border">Flashcards</a>
+    <div class="search-profile__container">
+        <input class="input bg-dark light-border light-placeholder" type="text" placeholder="Search">
+        <a href="./edit-card-view.html" class="button bg-dark light-border extra-bold-text">+</a>
+        <a href="#" class="button bg-dark light-border extra-bold-text">?</a>
+        <a href="./sign-in-view.html" class="button bg-dark light-border">Sign in</a>
+        <a href="./sign-up-view.html" class="button bg-dark light-border">Sign up</a>
+        <a class="profile">
+            <div class="profile__logo">
+                <img src="#" alt="">
+            </div>
+            <p class="profile__text">ProfileName cvcgvgvcdgvg
+                cdcdcd
+            </p>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

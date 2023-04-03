@@ -1,0 +1,39 @@
+.set-view{
+  overflow: hidden;
+  width: 100%;
+  max-width: var(--content-width);
+  height: 100%;
+  display: grid;
+  grid-template-rows: 48px 1fr;
+  gap: var(--g-20);
+}
+
+.set-view__buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: var(--g-20);
+}
+
+.set-view__button-right{
+  margin-left: auto;
+}
+
+.card__content {
+  padding: var(--p-20);
+  height: 100%;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: max-content;
+  gap: var(--g-20);
+}
+
+.card-in-set{
+  border: 3px solid var(--main-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--g-10);
+}

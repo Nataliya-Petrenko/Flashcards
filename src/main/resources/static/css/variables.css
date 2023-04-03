@@ -1,12 +1,10 @@
 :root {
   --main-color: #276678;
   --main-bg-color:#D3E0EA;
-  --light-font-color: #FFFFFF;
-  --dark-font-color: black;
   --card-color: #FFFFFF;
   --border-color: lightgray;
   --border-hover-color: black;
-  --shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+  --shadow: 1px 1px 6px rgba(0, 0, 0, 0.4);
 
   /* Dimensions */
   --content-width: 1440px;
@@ -21,9 +19,13 @@
   --g-20: 20px;
   --g-10: 10px;
 
-  /* Font */
+  /* Texts */
+  --light-font-color: #FFFFFF;
+  --dark-font-color: black;
   --main-font-size: 16px;
   --main-font-weight: 700;
   --text-font-size: 16px;
   --text-font-weight: 400;
+  --title-font-size: 36px;
+  --title-font-weight: 700;
 }

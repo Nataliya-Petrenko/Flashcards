@@ -1,4 +1,5 @@
 .header{
+  font-weight: var(--text-font-weight);
   width: 100%;
   padding: var(--p-16);
   background-color: var(--main-color);
@@ -16,64 +17,11 @@
   gap: var(--g-20);
 }
 
-.link {
-  color: var(--light-font-color);
-  background-color: var(--main-color);
-  padding: 8px 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: var(--button-radius);
-  box-shadow: var(--shadow);
-}
-
-.link-border{
-  border: 1px solid var(--border-color);
-  transition: border .3s linear;
-}
-
-.link-border:hover{
-  border: 1px solid var(--border-hover-color);
-  transition: all .3s linear;
-}
-
 .search-profile__container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 20px;
-}
-
-.search {
-  min-width: 200px;
-  padding: 8px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--button-radius);
-  box-shadow: var(--shadow);
-  background: var(--main-color);
-}
-
-.search::placeholder{
-  color: var(--light-font-color);
-  opacity: .4;
-}
-
-.search:hover{
-  border: 1px solid var(--border-hover-color);
-  transition: all .3s linear;
-}
-
-.search:focus {
-  color: var(--light-font-color);
-  border: 1px solid var(--border-hover-color);
-}
-
-.create-dropdown{
-  font-weight: 900;
-}
-
-.tutorial{
-  font-weight: 900;
 }
 
 .profile {

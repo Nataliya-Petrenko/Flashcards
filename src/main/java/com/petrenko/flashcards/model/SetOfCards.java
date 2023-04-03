@@ -1,6 +1,7 @@
 package com.petrenko.flashcards.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +17,8 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public class Card {
+//@NoArgsConstructor
+public class SetOfCards {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -23,29 +26,18 @@ public class Card {
 
 //    @NotBlank(message = "Field is mandatory")
     @Type(type = "text")
-    private String question;
+    private String name;
 
-    @Type(type = "text")
-    @Column(name = "short_answer")
-    private String shortAnswer;
-
-    @Type(type = "text")
-    @Column(name = "long_answer")
-    private String longAnswer;
-
-//    @NotBlank(message = "Field is mandatory")
-    @ManyToOne
-    private SetOfCards setOfCards;
-
-    @Column(name = "key_words")
-    @ManyToMany
-    private List<KeyWord> keyWords;
+//    @OneToMany
+//    private List<Card> cards;
 
     @Column(name = "study_priority")
     private StudyPriority studyPriority;
 
-    @Column(name = "knowledge_level")
-    private KnowledgeLevel knowledgeLevel;
+    @Column(name = "description_of_set")
+    private String descriptionOfSet;
 
-    private Boolean know;
+//    public SetOfCards(final String name) {
+//        this.name = name;
+//    }
 }

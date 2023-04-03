@@ -18,7 +18,7 @@ public class CardService {
     }
 
     public Card getById(final String id) {
-        Card card = cardRepository.findById(id).orElse(new Card());
+        Card card = cardRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         System.out.println(card);
         return card;
     }

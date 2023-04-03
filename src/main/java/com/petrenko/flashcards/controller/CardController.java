@@ -2,10 +2,13 @@ package com.petrenko.flashcards.controller;
 
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.KeyWord;
+import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.KeyWordService;
+import com.petrenko.flashcards.service.SetOfCardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,30 +23,50 @@ public class CardController {
 
     private final CardService cardService;
     private final KeyWordService keyWordService;
+    private final SetOfCardsService setOfCardsService;
 
     @Autowired
-    public CardController(final CardService cardService, final KeyWordService keyWordService) {
+    public CardController(final CardService cardService,
+                          final KeyWordService keyWordService,
+                          final SetOfCardsService setOfCardsService) {
         this.cardService = cardService;
         this.keyWordService = keyWordService;
+        this.setOfCardsService = setOfCardsService;
     }
 
+//    @Transactional // todo trans for service!
     @GetMapping
     public ModelAndView getTest(ModelAndView modelAndView) {
         Card card = new Card();
+        System.out.println("Created new card");
         card.setQuestion("Question ".repeat(5));
         card.setShortAnswer("ShortAnswer ".repeat(10));
         card.setLongAnswer("LongAnswer ".repeat(50));
+
+        SetOfCards setOfCards = new SetOfCards();
+        System.out.println("Created new setOfCards");
+        setOfCards.setName("NewSet");
+//        setOfCards.getCards().add(card);
+        card.setSetOfCards(setOfCards);
+        setOfCardsService.save(setOfCards);
+        System.out.println("Saved setOfCards");
+
         List<KeyWord> keyWords = new LinkedList<>();
+        System.out.println("Created new List<KeyWord>");
         for (int i = 0; i < 5; i++) {
-            KeyWord keyWord = new KeyWord("key word " + i);
+            KeyWord keyWord = new KeyWord();
+            keyWord.setName("key word " + i);
             keyWords.add(keyWord);
             keyWordService.save(keyWord);
         }
         card.setKeyWords(keyWords);
+
         cardService.save(card);
+        System.out.println("Saved card: " + card);
         modelAndView.addObject("card", card);
-        System.out.println("Card: " + card);
+        System.out.println("addObject card");
         modelAndView.setViewName("cardView");
+        System.out.println("modelAndView.setViewName");
         return modelAndView;
     }
 

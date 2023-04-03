@@ -37,19 +37,18 @@ public class CardController {
 //    @Transactional // todo trans for service!
     @GetMapping
     public ModelAndView getTest(ModelAndView modelAndView) {
+        SetOfCards setOfCards = new SetOfCards();
+        setOfCards.setName("NewSet");
+        System.out.println("Created new setOfCards");
+        setOfCardsService.save(setOfCards);
+        System.out.println("Saved setOfCards");
+
         Card card = new Card();
         System.out.println("Created new card");
         card.setQuestion("Question ".repeat(5));
         card.setShortAnswer("ShortAnswer ".repeat(10));
         card.setLongAnswer("LongAnswer ".repeat(50));
-
-        SetOfCards setOfCards = new SetOfCards();
-        System.out.println("Created new setOfCards");
-        setOfCards.setName("NewSet");
-//        setOfCards.getCards().add(card);
         card.setSetOfCards(setOfCards);
-        setOfCardsService.save(setOfCards);
-        System.out.println("Saved setOfCards");
 
         List<KeyWord> keyWords = new LinkedList<>();
         System.out.println("Created new List<KeyWord>");

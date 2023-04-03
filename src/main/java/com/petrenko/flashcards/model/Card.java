@@ -21,7 +21,7 @@ public class Card {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-//    @NotBlank(message = "Field is mandatory")
+    @NotBlank(message = "Field is mandatory")
     @Type(type = "text")
     private String question;
 
@@ -33,7 +33,6 @@ public class Card {
     @Column(name = "long_answer")
     private String longAnswer;
 
-//    @NotBlank(message = "Field is mandatory")
     @ManyToOne
     private SetOfCards setOfCards;
 

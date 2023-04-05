@@ -57,7 +57,7 @@ public class SetController {
         return modelAndView;
     }
 //
-//    @GetMapping("/card/create")
+//    @GetMapping("/set/create")
 //    public ModelAndView getArticleForm(ModelAndView modelAndView) {
 //        Card card = new Card();
 //        modelAndView.addObject("card", card);

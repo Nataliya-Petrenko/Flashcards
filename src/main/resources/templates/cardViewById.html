@@ -20,16 +20,16 @@
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
       <section class="card-view">
-        <nav class="buttons">
+        <div class="buttons">
           <a class="button bg-dark dark-border" href="#">Ed</a>
-          <a class="button bg-dark dark-border" href="#">&#60; Previous Card</a>
+          <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${previousCardId})}">&#60; Previous Card</a>
           <a class="button bg-dark dark-border" href="#">Next Card &#62;</a>
-          <a class="button bg-dark dark-border" href="#">Back to Set</a>
-        </nav>
+          <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Back to Set</a>
+        </div>
         <section class="card question-card">
           <div class="card__content">
             <p th:text="${card.question}">Card question</p>
-            <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Back to Set</a>
+<!--            <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Back to Set</a>-->
           </div>
         </section>
         <section class="card short-answer-card">

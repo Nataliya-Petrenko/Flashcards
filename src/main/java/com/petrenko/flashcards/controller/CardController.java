@@ -161,6 +161,11 @@ public class CardController {
     public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView) {
         if (id != null && !id.isBlank()) {
             final Card card = cardService.getById(id);
+
+//            SetOfCards setOfCards = card.getSetOfCards();
+            String previousCardId = cardService.getPreviousCardIdById(id);
+            modelAndView.addObject("previousCardId", previousCardId);
+//            String nextCardId = cardService.getNextById(id);
             modelAndView.addObject("card", card);
             System.out.println("Card by id: " + card);
             modelAndView.setViewName("cardViewById");
@@ -171,7 +176,7 @@ public class CardController {
     }
 
     @GetMapping("/card/create")
-    public ModelAndView getArticleForm(ModelAndView modelAndView) {
+    public ModelAndView getCardForm(ModelAndView modelAndView) {
         Card card = new Card();
         modelAndView.addObject("card", card);
 

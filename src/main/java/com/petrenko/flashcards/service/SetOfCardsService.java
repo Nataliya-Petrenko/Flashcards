@@ -85,6 +85,11 @@ public class SetOfCardsService {
         return setOfCards;
     }
 
+//    public SetOfCards getByCardId(String id) {
+//        Card card = cardService.getById(id);
+//        return card.getSetOfCards();
+//    }
+
 //    public void deleteById(String id) {
 //        cardRepository.deleteById(id);
 //    }

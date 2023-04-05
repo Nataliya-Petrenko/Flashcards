@@ -3,6 +3,7 @@ package com.petrenko.flashcards.service;
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.repository.CardRepository;
+import com.petrenko.flashcards.repository.SetOfCardsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class CardService {
     private final CardRepository cardRepository;
 
     @Autowired
-    public CardService(CardRepository cardRepository) {
+    public CardService(final CardRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
 
@@ -47,5 +48,28 @@ public class CardService {
         List<Card> bySetOfCards = cardRepository.getBySetOfCards(setOfCards);
         System.out.println("Service: getBySet: " + bySetOfCards);
         return bySetOfCards;
+    }
+
+    public String getPreviousCardIdById(String id) {
+        Card card = cardRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        SetOfCards setOfCards = card.getSetOfCards();
+        List<Card> cards = getBySet(setOfCards);
+        int indexOfCard = cards.indexOf(card);
+        int previousIndexOfCard = indexOfCard - 1;
+//        int nextIndexOfCard = indexOfCard + 1;
+        if (indexOfCard == 0) {
+            previousIndexOfCard = cards.size() - 1;
+        }
+//        if (indexOfCard == cards.size() - 1) {
+//            nextIndexOfCard = 0;
+//        }
+
+        String previousCardId = cards.get(previousIndexOfCard).getId();
+//        String nextCard = cards.get(nextIndexOfCard).getId();
+
+        return previousCardId;
+
+//        Card card = cardRepository.getPreviousByCardId(id).orElseThrow(IllegalArgumentException::new);
+//        return card.getId();
     }
 }

@@ -79,6 +79,12 @@ public class SetOfCardsService {
         setOfCardsRepository.save(setOfCards);
     }
 
+    public SetOfCards getById(String id) {
+        SetOfCards setOfCards = setOfCardsRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        System.out.println("Set service: getById: " + setOfCards);
+        return setOfCards;
+    }
+
 //    public void deleteById(String id) {
 //        cardRepository.deleteById(id);
 //    }

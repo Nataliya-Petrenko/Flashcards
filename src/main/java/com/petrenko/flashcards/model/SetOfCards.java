@@ -28,9 +28,9 @@ public class SetOfCards {
     @Type(type = "text")
     private String name;
 
-    @OneToMany
-//            (cascade = CascadeType.ALL)
-    private List<Card> cards;
+//    @OneToMany
+////            (cascade = CascadeType.ALL)
+//    private List<Card> cards;
 
     @Column(name = "study_priority")
     private StudyPriority studyPriority;

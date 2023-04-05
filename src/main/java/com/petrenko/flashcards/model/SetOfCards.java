@@ -24,12 +24,13 @@ public class SetOfCards {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @NotBlank(message = "Field is mandatory")
+    //    @NotBlank(message = "Field is mandatory")
     @Type(type = "text")
     private String name;
 
-//    @OneToMany
-//    private List<Card> cards;
+    @OneToMany
+//            (cascade = CascadeType.ALL)
+    private List<Card> cards;
 
     @Column(name = "study_priority")
     private StudyPriority studyPriority;

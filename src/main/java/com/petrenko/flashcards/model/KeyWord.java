@@ -21,7 +21,7 @@ public class KeyWord {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @NotBlank(message = "Field is mandatory")
+//    @NotBlank(message = "Field is mandatory")
     private String name;
 
 

@@ -7,6 +7,10 @@ import com.petrenko.flashcards.repository.KeyWordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 @Service
 public class KeyWordService {
 
@@ -22,6 +26,18 @@ public class KeyWordService {
 //        System.out.println(card);
 //        return card;
 //    }
+
+    public List<KeyWord> stringToList(String keyWordsString) {
+        List<String> wordsList = Arrays.asList(keyWordsString.split(","));
+        List<KeyWord> keyWords = new LinkedList<>();
+        wordsList.forEach(w -> {
+            KeyWord keyWord = new KeyWord();
+            keyWord.setName(w);
+            keyWords.add(keyWord);
+            save(keyWord);
+        });
+        return keyWords;
+    }
 
     public void save(KeyWord keyWord) {
         keyWordRepository.save(keyWord);

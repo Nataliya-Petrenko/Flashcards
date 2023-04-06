@@ -1,23 +1,29 @@
 package com.petrenko.flashcards.service;
 
-import com.petrenko.flashcards.model.Card;
-import com.petrenko.flashcards.model.SetOfCards;
+import com.petrenko.flashcards.dto.CardCreatingDto;
+import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.repository.CardRepository;
-import com.petrenko.flashcards.repository.SetOfCardsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CardService {
 
     private final CardRepository cardRepository;
+    private final KeyWordService keyWordService;
+    private final SetOfCardsService setOfCardsService;
 
     @Autowired
-    public CardService(final CardRepository cardRepository) {
+    public CardService(final CardRepository cardRepository,
+                       final KeyWordService keyWordService,
+                       final SetOfCardsService setOfCardsService) {
         this.cardRepository = cardRepository;
+        this.keyWordService = keyWordService;
+        this.setOfCardsService = setOfCardsService;
     }
 
     public Card getById(final String id) {
@@ -71,5 +77,27 @@ public class CardService {
 
 //        Card card = cardRepository.getPreviousByCardId(id).orElseThrow(IllegalArgumentException::new);
 //        return card.getId();
+    }
+
+    public Card saveToCard(CardCreatingDto cardCreatingDto) {
+        Card card = new Card();
+        card.setQuestion(cardCreatingDto.getQuestion());
+        card.setShortAnswer(cardCreatingDto.getShortAnswer());
+        card.setLongAnswer(cardCreatingDto.getLongAnswer());
+
+        SetOfCards setOfCards = new SetOfCards();
+        setOfCards.setName(cardCreatingDto.getSetOfCardsName());
+        setOfCardsService.save(setOfCards);
+
+        String keyWordsString = cardCreatingDto.getKeyWordsString();
+        List<KeyWord> keyWords = keyWordService.stringToList(keyWordsString);
+        card.setKeyWords(keyWords);
+
+        card.setStudyPriority(StudyPriority.valueOf(cardCreatingDto.getStudyPriority()));
+        card.setKnowledgeLevel(KnowledgeLevel.valueOf(cardCreatingDto.getKnowledgeLevel()));
+
+        save(card);
+
+        return card;
     }
 }

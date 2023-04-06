@@ -31,16 +31,16 @@ public class SetController {
         this.setOfCardsService = setOfCardsService;
     }
 
-    @GetMapping("/set")
-    public ModelAndView getSet(ModelAndView modelAndView) {
-        System.out.println("Get set");
-        SetOfCards setOfCards = setOfCardsService.newSet();
-        List<Card> cards = cardService.getBySet(setOfCards);
-//        modelAndView.addObject("set", setOfCards);
-        modelAndView.addObject("cards", cards);
-        modelAndView.setViewName("setView");
-        return modelAndView;
-    }
+//    @GetMapping("/set")
+//    public ModelAndView getSet(ModelAndView modelAndView) {
+//        System.out.println("Get set");
+//        SetOfCards setOfCards = setOfCardsService.newSet();
+//        List<Card> cards = cardService.getBySet(setOfCards);
+////        modelAndView.addObject("set", setOfCards);
+//        modelAndView.addObject("cards", cards);
+//        modelAndView.setViewName("setView");
+//        return modelAndView;
+//    }
 
     @GetMapping("/set/{id}")
     public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView) {

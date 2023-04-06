@@ -19,7 +19,7 @@
 <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
-        <form class="card-edit-view" th:action="@{/card}" th:object="${card}" method="post">
+        <form class="card-edit-view" th:action="@{/card}" th:object="${cardCreatingDto}" method="post">
             <div class="buttons">
                 <a href="./set-view.html" class="button bg-dark dark-border">&#60; Back</a>
                 <div class="free-space"></div>
@@ -27,7 +27,7 @@
                 <button class="button bg-dark dark-border" type="submit">Save</button>
             </div>
             <div class="card set-card">
-                <textarea class="card__content" name="set"
+                <textarea class="card__content" name="set" th:field="*{setOfCardsName}"
                           placeholder="Enter name of set *"
                           required></textarea>
             </div>
@@ -40,7 +40,7 @@
                     placeholder="Enter short answer"></textarea>
             </div>
             <div class="card keywords-card">
-          <textarea class="card__content" name="inputWords"
+          <textarea class="card__content" name="keyWordsString" th:field="*{keyWordsString}"
                     placeholder="Enter keywords, separated by commas"></textarea>
             </div>
             <div class="card extended-answer-card">

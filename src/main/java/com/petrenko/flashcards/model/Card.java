@@ -9,6 +9,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,10 +44,17 @@ public class Card {
     private List<KeyWord> keyWords;
 
     @Column(name = "study_priority")
-    private StudyPriority studyPriority;
+    private StudyPriority studyPriority = StudyPriority.MEDIUM;
 
     @Column(name = "knowledge_level")
-    private KnowledgeLevel knowledgeLevel;
+    private KnowledgeLevel knowledgeLevel = KnowledgeLevel.NEW_WORD;
 
-    private Boolean know;
+//    private Boolean know = false;
+
+    private LocalDateTime timeOfCreation;
+
+    @PrePersist
+    protected void prePersist() {
+        timeOfCreation = LocalDateTime.now();
+    }
 }

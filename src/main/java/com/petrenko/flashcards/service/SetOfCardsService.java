@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SetOfCardsService {
@@ -85,6 +86,10 @@ public class SetOfCardsService {
         SetOfCards setOfCards = setOfCardsRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         System.out.println("Set service: getById: " + setOfCards);
         return setOfCards;
+    }
+
+    public Optional<SetOfCards> getByName(String name) {
+        return setOfCardsRepository.findByName(name);
     }
 
 //    public SetOfCards getByCardId(String id) {

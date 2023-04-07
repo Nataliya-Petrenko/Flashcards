@@ -21,10 +21,15 @@
     <main class="main">
       <section class="card-view">
         <nav class="buttons">
-          <a class="button bg-dark dark-border" href="#">Ed</a>
-          <a class="button bg-dark dark-border" href="#">&#60; Previous Card</a>
-          <a class="button bg-dark dark-border" href="#">Next Card &#62;</a>
-          <a class="button bg-dark dark-border" href="#">Back to Start</a>
+<!--          <a class="button bg-dark dark-border" href="#">Ed</a>-->
+<!--          <a class="button bg-dark dark-border" href="#">&#60; Previous Card</a>-->
+<!--          <a class="button bg-dark dark-border" href="#">Next Card &#62;</a>-->
+<!--          <a class="button bg-dark dark-border" href="#">Back to Start</a>-->
+
+            <p>Card created successfully</p>
+          <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Go to Set</a>
+          <a class="button bg-dark dark-border" th:href="@{/card/create}">Create new card</a>
+
         </nav>
         <section class="card question-card">
           <div class="card__content">

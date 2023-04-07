@@ -1,6 +1,7 @@
 package com.petrenko.flashcards.controller;
 
 import com.petrenko.flashcards.dto.CardCreatingDto;
+import com.petrenko.flashcards.dto.CardViewByIdDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.KeyWordService;
@@ -34,141 +35,21 @@ public class CardController {
         this.setOfCardsService = setOfCardsService;
     }
 
-    //    @Transactional // todo trans for service!
-//    @GetMapping("/card")
-//    public ModelAndView getCard(ModelAndView modelAndView) {
-//        System.out.println("Get card");
-//
-//        SetOfCards setOfCards = new SetOfCards();
-//        setOfCards.setName("NewSet 0");
-//        setOfCardsService.save(setOfCards);
-//
-//        Card card = new Card();
-//        card.setQuestion(("Question ").repeat(5));
-//        card.setShortAnswer(("ShortAnswer ").repeat(10));
-//        card.setLongAnswer(("LongAnswer ").repeat(50));
-//        card.setSetOfCards(setOfCards);
-//
-//        List<KeyWord> keyWords = new LinkedList<>();
-//        for (int i = 0; i < 5; i++) {
-//            KeyWord keyWord = new KeyWord();
-//            keyWord.setName("key word " + i);
-//            keyWords.add(keyWord);
-//            keyWordService.save(keyWord);
-//        }
-//        card.setKeyWords(keyWords);
-//
-//        cardService.save(card);
-//
-//        modelAndView.addObject("card", card);
-//        modelAndView.setViewName("cardView");
-//        return modelAndView;
-//    }
-
-//    private Card newCard(SetOfCards setOfCards) {
-////        SetOfCards setOfCards = new SetOfCards();
-////        setOfCards.setName("NewSet" + s);
-//////        setOfCardsService.save(setOfCards);
-//
-//        Card card = new Card();
-//        card.setQuestion(("Question ").repeat(5));
-//        card.setShortAnswer(("ShortAnswer ").repeat(10));
-//        card.setLongAnswer(("LongAnswer ").repeat(50));
-//        card.setSetOfCards(setOfCards);
-//
-//        List<KeyWord> keyWords = new LinkedList<>();
-//        for (int i = 0; i < 5; i++) {
-//            KeyWord keyWord = new KeyWord();
-//            keyWord.setName("key word " + i);
-//            keyWords.add(keyWord);
-//            keyWordService.save(keyWord);
-//        }
-//        card.setKeyWords(keyWords);
-//
-//        cardService.save(card);
-//        return card;
-//    }
-
-//    @GetMapping("/set")
-//    public ModelAndView getSet(ModelAndView modelAndView) {
-//        System.out.println("Get set");
-//
-//        SetOfCards setOfCards = new SetOfCards();
-//        setOfCards.setName("NewSet 1");
-//        System.out.println("New Set " + setOfCards);
-//
-//        List<Card> cardList = new LinkedList<>();
-//        System.out.println("New List<Card>");
-//
-//        for (int i = 0; i < 4; i++) {
-//
-//            System.out.println("Start creating new Card " + i);
-//            Card card = new Card();
-//            card.setQuestion(("Question ").repeat(5));
-//            card.setShortAnswer(("ShortAnswer ").repeat(10));
-//            card.setLongAnswer(("LongAnswer ").repeat(50));
-////            card.setSetOfCards(setOfCards);
-//
-//            List<KeyWord> keyWords = new LinkedList<>();
-//            for (int j = 0; j < 2; j++) {
-//                KeyWord keyWord = new KeyWord();
-//                keyWord.setName("key word " + j);
-//                keyWords.add(keyWord);
-//                keyWordService.save(keyWord);
-//                System.out.println("New key word " + keyWord);
-//            }
-//            card.setKeyWords(keyWords);
-//
-////            System.out.println("Card before saving" + card);
-////            cardService.save(card);
-//
-//            cardList.add(card);
-//            System.out.println("Added new card to cardList" + card);
-//        }
-//
-//        setOfCards.setCards(cardList);
-//
-//        setOfCardsService.save(setOfCards);
-//        System.out.println("Created and saved new set " + setOfCards);
-//
-//        modelAndView.addObject("set", setOfCards);
-//        modelAndView.setViewName("setView");
-//        return modelAndView;
-//    }
-
-//    private SetOfCards newSet(String s) {
-//        SetOfCards setOfCards = new SetOfCards();
-//        setOfCards.setName("NewSet" + s);
-//
-//        List<Card> cardList = new LinkedList<>();
-//
-//        for (int i = 0; i < 4; i++) {
-//            Card card = newCard(setOfCards);
-//            cardList.add(card);
-//            System.out.println("Added new card " + card);
-//            card.setSetOfCards(setOfCards);
-////            cardService.save(card);
-//        }
-//
-//        setOfCards.setCards(cardList);
-//
-//        setOfCardsService.save(setOfCards);
-//        System.out.println("Created and saved new set " + setOfCards);
-//        return setOfCards;
-//
-//    }
-
     @GetMapping("/card/{id}")
     public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView) {
         if (id != null && !id.isBlank()) {
-            final Card card = cardService.getById(id);
-
-//            SetOfCards setOfCards = card.getSetOfCards();
-            String previousCardId = cardService.getPreviousCardIdById(id);
+            final String previousCardId = cardService.getPreviousOrLastCardId(id);
+            System.out.println("previousCardId " + previousCardId);
             modelAndView.addObject("previousCardId", previousCardId);
-//            String nextCardId = cardService.getNextById(id);
+
+            final String nextCardId = cardService.getNextOrFirstCardId(id);
+            System.out.println("nextCardId " + nextCardId);
+            modelAndView.addObject("nextCardId", nextCardId);
+
+            final Card card = cardService.getById(id);
             modelAndView.addObject("card", card);
             System.out.println("Card by id: " + card);
+
             modelAndView.setViewName("cardViewById");
             return modelAndView;
         }
@@ -195,43 +76,7 @@ public class CardController {
         return modelAndView;
     }
 
-    //    @PostMapping("/card")
-//    public ModelAndView saveNewCard(@ModelAttribute Card card,
-//                                    @RequestParam("inputWords") String inputWords,
-//                                    @RequestParam("set") String setName,
-//                                    BindingResult bindingResult,
-//                                    ModelAndView modelAndView) {
-//        System.out.println("GetPost Creating a card " + card);
-//        if (bindingResult.hasErrors()) {
-//            System.out.println("Creating card has error");
-//            modelAndView.addObject("card", card);
-//            modelAndView.setViewName("editCardView.html");
-//            return modelAndView;
-//        }
-//        System.out.println("After if");
-//
-//        List<String> wordsList = Arrays.asList(inputWords.split(","));
-//        List<KeyWord> keyWords = new LinkedList<>();
-//        wordsList.forEach(w -> {
-//            KeyWord keyWord = new KeyWord();
-//            keyWord.setName(w);
-//            keyWords.add(keyWord);
-//            keyWordService.save(keyWord);
-//        });
-//        card.setKeyWords(keyWords);
-//
-//        SetOfCards setOfCards = new SetOfCards();
-//        setOfCards.setName(setName);
-//        setOfCardsService.save(setOfCards);
-//        card.setSetOfCards(setOfCards);
-//
-//        cardService.save(card);
-//        System.out.println(card);
-//        modelAndView.addObject("card", card);
-//        modelAndView.setViewName("cardView");
-//        return modelAndView;
-//    }
-    @PostMapping("/card")
+    @PostMapping("/card")  // after created card
     public ModelAndView saveNewCard(@ModelAttribute CardCreatingDto cardCreatingDto,
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView) {
@@ -244,6 +89,7 @@ public class CardController {
         }
         System.out.println("After if");
         Card card = cardService.saveToCard(cardCreatingDto);
+
         modelAndView.addObject("card", card);
         modelAndView.setViewName("cardView");
         return modelAndView;
@@ -263,7 +109,7 @@ public class CardController {
 //        return modelAndView;
 //    }
 
-//    @PutMapping("/edit")  // todo & ("/{id}") ?
+//    @PutMapping("/card/{id}") // todo & ("/{id}") ?
 //    public ModelAndView updateCard(@ModelAttribute @Valid Card card, BindingResult bindingResult,
 //                                   ModelAndView modelAndView) {
 //        if (bindingResult.hasErrors()) {
@@ -276,6 +122,7 @@ public class CardController {
 //        modelAndView.setViewName("cardView");
 //        return modelAndView;
 //    }
+
 //
 //    @DeleteMapping("/{id}")
 //    public void deleteCard(@PathVariable String id) {

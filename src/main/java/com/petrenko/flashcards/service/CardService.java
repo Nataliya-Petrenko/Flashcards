@@ -1,6 +1,8 @@
 package com.petrenko.flashcards.service;
 
 import com.petrenko.flashcards.dto.CardCreatingDto;
+import com.petrenko.flashcards.dto.CardViewByIdDto;
+import com.petrenko.flashcards.dto.TestDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @Service
 public class CardService {
@@ -56,28 +60,28 @@ public class CardService {
         return bySetOfCards;
     }
 
-    public String getPreviousCardIdById(String id) {
-        Card card = cardRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        SetOfCards setOfCards = card.getSetOfCards();
-        List<Card> cards = getBySet(setOfCards);
-        int indexOfCard = cards.indexOf(card);
-        int previousIndexOfCard = indexOfCard - 1;
-//        int nextIndexOfCard = indexOfCard + 1;
-        if (indexOfCard == 0) {
-            previousIndexOfCard = cards.size() - 1;
-        }
-//        if (indexOfCard == cards.size() - 1) {
-//            nextIndexOfCard = 0;
+//    public String getPreviousCardIdById(String id) {
+//        Card card = cardRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+//        SetOfCards setOfCards = card.getSetOfCards();
+//        List<Card> cards = getBySet(setOfCards);
+//        int indexOfCard = cards.indexOf(card);
+//        int previousIndexOfCard = indexOfCard - 1;
+////        int nextIndexOfCard = indexOfCard + 1;
+//        if (indexOfCard == 0) {
+//            previousIndexOfCard = cards.size() - 1;
 //        }
-
-        String previousCardId = cards.get(previousIndexOfCard).getId();
-//        String nextCard = cards.get(nextIndexOfCard).getId();
-
-        return previousCardId;
-
-//        Card card = cardRepository.getPreviousByCardId(id).orElseThrow(IllegalArgumentException::new);
-//        return card.getId();
-    }
+////        if (indexOfCard == cards.size() - 1) {
+////            nextIndexOfCard = 0;
+////        }
+//
+//        String previousCardId = cards.get(previousIndexOfCard).getId();
+////        String nextCard = cards.get(nextIndexOfCard).getId();
+//
+//        return previousCardId;
+//
+////        Card card = cardRepository.getPreviousByCardId(id).orElseThrow(IllegalArgumentException::new);
+////        return card.getId();
+//    }
 
     public Card saveToCard(CardCreatingDto cardCreatingDto) {
         Card card = new Card();
@@ -85,9 +89,19 @@ public class CardService {
         card.setShortAnswer(cardCreatingDto.getShortAnswer());
         card.setLongAnswer(cardCreatingDto.getLongAnswer());
 
-        SetOfCards setOfCards = new SetOfCards();
-        setOfCards.setName(cardCreatingDto.getSetOfCardsName());
-        setOfCardsService.save(setOfCards);
+//        SetOfCards setOfCards = new SetOfCards();
+//        setOfCards.setName(cardCreatingDto.getSetOfCardsName());
+//        setOfCardsService.save(setOfCards);
+//        card.setSetOfCards(setOfCards);
+
+        final String setOfCardsName = cardCreatingDto.getSetOfCardsName();
+        setOfCardsService.getByName(setOfCardsName).ifPresentOrElse(card::setSetOfCards,
+                () -> {
+                    SetOfCards setOfCards = new SetOfCards();
+                    setOfCards.setName(setOfCardsName);
+                    setOfCardsService.save(setOfCards);
+                    card.setSetOfCards(setOfCards);
+                });
 
         String keyWordsString = cardCreatingDto.getKeyWordsString();
         List<KeyWord> keyWords = keyWordService.stringToList(keyWordsString);
@@ -100,4 +114,37 @@ public class CardService {
 
         return card;
     }
+
+//    public CardViewByIdDto getCardViewByIdDto(String id) {
+//        return cardRepository.getCardViewByIdDto(id);
+//    }
+
+//    public Optional<String> getPreviousCardId(String id) {
+//        return cardRepository.getPreviousCardId(id);
+//    }
+//
+//    public Optional<String> getNextCardId(String id) {
+//        return cardRepository.getNextCardId(id);
+//    }
+
+    public String getNextOrFirstCardId(String id) {
+        return cardRepository.getNextCardId(id)
+                .orElse(cardRepository.getFirstCardId()
+                        .orElseThrow(IllegalArgumentException::new));
+    }
+
+    public String getPreviousOrLastCardId(String id) {
+        return cardRepository.getPreviousCardId(id)
+                .orElse(cardRepository.getLastCardId()
+                        .orElseThrow(IllegalArgumentException::new));
+    }
+
+//    public Optional<String> getPreviousCardId(String id) {
+//        return cardRepository.getPreviousCardId(id);
+//    }
+
+//    public TestDto getNextCardId(String id) {
+//        return cardRepository.getNextCardId(id);
+//    }
+
 }

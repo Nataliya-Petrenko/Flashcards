@@ -39,18 +39,6 @@ public class Card {
     @ManyToOne
     private SetOfCards setOfCards;
 
-    @Column(name = "key_words")
-    @ManyToMany
-    private List<KeyWord> keyWords;
-
-    @Column(name = "study_priority")
-    private StudyPriority studyPriority = StudyPriority.MEDIUM;
-
-    @Column(name = "knowledge_level")
-    private KnowledgeLevel knowledgeLevel = KnowledgeLevel.NEW_WORD;
-
-//    private Boolean know = false;
-
     private LocalDateTime timeOfCreation;
 
     @PrePersist

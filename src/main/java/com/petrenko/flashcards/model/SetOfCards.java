@@ -17,7 +17,6 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-//@NoArgsConstructor
 public class SetOfCards {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -28,17 +27,7 @@ public class SetOfCards {
     @Type(type = "text")
     private String name;
 
-//    @OneToMany
-////            (cascade = CascadeType.ALL)
-//    private List<Card> cards;
-
-    @Column(name = "study_priority")
-    private StudyPriority studyPriority;
-
     @Column(name = "description_of_set")
     private String descriptionOfSet;
 
-//    public SetOfCards(final String name) {
-//        this.name = name;
-//    }
 }

@@ -21,7 +21,7 @@
     <main class="main">
       <section class="card-view">
         <div class="buttons">
-          <a class="button bg-dark dark-border" href="#">Ed</a>
+          <a class="button bg-dark dark-border" th:href="@{/card/{id}/edit(id=${card.id})}">Ed</a>
 
 <!--          <div th:if="${!previousCardId == null}">-->
             <a class="button bg-dark dark-border" th:href="@{/card/{id}(id=${previousCardId})}">&#60; Previous Card</a>
@@ -47,13 +47,13 @@
             <p th:text="${card.longAnswer}">Card long answer</p>
           </div>
         </section>
-        <section class="card keywords-card">
-          <div class="card__content">
-            <div th:each="keyWord : ${card.keyWords}">
-              <p class="keyword" th:text="|${keyWord.name}|"></p>
-            </div>
-          </div>
-        </section>
+<!--        <section class="card keywords-card">-->
+<!--          <div class="card__content">-->
+<!--            <div th:each="keyWord : ${card.keyWords}">-->
+<!--              <p class="keyword" th:text="|${keyWord.name}|"></p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </section>-->
       </section>
     </main>
   </div>

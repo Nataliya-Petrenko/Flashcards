@@ -2,16 +2,12 @@ package com.petrenko.flashcards.controller;
 
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
-import com.petrenko.flashcards.service.KeyWordService;
 import com.petrenko.flashcards.service.SetOfCardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -19,15 +15,12 @@ import java.util.List;
 public class SetController {
 
     private final CardService cardService;
-    private final KeyWordService keyWordService;
     private final SetOfCardsService setOfCardsService;
 
     @Autowired
     public SetController(final CardService cardService,
-                         final KeyWordService keyWordService,
                          final SetOfCardsService setOfCardsService) {
         this.cardService = cardService;
-        this.keyWordService = keyWordService;
         this.setOfCardsService = setOfCardsService;
     }
 
@@ -44,7 +37,6 @@ public class SetController {
 
     @GetMapping("/set/{id}")
     public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView) {
-        if (id != null && !id.isBlank()) {
             final SetOfCards setOfCards = setOfCardsService.getById(id);
 //            modelAndView.addObject("set", setOfCards);
 //            System.out.println("setOfCards by id: " + setOfCards);
@@ -52,9 +44,6 @@ public class SetController {
             modelAndView.addObject("cards", cards);
             modelAndView.setViewName("setViewById");
             return modelAndView;
-        }
-        modelAndView.setViewName("setViewById");
-        return modelAndView;
     }
 //
 //    @GetMapping("/set/create")

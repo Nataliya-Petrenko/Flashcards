@@ -6,12 +6,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../css/normalize.css">
-    <link rel="stylesheet" href="../../css/variables.css">
-    <link rel="stylesheet" href="../../css/styles.css">
-    <link rel="stylesheet" href="../../css/shared.css">
-    <link rel="stylesheet" href="../../css/header.css">
-    <link rel="stylesheet" href="../../css/edit-card-view.css">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/edit-card-view.css">
     <title>Flashcards</title>
 </head>
 
@@ -19,7 +19,7 @@
 <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
-        <form class="card-edit-view" th:action="@{/card/edit}" th:object="${card}" th:method="PUT">
+        <form class="card-edit-view" th:action="@{/card}" th:object="${cardCreatingDto}" method="post">
             <div class="buttons">
                 <a href="./set-view.html" class="button bg-dark dark-border">&#60; Back</a>
                 <div class="free-space"></div>
@@ -27,7 +27,7 @@
                 <button class="button bg-dark dark-border" type="submit">Save</button>
             </div>
             <div class="card set-card">
-                <textarea class="card__content" name="set" th:field="*{setOfCards.name}"
+                <textarea class="card__content" name="set" th:field="*{setOfCardsName}"
                           placeholder="Enter name of set *"
                           required></textarea>
             </div>

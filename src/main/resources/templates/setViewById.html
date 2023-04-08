@@ -26,7 +26,7 @@
                 <a href="#" class="button bg-dark dark-border">&#60; Back</a>
                 <a href="#" class="button bg-dark dark-border auto-margin-left">Learn</a>
                 <a href="#" class="button bg-dark dark-border">Save set to file</a>
-                <a href="#" class="button bg-dark dark-border">Edit set</a>
+                <a th:href="@{/set/{id}/edit(id=${setOfCards.id})}" class="button bg-dark dark-border">Edit set</a>
             </nav>
             <div class="card cards-container">
                 <div class="card__content">

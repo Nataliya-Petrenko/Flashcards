@@ -12,6 +12,13 @@
     <link rel="stylesheet" href="css/shared.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/set-view.css">
+
+    <link rel="stylesheet" href="../../css/normalize.css">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/header.css">
+    <link rel="stylesheet" href="../../css/set-view.css">
     <title>Flashcards</title>
 </head>
 
@@ -21,10 +28,12 @@
     <main class="main">
         <div class="set-view">
             <nav class="set-view__buttons">
-                <a href="#" class="button bg-dark dark-border">&#60; Back</a>
-                <a href="#" class="button bg-dark dark-border auto-margin-left">Learn</a>
-                <a href="#" class="button bg-dark dark-border">Save set to file</a>
-                <a href="#" class="button bg-dark dark-border">Edit set</a>
+                <p>Set created/edited successfully</p>
+                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${setOfCards.id})}">Go to Set</a>
+<!--                <a href="#" class="button bg-dark dark-border">&#60; Back</a>-->
+<!--                <a href="#" class="button bg-dark dark-border auto-margin-left">Learn</a>-->
+<!--                <a href="#" class="button bg-dark dark-border">Save set to file</a>-->
+<!--                <a href="#" class="button bg-dark dark-border">Edit set</a>-->
             </nav>
             <div class="card cards-container">
                 <div class="card__content">

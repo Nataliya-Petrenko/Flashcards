@@ -1,20 +1,20 @@
-.card-view{
+.card-view {
   overflow: hidden;
   width: 100%;
   max-width: var(--content-width);
   height: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr 4fr 8fr 4fr;
+  grid-template-rows: var(--navigation-height) 4fr 8fr 4fr;
   gap: var(--g-20);
   grid-template-areas:
-  "buttons extended-answer-card"
-  "question-card extended-answer-card"
-  "short-answer-card extended-answer-card"
-  "keywords-card extended-answer-card";
+    "buttons extended-answer-card"
+    "question-card extended-answer-card"
+    "short-answer-card extended-answer-card"
+    "keywords-card extended-answer-card";
 }
 
-.buttons{
+.buttons {
   grid-area: buttons;
   display: flex;
   justify-content: space-between;
@@ -22,20 +22,19 @@
   gap: var(--g-20);
 }
 
-.question-card{
+.question-card {
   grid-area: question-card;
 }
 
-.short-answer-card{
+.short-answer-card {
   grid-area: short-answer-card;
-  
 }
 
-.keywords-card{
+.keywords-card {
   grid-area: keywords-card;
 }
 
-.keywords-card > .card__content{
+.keywords-card > .card__content {
   display: flex;
   align-items: center;
   row-gap: var(--g-20);
@@ -43,14 +42,6 @@
   flex-wrap: wrap;
 }
 
-.keyword{
-  line-height: 1em;
-  color: var(--light-font-color);
-  background-color: var(--main-color);
-  padding: 8px 10px;
-  border-radius: var(--button-radius);
-}
-
-.extended-answer-card{
+.extended-answer-card {
   grid-area: extended-answer-card;
 }

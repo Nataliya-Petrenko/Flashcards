@@ -1,25 +1,25 @@
-.card-edit-view{
+.card-edit-view {
   overflow: hidden;
   width: 100%;
   max-width: var(--content-width);
   height: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr;
+  grid-template-rows: var(--navigation-height) repeat(8, 1fr);
   gap: var(--g-20);
   grid-template-areas:
-  "buttons extended-answer-card"
-  "set-card extended-answer-card"
-  "question-card extended-answer-card"
-  "question-card extended-answer-card"
-  "short-answer-card extended-answer-card"
-  "short-answer-card priority-card"
-  "short-answer-card priority-card"
-  "keywords-card knowledge-level-card"
-  "keywords-card knowledge-level-card";
+    "buttons buttons"
+    "set-card extended-answer-card"
+    "question-card extended-answer-card"
+    "question-card extended-answer-card"
+    "short-answer-card extended-answer-card"
+    "short-answer-card extended-answer-card"
+    "short-answer-card extended-answer-card"
+    "keywords-card priority-card"
+    "keywords-card knowledge-level-card";
 }
 
-.buttons{
+.buttons {
   grid-area: buttons;
   display: flex;
   justify-content: space-around;
@@ -61,7 +61,9 @@
   gap: var(--g-10);
 }
 
-.knowledge-level__list{
+.priority-card__list,
+.knowledge-level__list {
   display: flex;
   gap: var(--g-20);
+  flex-wrap: wrap;
 }

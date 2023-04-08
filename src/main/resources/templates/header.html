@@ -6,6 +6,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/header.css">
     <title>Flashcards</title>
 </head>
 
@@ -13,21 +18,116 @@
 
 <div class="header__content" th:fragment="header_fragment">
     <a href="#" class="button bg-dark light-border">Flashcards</a>
-    <div class="search-profile__container">
-        <input class="input bg-dark light-border light-placeholder" type="text" placeholder="Search">
-        <a th:href="@{/card/create}" class="button bg-dark light-border extra-bold-text">+</a>
-        <a href="#" class="button bg-dark light-border extra-bold-text">?</a>
-        <a href="./sign-in-view.html" class="button bg-dark light-border">Sign in</a>
-        <a href="./sign-up-view.html" class="button bg-dark light-border">Sign up</a>
-        <a class="profile">
-            <div class="profile__logo">
-                <img src="#" alt="">
-            </div>
-            <p class="profile__text">ProfileName cvcgvgvcdgvg
-                cdcdcd
-            </p>
-        </a>
+    <input class="input bg-dark light-border light-placeholder auto-margin-left" type="text" placeholder="Search">
+    <div class="button bg-dark light-border extra-bold-text create-dropdown">
+        <span>+</span>
+        <div class="dropdown-content">
+            <ul class="dropdown-list">
+                <li class="dropdown-list__item">
+                    <a th:href="@{/card/create}">New card</a>
+                </li>
+                <li class="dropdown-list__item">
+                    <a href="./edit-set-view.html">New set</a>
+                </li>
+                <li class="dropdown-list__item">
+                    <a href="">New folder</a>
+                </li>
+            </ul>
+        </div>
     </div>
+    <a href="#" class="button bg-dark light-border extra-bold-text">?</a>
+    <a href="./sign-in-view.html" class="button bg-dark light-border">Sign in</a>
+    <a href="./sign-up-view.html" class="button bg-dark light-border">Sign up</a>
+    <div class="profile">
+        <div class="profile-short-info">
+            <div class="profile__logo">
+                <img class="user-photo" src="../images/user-image.png" alt="user photo">
+            </div>
+            <p class="profile__text">User Name</p>
+        </div>
+        <div class="dropdown-content">
+            <ul class="dropdown-list">
+                <li class="profile-full-name info-text">
+                    <p>FirstName</p>
+                    <p>LastName</p>
+                </li>
+                <li class="info-text">
+                    <p>SomeEmail@gmail.com</p>
+                </li>
+                <li class="dropdown-list__item">
+                    <a href="#">Open profile</a>
+                </li>
+                <li class="profile-log-out">
+                    <a href="./">Log out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+<!--        <a href="#" class="button bg-dark light-border">Flashcards</a>-->
+<!--        <input class="input bg-dark light-border light-placeholder auto-margin-left" type="text" placeholder="Search">-->
+<!--        <div class="button bg-dark light-border extra-bold-text create-dropdown">-->
+<!--            <span>+</span>-->
+<!--            <div class="dropdown-content">-->
+<!--                <ul class="dropdown-list">-->
+<!--                    <li class="dropdown-list__item">-->
+<!--                        <a th:href="@{/card/create}">New card</a>-->
+<!--                    </li>-->
+<!--                    <li class="dropdown-list__item">-->
+<!--                        <a href="./edit-set-view.html">New set</a>-->
+<!--                    </li>-->
+<!--                    <li class="dropdown-list__item">-->
+<!--                        <a href="./edit-folder-view.html">New folder</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <a href="#" class="button bg-dark light-border extra-bold-text">?</a>-->
+<!--        <a href="./sign-in-view.html" class="button bg-dark light-border">Sign in</a>-->
+<!--        <a href="./sign-up-view.html" class="button bg-dark light-border">Sign up</a>-->
+<!--        <div class="profile">-->
+<!--            <div class="profile-short-info">-->
+<!--                <div class="profile__logo">-->
+<!--                    <img class="user-photo" src="./img/user-image.png" alt="user photo">-->
+<!--                </div>-->
+<!--                <p class="profile__text">User Name</p>-->
+<!--            </div>-->
+<!--            <div class="dropdown-content">-->
+<!--                <ul class="dropdown-list">-->
+<!--                    <li class="profile-full-name info-text">-->
+<!--                        <p>FirstName</p>-->
+<!--                        <p>LastName</p>-->
+<!--                    </li>-->
+<!--                    <li class="info-text">-->
+<!--                        <p>SomeEmail@gmail.com</p>-->
+<!--                    </li>-->
+<!--                    <li class="dropdown-list__item">-->
+<!--                        <a href="#">Open profile</a>-->
+<!--                    </li>-->
+<!--                    <li class="profile-log-out">-->
+<!--                        <a href="./">Log out</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+
+<!--    <a href="#" class="button bg-dark light-border">Flashcards</a>-->
+<!--    <div class="search-profile__container">-->
+<!--        <input class="input bg-dark light-border light-placeholder" type="text" placeholder="Search">-->
+<!--        <a th:href="@{/card/create}" class="button bg-dark light-border extra-bold-text">+</a>-->
+<!--        <a href="#" class="button bg-dark light-border extra-bold-text">?</a>-->
+<!--        <a href="./sign-in-view.html" class="button bg-dark light-border">Sign in</a>-->
+<!--        <a href="./sign-up-view.html" class="button bg-dark light-border">Sign up</a>-->
+<!--        <a class="profile">-->
+<!--            <div class="profile__logo">-->
+<!--                <img src="#" alt="">-->
+<!--            </div>-->
+<!--            <p class="profile__text">ProfileName cvcgvgvcdgvg-->
+<!--                cdcdcd-->
+<!--            </p>-->
+<!--        </a>-->
+<!--    </div>-->
 </div>
 
 </body>

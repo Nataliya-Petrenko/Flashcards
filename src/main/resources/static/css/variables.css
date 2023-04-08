@@ -1,31 +1,39 @@
 :root {
   --main-color: #276678;
-  --main-bg-color:#D3E0EA;
-  --card-color: #FFFFFF;
+  --main-bg-color: #d3e0ea;
+  --card-color: #ffffff;
+  --gray-color: #cbcbcb;
+  --accept-button-color: #277850;
+  --decline-button-color: #842b2b;
   --border-color: lightgray;
   --border-hover-color: black;
   --shadow: 1px 1px 6px rgba(0, 0, 0, 0.4);
 
   /* Dimensions */
   --content-width: 1440px;
-  --card-radius: 1.6rem;
-  --button-radius: .5rem;
   --header-height: 74px;
+  --navigation-height: 48px;
+  --card-radius: 1.6rem;
+  --button-radius: 0.5rem;
 
-  /* Paddings */
+  /* Paddings | margins | gaps */
   --p-20: 20px;
   --p-10: 10px;
   --p-16: 16px;
   --g-20: 20px;
   --g-10: 10px;
+  --list-gap: 2px;
 
   /* Texts */
-  --light-font-color: #FFFFFF;
+  --light-font-color: #ffffff;
   --dark-font-color: black;
+  --caption-text: #cbcbcb;
+  --title-font-color: #215462;
   --main-font-size: 16px;
   --main-font-weight: 700;
   --text-font-size: 16px;
   --text-font-weight: 400;
-  --title-font-size: 36px;
+  --first-title-font-size: 2.6rem;
+  --second-title-font-size: 2rem;
   --title-font-weight: 700;
 }

@@ -1,0 +1,72 @@
+.profile-view {
+  align-self: start;
+  width: 100%;
+  max-width: var(--content-width);
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr max-content;
+  gap: var(--g-20);
+  grid-template-areas:
+    "recommended folders"
+    "calendar folders";
+  overflow-y: auto;
+}
+
+.recommended {
+  grid-area: recommended;
+}
+
+.recommended__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-20);
+}
+
+.recommended__list {
+  display: flex;
+  gap: var(--g-10);
+  flex-wrap: wrap;
+}
+
+.recommended__list-item {
+  display: flex;
+  gap: var(--g-10);
+}
+
+.calendar {
+  grid-area: calendar;
+}
+
+.folders {
+  grid-area: folders;
+}
+
+.folders__content {
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: var(--g-20);
+}
+
+.folder__content {
+  display: flex;
+  gap: var(--g-10);
+  flex-wrap: wrap;
+}
+
+.folder__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-20);
+}
+
+.folder__title {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+}
+
+.folder__title-text {
+  color: var(--dark-font-color);
+  text-align: center;
+  font-size: 1.2rem;
+}

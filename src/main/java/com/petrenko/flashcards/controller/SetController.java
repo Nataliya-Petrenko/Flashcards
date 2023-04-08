@@ -1,10 +1,12 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.CardEditingDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.SetOfCardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,14 +39,54 @@ public class SetController {
 
     @GetMapping("/set/{id}")
     public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView) {
-            final SetOfCards setOfCards = setOfCardsService.getById(id);
-            modelAndView.addObject("setOfCards", setOfCards);
-//            System.out.println("setOfCards by id: " + setOfCards);
-            List<Card> cards = cardService.getBySet(setOfCards);
-            modelAndView.addObject("cards", cards);
-            modelAndView.setViewName("setViewById");
-            return modelAndView;
+        System.out.println("@GetMapping(/set/{id}) id: " + id);
+        final SetOfCards setOfCards = setOfCardsService.getById(id);
+        System.out.println("@GetMapping(/set/{id}) setOfCardsService.getById(id): " + setOfCards);
+
+        modelAndView.addObject("setOfCards", setOfCards);
+        List<Card> cards = cardService.getBySet(setOfCards);
+        System.out.println("@GetMapping(/set/{id})  List<Card> getBySet: " + cards);
+
+        modelAndView.addObject("cards", cards);
+        modelAndView.setViewName("setViewById");
+        System.out.println("@GetMapping(/set/{id}) before show setViewById.html");
+        return modelAndView;
     }
+
+    @GetMapping("/set/{id}/edit")
+    public ModelAndView getSetEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
+        System.out.println("@GetMapping(/set/{id}/edit) id: " + id);
+        final SetOfCards setOfCards = setOfCardsService.getById(id);
+        System.out.println("@GetMapping(/set/{id}/edit) setOfCardsService.getById(id): " + setOfCards);
+        modelAndView.addObject("setOfCards", setOfCards);
+        List<Card> cards = cardService.getBySet(setOfCards);
+        System.out.println("@GetMapping(/set/{id}/edit)  List<Card> getBySet: " + cards);
+        modelAndView.addObject("cards", cards);
+        modelAndView.setViewName("editSetView");
+        System.out.println("@GetMapping(/set/{id}/edit) before show editSetView.html");
+        return modelAndView;
+    }
+
+    @PutMapping("/set/{id}/edit")  // after edited set
+    public ModelAndView editCard(@PathVariable("id") String id,   // todo save id into Dto in view
+                                 @ModelAttribute SetOfCards setOfCards,
+                                 BindingResult bindingResult,
+                                 ModelAndView modelAndView) {
+        System.out.println("@PutMapping(/set/{id}/edit) id: " + id);
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("setOfCards", setOfCards);
+            modelAndView.setViewName("editSetView");
+            return modelAndView;
+        }
+        setOfCardsService.save(setOfCards);
+        System.out.println("@PutMapping(/set/{id}/edit) setOfCards saved " + setOfCards);
+
+        modelAndView.addObject("setOfCards", setOfCards);
+        modelAndView.setViewName("setView");
+        System.out.println("@PutMapping(/set/{id}/edit) before show setView.html");
+        return modelAndView;
+    }
+
 //
 //    @GetMapping("/set/create")
 //    public ModelAndView getArticleForm(ModelAndView modelAndView) {

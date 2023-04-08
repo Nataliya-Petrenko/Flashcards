@@ -76,4 +76,5 @@ public interface CardRepository extends CrudRepository<Card, String> {
             WHERE c.id = :id
             """)
     Optional<CardEditingDto> getCardEditingDto(@Param("id") String id);
+
 }

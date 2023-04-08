@@ -1,0 +1,82 @@
+.set-edit-view {
+  width: 100%;
+  max-width: var(--content-width);
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: var(--navigation-height) 1fr;
+  gap: var(--g-20);
+  grid-template-areas:
+    "navigation navigation"
+    "set-edit-form set-card";
+  overflow-y: auto;
+}
+
+.navigation {
+  grid-area: navigation;
+}
+
+.set-edit-form {
+  grid-area: set-edit-form;
+  display: grid;
+  grid-template-rows: repeat(2, 4em) 2fr 1fr 0.6fr 1fr;
+  gap: var(--g-20);
+  grid-template-areas:
+    "set-name"
+    "folder-name"
+    "set-description"
+    "set-priority"
+    "set-checkboxes"
+    "set-two-columns";
+}
+
+.set-name {
+  grid-area: set-name;
+}
+
+.folder-name {
+  grid-area: folder-name;
+}
+
+.set-description {
+  grid-area: set-description;
+}
+
+.set-priority {
+  grid-area: set-priority;
+}
+
+.set-checkboxes {
+  grid-area: set-checkboxes;
+}
+
+.set-two-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--g-20);
+}
+
+.set-card {
+  grid-area: set-card;
+}
+
+.set-cards {
+  display: grid;
+  gap: var(--g-20);
+}
+
+.set-card-content {
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-10);
+  text-transform: capitalize;
+}
+
+.buttons-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: var(--g-20);
+}

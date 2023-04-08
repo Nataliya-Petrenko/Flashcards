@@ -30,20 +30,20 @@ public class CardController {
 
     @GetMapping("/card/{id}")
     public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView) {
-            final String previousCardId = cardService.getPreviousOrLastCardId(id);
-            System.out.println("previousCardId " + previousCardId);
-            modelAndView.addObject("previousCardId", previousCardId);
+        final String previousCardId = cardService.getPreviousOrLastCardId(id);
+        System.out.println("previousCardId " + previousCardId);
+        modelAndView.addObject("previousCardId", previousCardId);
 
-            final String nextCardId = cardService.getNextOrFirstCardId(id);
-            System.out.println("nextCardId " + nextCardId);
-            modelAndView.addObject("nextCardId", nextCardId);
+        final String nextCardId = cardService.getNextOrFirstCardId(id);
+        System.out.println("nextCardId " + nextCardId);
+        modelAndView.addObject("nextCardId", nextCardId);
 
-            final Card card = cardService.getById(id);
-            modelAndView.addObject("card", card);
-            System.out.println("Card by id: " + card);
+        final Card card = cardService.getById(id);
+        modelAndView.addObject("card", card);
+        System.out.println("Card by id: " + card);
 
-            modelAndView.setViewName("cardViewById");
-            return modelAndView;
+        modelAndView.setViewName("cardViewById");
+        return modelAndView;
     }
 
     @GetMapping("/card/create")
@@ -103,26 +103,28 @@ public class CardController {
 
     @GetMapping("/card/{id}/delete")
     public ModelAndView getCardDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {
+        System.out.println("@GetMapping(/card/{id}/delete) id: " + id);
         final Card card = cardService.getById(id);
+        System.out.println("@GetMapping(/card/{id}/delete) card getById: " + card);
         modelAndView.addObject("card", card);
         modelAndView.setViewName("deleteCardViewById");
-        System.out.println("getCardDeleteForm " + card);
+        System.out.println("@GetMapping(/card/{id}/delete) before show deleteCardViewById.html");
         return modelAndView;
     }
 
     @DeleteMapping("/delete/{id}")  // after delete card
     public ModelAndView deleteCard(@PathVariable("id") String id, ModelAndView modelAndView) {
-
-        System.out.println("deleteCard id: " + id);
-
+        System.out.println("@DeleteMapping(/delete/{id}) id: " + id);
         final SetOfCards setOfCards = setOfCardsService.getById(cardService.getById(id).getSetOfCards().getId());
-
-        System.out.println("setOfCards " + setOfCards);
+        System.out.println("@DeleteMapping(/delete/{id}) setOfCards getById: " + setOfCards);
+        modelAndView.addObject("setOfCards", setOfCards);
         cardService.deleteById(id);
-
+        System.out.println("@DeleteMapping(/delete/{id}) setOfCards is deleted");
         List<Card> cards = cardService.getBySet(setOfCards);
+        System.out.println("@DeleteMapping(/delete/{id}) List<Card>: " + cards);
         modelAndView.addObject("cards", cards);
         modelAndView.setViewName("setViewById");
+        System.out.println("@DeleteMapping(/delete/{id}) before show setViewById.html");
         return modelAndView;
     }
 }

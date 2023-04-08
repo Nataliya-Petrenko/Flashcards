@@ -1,4 +1,4 @@
-.sign-in{
+.sign-in {
   padding: calc(var(--p-20) * 2);
   background-color: var(--card-color);
   border-radius: var(--card-radius);
@@ -8,15 +8,15 @@
   gap: calc(var(--g-20) * 2);
 }
 
-.sign-in__title{
+.sign-in__title {
   color: var(--main-color);
   text-shadow: 1px 1px 4px #0000006d;
-  font-size: var(--title-font-size);
+  font-size: var(--first-title-font-size);
   font-weight: var(--title-font-weight);
   text-align: center;
 }
 
-.sing-in-form{
+.sing-in-form {
   display: flex;
   flex-direction: column;
   gap: var(--g-20);

@@ -1,0 +1,62 @@
+.folder-edit-view {
+  width: 100%;
+  max-width: var(--content-width);
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: var(--navigation-height) 1fr;
+  gap: var(--g-20);
+  grid-template-areas:
+    "folder-edit-view-nav folder-edit-view-nav"
+    "folder-edit-form sets-card";
+  overflow-y: auto;
+}
+
+.folder-edit-view-nav {
+  grid-area: folder-edit-view-nav;
+}
+
+.folder-edit-form {
+  grid-area: folder-edit-form;
+  display: grid;
+  grid-template-rows: 5rem 3fr 1fr;
+  grid-template-areas:
+    "folder-name"
+    "folder-description"
+    "folder-visibility";
+  gap: var(--g-20);
+}
+
+.folder-name {
+  grid-area: folder-name;
+}
+
+.folder-description {
+  grid-area: folder-description;
+}
+
+.folder-visibility {
+  grid-area: folder-visibility;
+}
+
+.folder-visibility > .card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-10);
+}
+
+.sets-card {
+  grid-area: sets-card;
+}
+
+.sets {
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: var(--g-20);
+}
+
+.card-in-folder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-10);
+}

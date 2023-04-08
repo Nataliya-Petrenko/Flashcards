@@ -1,0 +1,51 @@
+.edit-profile-view {
+  align-self: start;
+  width: 100%;
+  max-width: 900px;
+  max-height: 100%;
+  display: grid;
+  grid-template-rows: var(--navigation-height) max-content;
+  gap: var(--g-20);
+  grid-template-areas:
+    "edit-profile-navigation"
+    "edit-profile-form";
+  overflow-y: auto;
+}
+
+.edit-profile-navigation {
+  grid-area: edit-profile-navigation;
+}
+
+.edit-profile-form {
+  grid-area: edit-profile-form;
+}
+
+.download-photo-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltip-text {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  margin-left: -50%;
+  visibility: hidden;
+  width: 100%;
+  background-color: var(--main-color);
+  opacity: 0.9;
+  color: var(--light-font-color);
+  text-align: center;
+  padding: 5px;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+}

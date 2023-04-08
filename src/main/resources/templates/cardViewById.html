@@ -21,7 +21,8 @@
     <main class="main">
       <section class="card-view">
         <div class="buttons">
-          <a class="button bg-dark dark-border" th:href="@{/card/{id}/edit(id=${card.id})}">Ed</a>
+          <a class="button bg-dark dark-border" th:href="@{/card/{id}/edit(id=${card.id})}">Edit</a>
+          <a class="button bg-dark dark-border" th:href="@{/card/{id}/delete(id=${card.id})}">Delete</a>
 
 <!--          <div th:if="${!previousCardId == null}">-->
             <a class="button bg-dark dark-border" th:href="@{/card/{id}(id=${previousCardId})}">&#60; Previous Card</a>

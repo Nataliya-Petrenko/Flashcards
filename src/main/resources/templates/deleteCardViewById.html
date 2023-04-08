@@ -1,0 +1,58 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/normalize.css">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/header.css">
+    <link rel="stylesheet" href="../../css/card-view.css">
+    <title>Flashcards</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+    <main class="main">
+        <section class="card-view">
+            <div class="buttons">
+                <p>Are you sure you want to delete the card?</p>
+                <form class="card-edit-view" th:action="@{/delete/{id}(id=${card.id})}" th:object="${card}" th:method="DELETE">
+                    <button class="button bg-dark dark-border" type="submit">Yes, delete card</button>
+                </form>
+                <a class="button bg-dark dark-border" th:href="@{/card/{id}(id=${card.id})}">No, back to Card</a>
+                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Go to Set</a>
+            </div>
+            <section class="card question-card">
+                <div class="card__content">
+                    <p th:text="${card.question}">Card question</p>
+                </div>
+            </section>
+            <section class="card short-answer-card">
+                <div class="card__content">
+                    <p th:text="${card.shortAnswer}">Card short answer</p>
+                </div>
+            </section>
+            <section class="card extended-answer-card">
+                <div class="card__content">
+                    <p th:text="${card.longAnswer}">Card long answer</p>
+                </div>
+            </section>
+            <!--        <section class="card keywords-card">-->
+            <!--          <div class="card__content">-->
+            <!--            <div th:each="keyWord : ${card.keyWords}">-->
+            <!--              <p class="keyword" th:text="|${keyWord.name}|"></p>-->
+            <!--            </div>-->
+            <!--          </div>-->
+            <!--        </section>-->
+        </section>
+    </main>
+</div>
+</body>
+
+</html>

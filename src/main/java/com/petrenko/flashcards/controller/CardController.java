@@ -71,20 +71,6 @@ public class CardController {
         return modelAndView;
     }
 
-//    @PostMapping("/create")
-//    public ModelAndView saveNewCard(@ModelAttribute @Valid Card card, BindingResult bindingResult,
-//                                    ModelAndView modelAndView) {
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.addObject("card", card);
-//            modelAndView.setViewName("editCardView.html");
-//            return modelAndView;
-//        }
-//        cardService.save(card);
-//        System.out.println(card);
-//        modelAndView.setViewName("cardView");
-//        return modelAndView;
-//    }
-
     @GetMapping("/card/{id}/edit")
     public ModelAndView getCardEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
         final Card card = cardService.getById(id);
@@ -102,21 +88,36 @@ public class CardController {
             modelAndView.setViewName("editCardView");
             return modelAndView;
         }
+
         cardService.editCard(card);
+
         modelAndView.addObject("card", card);
         modelAndView.setViewName("cardView");
         return modelAndView;
     }
 
-//
-//    @DeleteMapping("/{id}")
-//    public void deleteCard(@PathVariable String id) {
-//        if (id != null) {
-//            cardService.deleteById(id);
-//        }
-//
-//        // go to set
-//    }
+    @GetMapping("/card/{id}/delete")
+    public ModelAndView getCardDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {
+        final Card card = cardService.getById(id);
+        modelAndView.addObject("card", card);
+        modelAndView.setViewName("deleteCardViewById");
+        System.out.println("getCardDeleteForm " + card);
+        return modelAndView;
+    }
 
+    @DeleteMapping("/delete/{id}")  // after delete card
+    public ModelAndView deleteCard(@PathVariable("id") String id, ModelAndView modelAndView) {
 
+        System.out.println("deleteCard id: " + id);
+
+        final SetOfCards setOfCards = setOfCardsService.getById(cardService.getById(id).getSetOfCards().getId());
+
+        System.out.println("setOfCards " + setOfCards);
+        cardService.deleteById(id);
+
+        List<Card> cards = cardService.getBySet(setOfCards);
+        modelAndView.addObject("cards", cards);
+        modelAndView.setViewName("setViewById");
+        return modelAndView;
+    }
 }

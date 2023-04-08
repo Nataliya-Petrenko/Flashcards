@@ -100,4 +100,8 @@ public class CardService {
         setOfCardsService.save(card.getSetOfCards()); // todo if new name of set that create new set, if match with another name set that set another set for card
         save(card);
     }
+
+    public void deleteById(String  id) {
+        cardRepository.deleteById(id);
+    }
 }

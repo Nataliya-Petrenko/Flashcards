@@ -19,7 +19,7 @@
 <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
-        <form class="card-edit-view" th:action="@{/card/edit}" th:object="${card}" th:method="PUT">
+        <form class="card-edit-view" th:action="@{/card}" th:object="${card}" th:method="PUT">
             <div class="buttons">
                 <a href="./set-view.html" class="button bg-dark dark-border">&#60; Back</a>
                 <div class="free-space"></div>

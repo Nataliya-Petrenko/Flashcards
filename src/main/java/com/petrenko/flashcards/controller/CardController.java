@@ -94,7 +94,7 @@ public class CardController {
         return modelAndView;
     }
 
-    @PutMapping("/card/edit")
+    @PutMapping("/card")  // after edited card
     public ModelAndView editCard(@ModelAttribute Card card, BindingResult bindingResult,
                                    ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {

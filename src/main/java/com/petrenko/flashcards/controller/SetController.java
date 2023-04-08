@@ -43,12 +43,12 @@ public class SetController {
         System.out.println("@GetMapping(/set/{id}) id: " + id);
         final SetOfCards setOfCards = setOfCardsService.getById(id);
         System.out.println("@GetMapping(/set/{id}) setOfCardsService.getById(id): " + setOfCards);
-
         modelAndView.addObject("setOfCards", setOfCards);
+
         List<Card> cards = cardService.getBySet(setOfCards);
         System.out.println("@GetMapping(/set/{id})  List<Card> getBySet: " + cards);
-
         modelAndView.addObject("cards", cards);
+
         modelAndView.setViewName("setViewById");
         System.out.println("@GetMapping(/set/{id}) before show setViewById.html");
         return modelAndView;
@@ -65,7 +65,7 @@ public class SetController {
         return modelAndView;
     }
 
-    @PostMapping("/set")  // after created card
+    @PostMapping("/set")  // after created set
     public ModelAndView saveNewSet(@ModelAttribute SetOfCards setOfCards,
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView) {
@@ -78,9 +78,14 @@ public class SetController {
 
         SetOfCards savedSetOfCards = setOfCardsService.save(setOfCards);
         System.out.println("@PostMapping(/set) savedSetOfCards " + savedSetOfCards);
-        modelAndView.addObject("savedSetOfCards", savedSetOfCards);
-        modelAndView.setViewName("setView");
-        System.out.println("@PostMapping(/set) before show setView.html");
+        modelAndView.addObject("setOfCards", savedSetOfCards);
+
+        List<Card> cards = cardService.getBySet(setOfCards);
+        System.out.println("@PostMapping(/set)  List<Card> getBySet: " + cards);
+        modelAndView.addObject("cards", cards);
+
+        modelAndView.setViewName("setViewById");
+        System.out.println("@PostMapping(/set) before show setViewById.html");
         return modelAndView;
     }
 
@@ -110,12 +115,16 @@ public class SetController {
             modelAndView.setViewName("editSetView");
             return modelAndView;
         }
-        setOfCardsService.save(setOfCards);
-        System.out.println("@PutMapping(/set/{id}/edit) setOfCards saved " + setOfCards);
+        SetOfCards savedSetOfCards = setOfCardsService.save(setOfCards);
+        System.out.println("@PutMapping(/set/{id}/edit) setOfCards saved " + savedSetOfCards);
+        modelAndView.addObject("setOfCards", savedSetOfCards);
 
-        modelAndView.addObject("setOfCards", setOfCards);
-        modelAndView.setViewName("setView");
-        System.out.println("@PutMapping(/set/{id}/edit) before show setView.html");
+        List<Card> cards = cardService.getBySet(setOfCards);
+        System.out.println("@PutMapping(/set/{id}/edit)  List<Card> getBySet: " + cards);
+        modelAndView.addObject("cards", cards);
+
+        modelAndView.setViewName("setViewById");
+        System.out.println("@PutMapping(/set/{id}/edit) before show setViewById.html");
         return modelAndView;
     }
 

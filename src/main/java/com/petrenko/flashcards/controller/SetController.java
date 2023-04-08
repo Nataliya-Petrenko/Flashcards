@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.CardCreatingDto;
 import com.petrenko.flashcards.dto.CardEditingDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
@@ -52,6 +53,37 @@ public class SetController {
         System.out.println("@GetMapping(/set/{id}) before show setViewById.html");
         return modelAndView;
     }
+
+    @GetMapping("/set/create")
+    public ModelAndView getSetForm(ModelAndView modelAndView) {
+        System.out.println("@GetMapping(/set/create)");
+        SetOfCards setOfCards = new SetOfCards();
+        System.out.println("@GetMapping(/set/create) new SetOfCards " + setOfCards);
+        modelAndView.addObject("setOfCards", setOfCards);
+        modelAndView.setViewName("createSetView");
+        System.out.println("@GetMapping(/set/create) before show createSetView.html");
+        return modelAndView;
+    }
+
+    @PostMapping("/set")  // after created card
+    public ModelAndView saveNewSet(@ModelAttribute SetOfCards setOfCards,
+                                    BindingResult bindingResult,
+                                    ModelAndView modelAndView) {
+        System.out.println("@PostMapping(/set) " + setOfCards);
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("setOfCards", setOfCards);
+            modelAndView.setViewName("createSetView");
+            return modelAndView;
+        }
+
+        SetOfCards savedSetOfCards = setOfCardsService.save(setOfCards);
+        System.out.println("@PostMapping(/set) savedSetOfCards " + savedSetOfCards);
+        modelAndView.addObject("savedSetOfCards", savedSetOfCards);
+        modelAndView.setViewName("setView");
+        System.out.println("@PostMapping(/set) before show setView.html");
+        return modelAndView;
+    }
+
 
     @GetMapping("/set/{id}/edit")
     public ModelAndView getSetEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {

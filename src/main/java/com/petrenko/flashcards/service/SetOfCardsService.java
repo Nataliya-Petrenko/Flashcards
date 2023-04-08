@@ -77,9 +77,9 @@ public class SetOfCardsService {
 //        return setOfCards;
 //    }
 
-    public void save(SetOfCards setOfCards) {
+    public SetOfCards save(SetOfCards setOfCards) {
         System.out.println("Set service: save set" + setOfCards);
-        setOfCardsRepository.save(setOfCards);
+        return setOfCardsRepository.save(setOfCards);
     }
 
     public SetOfCards getById(String id) {

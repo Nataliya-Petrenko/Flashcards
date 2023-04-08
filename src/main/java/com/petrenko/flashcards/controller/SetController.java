@@ -38,7 +38,7 @@ public class SetController {
     @GetMapping("/set/{id}")
     public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView) {
             final SetOfCards setOfCards = setOfCardsService.getById(id);
-//            modelAndView.addObject("set", setOfCards);
+            modelAndView.addObject("setOfCards", setOfCards);
 //            System.out.println("setOfCards by id: " + setOfCards);
             List<Card> cards = cardService.getBySet(setOfCards);
             modelAndView.addObject("cards", cards);

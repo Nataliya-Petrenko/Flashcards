@@ -1,6 +1,7 @@
 package com.petrenko.flashcards.controller;
 
 import com.petrenko.flashcards.dto.CardCreatingDto;
+import com.petrenko.flashcards.dto.CardEditingDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.SetOfCardsService;
@@ -73,23 +74,27 @@ public class CardController {
 
     @GetMapping("/card/{id}/edit")
     public ModelAndView getCardEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        final Card card = cardService.getById(id);
-        modelAndView.addObject("card", card);
+        final CardEditingDto cardEditingDto = cardService.getCardEditingDto(id);
+        System.out.println("getCardEditingDto: " + cardEditingDto);
+        modelAndView.addObject("cardEditingDto", cardEditingDto);
         modelAndView.setViewName("editCardView");
-        System.out.println("getCardEditForm " + card);
         return modelAndView;
     }
 
-    @PutMapping("/card")  // after edited card
-    public ModelAndView editCard(@ModelAttribute Card card, BindingResult bindingResult,
-                                   ModelAndView modelAndView) {
+    @PutMapping("/edit/{id}")  // after edited card
+    public ModelAndView editCard(@PathVariable("id") String id,   // todo save id into cardEditingDto in view
+                                 @ModelAttribute CardEditingDto cardEditingDto,
+                                 BindingResult bindingResult,
+                                 ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("card", card);
+            modelAndView.addObject("cardEditingDto", cardEditingDto);
             modelAndView.setViewName("editCardView");
             return modelAndView;
         }
-
-        cardService.editCard(card);
+        System.out.println("editCard after edited card");
+        cardEditingDto.setId(id);
+        Card card = cardService.editCardByCardEditingDto(cardEditingDto);
+        System.out.println("card by editCardByCardEditingDto" + card);
 
         modelAndView.addObject("card", card);
         modelAndView.setViewName("cardView");

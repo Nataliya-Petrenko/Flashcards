@@ -1,6 +1,7 @@
 package com.petrenko.flashcards.service;
 
 import com.petrenko.flashcards.dto.CardCreatingDto;
+import com.petrenko.flashcards.dto.CardEditingDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,23 +84,39 @@ public class CardService {
                         .orElseThrow(IllegalArgumentException::new));
     }
 
-
-    public void editCard(Card card) {
-//        String newSetName = card.getSetOfCards().getName();
-//        String setId = card.getSetOfCards().getId();
-//        SetOfCards set = setOfCardsService.getById(setId);
-//        String oldName = set.getName();
-//
-//        if (!newSetName.equals(oldName)) {
-//            SetOfCards setOfCards = new SetOfCards();
-//            setOfCards.setName(newSetName);
-//            setOfCardsService.save(setOfCards);
-//            card.setSetOfCards(setOfCards);
-//        }
-
-        setOfCardsService.save(card.getSetOfCards()); // todo if new name of set that create new set, if match with another name set that set another set for card
-        save(card);
+    public CardEditingDto getCardEditingDto(String id) {
+        return cardRepository.getCardEditingDto(id)
+                .orElseThrow(IllegalArgumentException::new);
     }
+
+    public Card editCardByCardEditingDto(CardEditingDto cardEditingDto) {
+        System.out.println("Service editCardByCardEditingDto: start " + cardEditingDto);
+        Card card = cardRepository.findById(cardEditingDto.getId()).orElseThrow(IllegalArgumentException::new);
+        System.out.println("Service editCardByCardEditingDto: card from rep" + card);
+        card.setQuestion(cardEditingDto.getQuestion());
+        card.setShortAnswer(cardEditingDto.getShortAnswer());
+        card.setLongAnswer(cardEditingDto.getLongAnswer());
+
+        final String newSetOfCardsName = cardEditingDto.getSetOfCardsName();
+        System.out.println("Service editCardByCardEditingDto: newSetOfCardsName" + newSetOfCardsName);
+
+        setOfCardsService.getByName(newSetOfCardsName).ifPresentOrElse(card::setSetOfCards,
+                () -> {
+                    SetOfCards setOfCards = new SetOfCards();
+                    setOfCards.setName(newSetOfCardsName);
+                    setOfCardsService.save(setOfCards);
+                    card.setSetOfCards(setOfCards);
+                });
+
+// todo if match with another name set that set another set for card
+
+        save(card);
+        System.out.println("Service editCardByCardEditingDto: card after checking" + card);
+        return card;
+    }
+
+
+
 
     public void deleteById(String  id) {
         cardRepository.deleteById(id);

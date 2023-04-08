@@ -19,15 +19,15 @@
 <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
-        <form class="card-edit-view" th:action="@{/card}" th:object="${card}" th:method="PUT">
+        <form class="card-edit-view" th:action="@{/edit/{id}(id=${cardEditingDto.id})}" th:object="${cardEditingDto}" th:method="PUT">
             <div class="buttons">
-                <a href="./set-view.html" class="button bg-dark dark-border">&#60; Back</a>
+                <a th:href="@{/card/{id}(id=*{id})}" class="button bg-dark dark-border">&#60; Back to card</a>
                 <div class="free-space"></div>
                 <button class="button bg-dark dark-border" type="reset">Clear</button>
                 <button class="button bg-dark dark-border" type="submit">Save</button>
             </div>
             <div class="card set-card">
-                <textarea class="card__content" name="set" th:field="*{setOfCards.name}"
+                <textarea class="card__content" name="set" th:field="*{setOfCardsName}"
                           placeholder="Enter name of set *"
                           required></textarea>
             </div>

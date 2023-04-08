@@ -46,8 +46,18 @@ public class CardController {
         return modelAndView;
     }
 
+    @GetMapping("/card/create/{id}")  // with fill set name
+    public ModelAndView getCardForm(@PathVariable("id") String id, ModelAndView modelAndView) {
+        CardCreatingDto cardCreatingDto = new CardCreatingDto();
+        SetOfCards setOfCards = setOfCardsService.getById(id);
+        cardCreatingDto.setSetOfCardsName(setOfCards.getName());
+        modelAndView.addObject("cardCreatingDto", cardCreatingDto);
+        modelAndView.setViewName("createCardView");
+        return modelAndView;
+    }
+
     @GetMapping("/card/create")
-    public ModelAndView getCardForm(ModelAndView modelAndView) {
+    public ModelAndView getCardFormWithSet(ModelAndView modelAndView) {
         CardCreatingDto cardCreatingDto = new CardCreatingDto();
         modelAndView.addObject("cardCreatingDto", cardCreatingDto);
 

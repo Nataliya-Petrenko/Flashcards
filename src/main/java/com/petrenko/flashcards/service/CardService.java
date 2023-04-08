@@ -43,9 +43,10 @@ public class CardService {
         return card;
     }
 
-    public void save(final Card card) {
-        cardRepository.save(card);
+    public Card save(final Card card) {
+        Card savedCard = cardRepository.save(card);
         System.out.println("Service: Saved card " + card.getId());
+        return savedCard;
     }
 
     public List<Card> getBySet(final SetOfCards setOfCards) {
@@ -69,9 +70,7 @@ public class CardService {
                     card.setSetOfCards(setOfCards);
                 });
 
-        save(card);
-
-        return card;
+        return save(card);
     }
 
     public String getNextOrFirstCardId(final String id) {
@@ -110,9 +109,9 @@ public class CardService {
                     card.setSetOfCards(setOfCards);
                 });
 
-        save(card);
+        Card savedCard = save(card);
         System.out.println("Service editCardByCardEditingDto: card after checking" + card);
-        return card;
+        return savedCard;
     }
 
     public void deleteById(final String  id) {

@@ -66,9 +66,17 @@ public class CardController {
             return modelAndView;
         }
         Card card = cardService.saveToCard(cardCreatingDto);
-
         modelAndView.addObject("card", card);
-        modelAndView.setViewName("cardView");
+
+        final String previousCardId = cardService.getPreviousOrLastCardId(card.getId());
+        System.out.println("previousCardId " + previousCardId);
+        modelAndView.addObject("previousCardId", previousCardId);
+
+        final String nextCardId = cardService.getNextOrFirstCardId(card.getId());
+        System.out.println("nextCardId " + nextCardId);
+        modelAndView.addObject("nextCardId", nextCardId);
+
+        modelAndView.setViewName("cardViewById");
         return modelAndView;
     }
 
@@ -95,9 +103,17 @@ public class CardController {
         cardEditingDto.setId(id);
         Card card = cardService.editCardByCardEditingDto(cardEditingDto);
         System.out.println("card by editCardByCardEditingDto" + card);
-
         modelAndView.addObject("card", card);
-        modelAndView.setViewName("cardView");
+
+        final String previousCardId = cardService.getPreviousOrLastCardId(card.getId());
+        System.out.println("previousCardId " + previousCardId);
+        modelAndView.addObject("previousCardId", previousCardId);
+
+        final String nextCardId = cardService.getNextOrFirstCardId(card.getId());
+        System.out.println("nextCardId " + nextCardId);
+        modelAndView.addObject("nextCardId", nextCardId);
+
+        modelAndView.setViewName("cardViewById");
         return modelAndView;
     }
 

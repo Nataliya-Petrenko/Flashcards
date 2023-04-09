@@ -1,17 +1,12 @@
 package com.petrenko.flashcards.model;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 @Setter
@@ -24,10 +19,19 @@ public class SetOfCards {
     private String id;
 
     //    @NotBlank(message = "Field is mandatory")
-    @Type(type = "text")
+//    @Type(type = "text")
     private String name;
 
-    @Column(name = "description_of_set")
-    private String descriptionOfSet;
+//    @Column(name = "description_of_set")
+    private String description;
 
+    private LocalDateTime timeOfCreation;
+
+    @ManyToOne
+    private Folder folder;
+
+    @PrePersist
+    protected void prePersist() {
+        timeOfCreation = LocalDateTime.now();
+    }
 }

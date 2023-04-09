@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface CardRepository extends CrudRepository<Card, String> {
     List<Card> getBySetOfCards(SetOfCards setOfCards);
 
-    // todo all next should have depending on set
+    // todo next 4 should have depending on set and folder
     @Query("""
             SELECT c.id
             FROM Card c

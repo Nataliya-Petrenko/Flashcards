@@ -173,27 +173,20 @@ public class SetController {
     public ModelAndView deleteSet(@PathVariable("id") String id, ModelAndView modelAndView) {
         System.out.println("@DeleteMapping(/delete/{id}) id: " + id);
 
-        // get folder and go to folder view
-//        final SetOfCards setOfCards = setOfCardsService.getById(cardService.getById(id).getSetOfCards().getId());
-//        System.out.println("@DeleteMapping(/delete/{id}) setOfCards getById: " + setOfCards);
-//        modelAndView.addObject("setOfCards", setOfCards);
+        Folder folder = setOfCardsService.getById(id).getFolder();
+        System.out.println("@DeleteMapping(/set/{id}/delete) folder for setId: " + folder);
+        modelAndView.addObject("folder", folder);
 
         setOfCardsService.deleteById(id);
         System.out.println("@DeleteMapping(/delete/{id}) setOfCards is deleted");
 
-//        List<Card> cards = cardService.getBySet(setOfCards);
-//        System.out.println("@DeleteMapping(/delete/{id}) List<Card>: " + cards);
-//        modelAndView.addObject("cards", cards);
+        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
+        System.out.println("@GetMapping(/folder/{id}) List<SetOfCards> getByFolder: " + setsOfCards);
+        modelAndView.addObject("setsOfCards", setsOfCards);
 
-//        modelAndView.setViewName("setViewById");
+        modelAndView.setViewName("folderViewById");
+        System.out.println("@GetMapping(/folder/{id}) before show folderViewById.html");
 
-// todo go to folder or profile
-        SetOfCards setOfCards = new SetOfCards();
-        System.out.println("@DeleteMapping(/delete/{id}) new SetOfCards " + setOfCards);
-        modelAndView.addObject("setOfCards", setOfCards);
-        modelAndView.setViewName("createSetView");
-
-        System.out.println("@DeleteMapping(/delete/{id}) before show createSetView.html");
         return modelAndView;
     }
 

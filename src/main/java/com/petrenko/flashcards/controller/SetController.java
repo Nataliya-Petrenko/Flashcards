@@ -97,6 +97,7 @@ public class SetController {
             return modelAndView;
         }
 
+        folderService.save(setOfCards.getFolder());
         SetOfCards savedSetOfCards = setOfCardsService.save(setOfCards);
         System.out.println("@PostMapping(/set) savedSetOfCards " + savedSetOfCards);
         modelAndView.addObject("setOfCards", savedSetOfCards);
@@ -114,12 +115,15 @@ public class SetController {
     @GetMapping("/set/{id}/edit")
     public ModelAndView getSetEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
         System.out.println("@GetMapping(/set/{id}/edit) id: " + id);
+
         final SetOfCards setOfCards = setOfCardsService.getById(id);
         System.out.println("@GetMapping(/set/{id}/edit) setOfCardsService.getById(id): " + setOfCards);
         modelAndView.addObject("setOfCards", setOfCards);
+
         List<Card> cards = cardService.getBySet(setOfCards);
         System.out.println("@GetMapping(/set/{id}/edit)  List<Card> getBySet: " + cards);
         modelAndView.addObject("cards", cards);
+
         modelAndView.setViewName("editSetView");
         System.out.println("@GetMapping(/set/{id}/edit) before show editSetView.html");
         return modelAndView;
@@ -136,7 +140,7 @@ public class SetController {
             modelAndView.setViewName("editSetView");
             return modelAndView;
         }
-        SetOfCards savedSetOfCards = setOfCardsService.save(setOfCards);
+        SetOfCards savedSetOfCards = setOfCardsService.editSetOfCards(setOfCards);
         System.out.println("@PutMapping(/set/{id}/edit) setOfCards saved " + savedSetOfCards);
         modelAndView.addObject("setOfCards", savedSetOfCards);
 

@@ -36,10 +36,10 @@ public class FolderService {
         System.out.println("Folder service: getById " + folder);
         return folder;
     }
-//
-//    public Optional<SetOfCards> getByName(String name) {
-//        return setOfCardsRepository.findByName(name);
-//    }
+
+    public Optional<Folder> getByName(String name) {
+        return folderRepository.findByName(name);
+    }
 //
 //    public void deleteById(String id) {
 //        List<Card> cards = cardRepository.getBySetOfCards(getById(id));

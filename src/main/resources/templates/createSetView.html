@@ -28,19 +28,24 @@
           <button class="button bg-dark dark-border" type="submit" form="set-edit-form">Save</button>
         </div>
         <form class="set-edit-form" id="set-edit-form" th:action="@{/set/create}" th:object="${setOfCards}" th:method="POST">
+
+          <div class="card folder-name">
+            <input class="card__content dark-placeholder" type="text" name="folder-name" id="folder-name"
+                   th:field="*{folder.name}"
+                   placeholder="Enter folder name">
+          </div>
+
           <div class="card set-name">
             <input class="card__content dark-placeholder" type="text" name="set-name" id="set-name"
                    th:field="*{name}"
               placeholder="Enter name of set *" required>
           </div>
-<!--          <div class="card folder-name">-->
-<!--            <input class="card__content dark-placeholder" type="text" name="folder-name" id="folder-name"-->
-<!--              placeholder="Enter folder name">-->
-<!--          </div>-->
+
           <div class="card set-description">
             <textarea class="card__content" name="set" id="set" th:field="*{description}"
               placeholder="Enter a description for the set"></textarea>
           </div>
+
 <!--          <div class="card set-priority">-->
 <!--            <div class="card__content set-card-content">-->
 <!--              <h2 class="list-title">Select a priority for studying:</h2>-->

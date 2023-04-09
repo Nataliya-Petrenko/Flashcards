@@ -81,43 +81,45 @@ public class FolderController {
     }
 
 
-//    @GetMapping("/set/{id}/edit")
-//    public ModelAndView getSetEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-//        System.out.println("@GetMapping(/set/{id}/edit) id: " + id);
-//        final SetOfCards setOfCards = setOfCardsService.getById(id);
-//        System.out.println("@GetMapping(/set/{id}/edit) setOfCardsService.getById(id): " + setOfCards);
-//        modelAndView.addObject("setOfCards", setOfCards);
-//        List<Card> cards = cardService.getBySet(setOfCards);
-//        System.out.println("@GetMapping(/set/{id}/edit)  List<Card> getBySet: " + cards);
-//        modelAndView.addObject("cards", cards);
-//        modelAndView.setViewName("editSetView");
-//        System.out.println("@GetMapping(/set/{id}/edit) before show editSetView.html");
-//        return modelAndView;
-//    }
-//
-//    @PutMapping("/set/{id}/edit")  // after edited set
-//    public ModelAndView editSet(@PathVariable("id") String id,   // todo save id into Dto in view
-//                                @ModelAttribute SetOfCards setOfCards,
-//                                BindingResult bindingResult,
-//                                ModelAndView modelAndView) {
-//        System.out.println("@PutMapping(/set/{id}/edit) id: " + id);
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.addObject("setOfCards", setOfCards);
-//            modelAndView.setViewName("editSetView");
-//            return modelAndView;
-//        }
-//        SetOfCards savedSetOfCards = setOfCardsService.save(setOfCards);
-//        System.out.println("@PutMapping(/set/{id}/edit) setOfCards saved " + savedSetOfCards);
-//        modelAndView.addObject("setOfCards", savedSetOfCards);
-//
-//        List<Card> cards = cardService.getBySet(setOfCards);
-//        System.out.println("@PutMapping(/set/{id}/edit)  List<Card> getBySet: " + cards);
-//        modelAndView.addObject("cards", cards);
-//
-//        modelAndView.setViewName("setViewById");
-//        System.out.println("@PutMapping(/set/{id}/edit) before show setViewById.html");
-//        return modelAndView;
-//    }
+    @GetMapping("/folder/{id}/edit")
+    public ModelAndView getFolderEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
+        System.out.println("@GetMapping(/folder/{id}/edit) id: " + id);
+        final Folder folder = folderService.getById(id);
+        System.out.println("@GetMapping(/folder/{id}/edit) folder getById(id): " + folder);
+        modelAndView.addObject("folder", folder);
+
+        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
+        System.out.println("@GetMapping(/folder/{id}/edit)  List<SetOfCards> getByFolder: " + setsOfCards);
+        modelAndView.addObject("setsOfCards", setsOfCards);
+
+        modelAndView.setViewName("editFolderView");
+        System.out.println("@GetMapping(/folder/{id}/edit) before show editFolderView.html");
+        return modelAndView;
+    }
+
+    @PutMapping("/folder/{id}/edit")  // after edited folder
+    public ModelAndView editSet(@PathVariable("id") String id,   // todo save id into Dto in view
+                                @ModelAttribute Folder folder,
+                                BindingResult bindingResult,
+                                ModelAndView modelAndView) {
+        System.out.println("@PutMapping(/folder/{id}/edit) id: " + id);
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("folder", folder);
+            modelAndView.setViewName("editFolderView");
+            return modelAndView;
+        }
+        Folder savedFolder = folderService.save(folder);
+        System.out.println("@PutMapping(/folder/{id}/edit) savedFolder " + savedFolder);
+        modelAndView.addObject("folder", savedFolder);
+
+        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
+        System.out.println("@PutMapping(/folder/{id}/edit)  List<SetOfCards> getByFolder: " + setsOfCards);
+        modelAndView.addObject("setsOfCards", setsOfCards);
+
+        modelAndView.setViewName("folderViewById");
+        System.out.println("@PutMapping(/folder/{id}/edit) before show folderViewById.html");
+        return modelAndView;
+    }
 //
 //    @GetMapping("/set/{id}/delete")
 //    public ModelAndView getSetDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {

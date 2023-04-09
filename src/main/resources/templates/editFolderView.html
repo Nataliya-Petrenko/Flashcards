@@ -1,0 +1,90 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/normalize.css">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="../../css/shared.css">
+  <link rel="stylesheet" href="../../css/header.css">
+  <link rel="stylesheet" href="../../css/edit-folder-view.css">
+  <title>Flashcards</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+    <main class="main">
+      <div class="folder-edit-view hidden-scroll">
+        <div class="navigation folder-edit-view-nav">
+          <a href="#" class="button bg-dark dark-border">&#60; Back (not implemented)</a>
+          <button class="button bg-dark dark-border auto-margin-left">New set (not implemented)</button>
+          <button class="button bg-dark dark-border" type="submit" form="folder-edit-form">Save</button>
+        </div>
+        <form class="folder-edit-form" id="folder-edit-form" th:action="@{/folder/{id}/edit(id=${folder.id})}" th:object="${folder}" th:method="PUT">
+          <div class="card folder-name">
+            <input class="card__content dark-placeholder" type="text" name="set-name" id="set-name"
+                   th:field="*{name}" placeholder="Enter name of folder *" required>
+          </div>
+          <div class="card folder-description">
+            <textarea class="card__content" name="folder" id="folder"
+                      th:field="*{description}" placeholder="Enter a description for the folder"></textarea>
+          </div>
+<!--          <div class="card folder-visibility">-->
+<!--            <div class="card__content">-->
+<!--              <h2 class="list-title">Visibility:</h2>-->
+<!--              <ul class="horizontal-list">-->
+<!--                <li class="list__item">-->
+<!--                  <input type="radio" id="public" name="visibility" value="public">-->
+<!--                  <label for="ordered">Public</label>-->
+<!--                </li>-->
+<!--                <li class="list__item">-->
+<!--                  <input type="radio" id="private" name="visibility" value="random" checked>-->
+<!--                  <label for="random">private</label>-->
+<!--                </li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--          </div>-->
+        </form>
+
+        <div class="card sets-card">
+
+          <div class="card__content">
+
+            <div class="sets" th:each="set : ${setsOfCards}">
+
+
+              <div class="card border-card card-in-folder">
+                <p class="card__text" th:text="|${set.name}|">
+                  Set Name
+                </p>
+                <div class="navigation">
+
+                  <a th:href="@{/set/{id}(id=${set.id})}" class="button bg-dark no-border">Show set</a>
+                  <a th:href="@{/set/{id}/delete(id=${set.id})}" class="button bg-dark dark-border">Remove from folder</a>
+
+<!--                  <form action="" method="delete">-->
+<!--                    <button class="button bg-dark no-border" type="submit">Remove from folder</button>-->
+<!--                  </form>-->
+
+                </div>
+              </div>
+
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

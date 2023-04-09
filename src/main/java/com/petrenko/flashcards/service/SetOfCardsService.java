@@ -7,9 +7,7 @@ import com.petrenko.flashcards.repository.CardRepository;
 import com.petrenko.flashcards.repository.SetOfCardsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,16 +15,20 @@ import java.util.Optional;
 public class SetOfCardsService {
 
     private final SetOfCardsRepository setOfCardsRepository;
-//    private final CardService cardService;
+    //    private final CardService cardService;
     private final CardRepository cardRepository;
+
+    private final FolderService folderService;
 
     @Autowired
     public SetOfCardsService(final SetOfCardsRepository setOfCardsRepository,
 //                             final CardService cardService,
-                             CardRepository cardRepository) {
+                             final CardRepository cardRepository,
+                             final FolderService folderService) {
         this.setOfCardsRepository = setOfCardsRepository;
 //        this.cardService = cardService;
         this.cardRepository = cardRepository;
+        this.folderService = folderService;
     }
 
     public SetOfCards save(SetOfCards setOfCards) {
@@ -54,6 +56,25 @@ public class SetOfCardsService {
         List<SetOfCards> byFolder = setOfCardsRepository.getByFolder(folder);
         System.out.println("SetOfCards Service: getByFolder: " + byFolder);
         return byFolder;
+    }
+
+    public SetOfCards editSetOfCards(final SetOfCards setOfCards) {
+        System.out.println("Set service editSetOfCards " + setOfCards);
+
+        final String newFolderName = setOfCards.getFolder().getName();
+        System.out.println("Set service editSetOfCards: newFolderName" + newFolderName);
+
+        folderService.getByName(newFolderName).ifPresentOrElse((setOfCards::setFolder),
+                () -> {
+                    Folder folder = new Folder();
+                    folder.setName(newFolderName);
+                    folderService.save(folder);
+                    setOfCards.setFolder(folder);
+                });
+
+        SetOfCards savedSetOfCards = save(setOfCards);
+        System.out.println("Set service editSetOfCards: savedSetOfCards" + savedSetOfCards);
+        return savedSetOfCards;
     }
 
 }

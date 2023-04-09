@@ -22,7 +22,7 @@
         <section class="card-view">
             <div class="buttons">
                 <p>Are you sure you want to delete the card?</p>
-                <form class="card-edit-view" th:action="@{/delete/{id}(id=${card.id})}" th:object="${card}" th:method="DELETE">
+                <form class="card-edit-view" th:action="@{/card/{id}/delete(id=${card.id})}" th:object="${card}" th:method="DELETE">
                     <button class="button bg-dark dark-border" type="submit">Yes, delete card</button>
                 </form>
                 <a class="button bg-dark dark-border" th:href="@{/card/{id}(id=${card.id})}">No, back to Card</a>

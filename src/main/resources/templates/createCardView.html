@@ -26,7 +26,7 @@
 <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
-        <form class="card-edit-view" th:action="@{/card}" th:object="${cardCreatingDto}" method="post">
+        <form class="card-edit-view" th:action="@{/card/create}" th:object="${cardCreatingDto}" method="post">
             <div class="buttons">
                 <!--                <a href="./set-view.html" class="button bg-dark dark-border">&#60; Back</a>-->
 <!--                <a th:href="@{/set/{id}(id=*{setOfCardsId})}" class="button bg-dark dark-border">Go to set</a>-->

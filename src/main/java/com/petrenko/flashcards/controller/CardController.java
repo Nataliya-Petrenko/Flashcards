@@ -46,7 +46,7 @@ public class CardController {
         return modelAndView;
     }
 
-    @GetMapping("/card/create/{id}")  // with fill set name
+    @GetMapping("/card/create/{id}")  // with fill set name by setId
     public ModelAndView getCardForm(@PathVariable("id") String id, ModelAndView modelAndView) {
         System.out.println("@GetMapping(/card/create/{id}) with fill set name");
 
@@ -78,7 +78,7 @@ public class CardController {
         return modelAndView;
     }
 
-    @PostMapping("/card")  // after created card
+    @PostMapping("/card/create")  // after created card
     public ModelAndView saveNewCard(@ModelAttribute CardCreatingDto cardCreatingDto,
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView) {
@@ -90,20 +90,6 @@ public class CardController {
         }
         Card card = cardService.saveToCard(cardCreatingDto);
         System.out.println("@PostMapping(/card) card saved " + card);
-
-//        modelAndView.addObject("card", card);
-//
-//        final String previousCardId = cardService.getPreviousOrLastCardId(card.getId());
-//        System.out.println("previousCardId " + previousCardId);
-//        modelAndView.addObject("previousCardId", previousCardId);
-//
-//        final String nextCardId = cardService.getNextOrFirstCardId(card.getId());
-//        System.out.println("nextCardId " + nextCardId);
-//        modelAndView.addObject("nextCardId", nextCardId);
-//
-//        modelAndView.setViewName("cardViewById");
-//        return modelAndView; // todo go to set by id
-
 
         final SetOfCards setOfCards = setOfCardsService.getByName(cardCreatingDto.getSetOfCardsName())
                 .orElseThrow(IllegalArgumentException::new);
@@ -128,7 +114,7 @@ public class CardController {
         return modelAndView;
     }
 
-    @PutMapping("/edit/{id}")  // after edited card
+    @PutMapping("/card/{id}/edit")  // after edited card
     public ModelAndView editCard(@PathVariable("id") String id,   // todo save id into cardEditingDto in view
                                  @ModelAttribute CardEditingDto cardEditingDto,
                                  BindingResult bindingResult,
@@ -167,7 +153,7 @@ public class CardController {
         return modelAndView;
     }
 
-    @DeleteMapping("/delete/{id}")  // after delete card
+    @DeleteMapping("/card/{id}/delete")  // after delete card
     public ModelAndView deleteCard(@PathVariable("id") String id, ModelAndView modelAndView) {
         System.out.println("@DeleteMapping(/delete/{id}) id: " + id);
 

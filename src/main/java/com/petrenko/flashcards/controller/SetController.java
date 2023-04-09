@@ -65,7 +65,7 @@ public class SetController {
         return modelAndView;
     }
 
-    @PostMapping("/set")  // after created set
+    @PostMapping("/set/create")  // after created set
     public ModelAndView saveNewSet(@ModelAttribute SetOfCards setOfCards,
                                    BindingResult bindingResult,
                                    ModelAndView modelAndView) {

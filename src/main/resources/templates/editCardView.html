@@ -19,7 +19,7 @@
 <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
-        <form class="card-edit-view" th:action="@{/edit/{id}(id=${cardEditingDto.id})}" th:object="${cardEditingDto}" th:method="PUT">
+        <form class="card-edit-view" th:action="@{/card/{id}/edit(id=${cardEditingDto.id})}" th:object="${cardEditingDto}" th:method="PUT">
             <div class="buttons">
                 <a th:href="@{/set/{id}(id=*{setOfCardsId})}" class="button bg-dark dark-border">&#60; Go to set</a>
 <!--                <div class="free-space"></div>-->

@@ -27,7 +27,7 @@
           <button class="button bg-dark dark-border" type="reset" form="set-edit-form">Clear</button>
           <button class="button bg-dark dark-border" type="submit" form="set-edit-form">Save</button>
         </div>
-        <form class="set-edit-form" id="set-edit-form" th:action="@{/set}" th:object="${setOfCards}" th:method="POST">
+        <form class="set-edit-form" id="set-edit-form" th:action="@{/set/create}" th:object="${setOfCards}" th:method="POST">
           <div class="card set-name">
             <input class="card__content dark-placeholder" type="text" name="set-name" id="set-name"
                    th:field="*{name}"

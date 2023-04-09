@@ -1,0 +1,102 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/normalize.css">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="../../css/shared.css">
+  <link rel="stylesheet" href="../../css/header.css">
+  <link rel="stylesheet" href="../../css/folder-view.css">
+  <title>Flashcards</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <div class="header__content">
+        <a href="#" class="button bg-dark light-border">Flashcards</a>
+        <input class="input bg-dark light-border light-placeholder auto-margin-left" type="text" placeholder="Search">
+        <div class="button bg-dark light-border extra-bold-text create-dropdown">
+          <span>+</span>
+          <div class="dropdown-content">
+            <ul class="dropdown-list">
+              <li class="dropdown-list__item">
+                <a href="./edit-card-view.html">New card</a>
+              </li>
+              <li class="dropdown-list__item">
+                <a href="./edit-set-view.html">New set</a>
+              </li>
+              <li class="dropdown-list__item">
+                <a href="./edit-folder-view.html">New folder</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <a href="#" class="button bg-dark light-border extra-bold-text">?</a>
+        <div class="profile">
+          <div class="profile-short-info">
+            <div class="profile__logo">
+              <img class="user-photo" src="./img/user-image.png" alt="user photo">
+            </div>
+            <p class="profile__text">User Name</p>
+          </div>
+          <div class="dropdown-content">
+            <ul class="dropdown-list">
+              <li class="profile-full-name info-text">
+                <p>FirstName</p>
+                <p>LastName</p>
+              </li>
+              <li class="info-text">
+                <p>SomeEmail@gmail.com</p>
+              </li>
+              <li class="dropdown-list__item">
+                <a href="#">Open profile</a>
+              </li>
+              <li class="profile-log-out">
+                <a href="./">Log out</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+<!--    <header class="header" th:insert="header :: header_fragment"></header>-->
+    <main class="main">
+      <div class="folder-view">
+        <div class="navigation">
+          <a class="button bg-dark dark-border" href="#">&#60; Back (not implemented)</a>
+          <a class="button bg-dark dark-border" href="#">&#9998; (not implemented)</a>
+        </div>
+        <div class="card folder-card">
+          <div class="card__content folder-card__content">
+            <h2 class="second-title folder-card__title" th:text="${folder.name}">Folder name</h2>
+
+            <div class="card card-in-set" th:each="set : ${setsOfCards}">
+
+              <p class="card-in-set__text" th:text="|${set.name}|">
+                Set name
+              </p>
+              <!--               not show -->
+              <a th:href="@{/set/{id}(id=${set.id})}" class="button bg-dark no-border">Show set</a>
+
+            </div>
+
+            <a th:href="@{/set/create/{id}(id=${folder.id})}" class="button bg-dark dark-border auto-margin-left">Create new set in this folder</a>
+
+<!--            <p class="card border-card">-->
+<!--              Lorem ipsum dolor-->
+<!--            </p>-->
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

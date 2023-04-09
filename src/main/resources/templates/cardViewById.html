@@ -3,68 +3,63 @@
       xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/normalize.css">
-  <link rel="stylesheet" href="../css/variables.css">
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/shared.css">
-  <link rel="stylesheet" href="../css/header.css">
-  <link rel="stylesheet" href="../css/card-view.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/card-view.css">
 
-  <link rel="stylesheet" href="../../css/normalize.css">
-  <link rel="stylesheet" href="../../css/variables.css">
-  <link rel="stylesheet" href="../../css/styles.css">
-  <link rel="stylesheet" href="../../css/shared.css">
-  <link rel="stylesheet" href="../../css/header.css">
-  <link rel="stylesheet" href="../../css/card-view.css">
-  <title>Flashcards</title>
+    <link rel="stylesheet" href="../../css/normalize.css">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/shared.css">
+    <link rel="stylesheet" href="../../css/header.css">
+    <link rel="stylesheet" href="../../css/card-view.css">
+    <title>Flashcards</title>
 </head>
 
 <body>
-  <div class="wrapper">
+<div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
-      <section class="card-view">
-        <div class="buttons">
-          <a class="button bg-dark dark-border" th:href="@{/card/{id}/edit(id=${card.id})}">Edit</a>
-          <a class="button bg-dark dark-border" th:href="@{/card/{id}/delete(id=${card.id})}">Delete</a>
-
-<!--          <div th:if="${!previousCardId == null}">-->
-            <a class="button bg-dark dark-border" th:href="@{/card/{id}(id=${previousCardId})}">&#60; Previous Card</a>
-<!--          </div>-->
-<!--          <div th:if="${nextCardId != null}">-->
-            <a class="button bg-dark dark-border" th:href="@{/card/{id}(id=${nextCardId})}">Next Card &#62;</a>
-<!--          </div>-->
-
-          <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Back to Set</a>
-        </div>
-        <section class="card question-card">
-          <div class="card__content">
-            <p th:text="${card.question}">Card question</p>
-          </div>
+        <section class="card-view">
+            <div class="buttons">
+                <a class="button bg-dark dark-border" th:href="@{/card/{id}/edit(id=${card.id})}">Edit</a>
+                <a class="button bg-dark dark-border" th:href="@{/card/{id}/delete(id=${card.id})}">Delete</a>
+                <a class="button bg-dark dark-border" th:href="@{/card/{id}(id=${previousCardId})}">&#60; Previous
+                    Card (not final)</a>
+                <a class="button bg-dark dark-border" th:href="@{/card/{id}(id=${nextCardId})}">Next Card (not final) &#62;</a>
+                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Go to Set</a>
+            </div>
+            <section class="card question-card">
+                <div class="card__content">
+                    <p th:text="${card.question}">Card question</p>
+                </div>
+            </section>
+            <section class="card short-answer-card">
+                <div class="card__content">
+                    <p th:text="${card.shortAnswer}">Card short answer</p>
+                </div>
+            </section>
+            <section class="card extended-answer-card">
+                <div class="card__content">
+                    <p th:text="${card.longAnswer}">Card long answer</p>
+                </div>
+            </section>
+            <!--        <section class="card keywords-card">-->
+            <!--          <div class="card__content">-->
+            <!--            <div th:each="keyWord : ${card.keyWords}">-->
+            <!--              <p class="keyword" th:text="|${keyWord.name}|"></p>-->
+            <!--            </div>-->
+            <!--          </div>-->
+            <!--        </section>-->
         </section>
-        <section class="card short-answer-card">
-          <div class="card__content">
-            <p th:text="${card.shortAnswer}">Card short answer</p>
-          </div>
-        </section>
-        <section class="card extended-answer-card">
-          <div class="card__content">
-            <p th:text="${card.longAnswer}">Card long answer</p>
-          </div>
-        </section>
-<!--        <section class="card keywords-card">-->
-<!--          <div class="card__content">-->
-<!--            <div th:each="keyWord : ${card.keyWords}">-->
-<!--              <p class="keyword" th:text="|${keyWord.name}|"></p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </section>-->
-      </section>
     </main>
-  </div>
+</div>
 </body>
 
 </html>

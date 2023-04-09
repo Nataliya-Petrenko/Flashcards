@@ -1,9 +1,8 @@
 package com.petrenko.flashcards.controller;
 
-import com.petrenko.flashcards.dto.CardCreatingDto;
-import com.petrenko.flashcards.dto.CardEditingDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
+import com.petrenko.flashcards.service.FolderService;
 import com.petrenko.flashcards.service.SetOfCardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,11 +19,15 @@ public class SetController {
     private final CardService cardService;
     private final SetOfCardsService setOfCardsService;
 
+    private final FolderService folderService;
+
     @Autowired
     public SetController(final CardService cardService,
-                         final SetOfCardsService setOfCardsService) {
+                         final SetOfCardsService setOfCardsService,
+                         final FolderService folderService) {
         this.cardService = cardService;
         this.setOfCardsService = setOfCardsService;
+        this.folderService = folderService;
     }
 
 //    @GetMapping("/set")
@@ -51,6 +54,24 @@ public class SetController {
 
         modelAndView.setViewName("setViewById");
         System.out.println("@GetMapping(/set/{id}) before show setViewById.html");
+        return modelAndView;
+    }
+
+    @GetMapping("/set/create/{id}")  // with fill folder name by setId
+    public ModelAndView getSetForm(@PathVariable("id") String id, ModelAndView modelAndView) {
+        System.out.println("@GetMapping(/set/create/{id}) with fill folder name");
+
+        SetOfCards setOfCards = new SetOfCards();
+        System.out.println("@GetMapping(/set/create/{id}) new setOfCards " + setOfCards);
+
+        Folder folder = folderService.getById(id);
+        System.out.println("@GetMapping(/set/create/{id}) folder getById" + folder);
+        setOfCards.setFolder(folder);
+        System.out.println("@GetMapping(/set/create/{id}) setOfCards with name of folder " + setOfCards);
+        modelAndView.addObject("setOfCards", setOfCards);
+
+        modelAndView.setViewName("createSetView");
+        System.out.println("@GetMapping(/set/create/{id}) before show createSetView");
         return modelAndView;
     }
 

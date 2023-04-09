@@ -1,6 +1,7 @@
 package com.petrenko.flashcards.service;
 
 import com.petrenko.flashcards.model.Card;
+import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.repository.CardRepository;
 import com.petrenko.flashcards.repository.SetOfCardsRepository;
@@ -47,6 +48,12 @@ public class SetOfCardsService {
         List<Card> cards = cardRepository.getBySetOfCards(getById(id));
         cards.forEach(c -> cardRepository.deleteById(c.getId()));
         setOfCardsRepository.deleteById(id);
+    }
+
+    public List<SetOfCards> getByFolder(final Folder folder) {
+        List<SetOfCards> byFolder = setOfCardsRepository.getByFolder(folder);
+        System.out.println("SetOfCards Service: getByFolder: " + byFolder);
+        return byFolder;
     }
 
 }

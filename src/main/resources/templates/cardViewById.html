@@ -34,6 +34,8 @@
                     Card (not final)</a>
                 <a class="button bg-dark dark-border" th:href="@{/card/{id}(id=${nextCardId})}">Next Card (not final) &#62;</a>
                 <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Go to Set</a>
+                <a class="button bg-dark dark-border" th:href="@{/folder/{id}(id=${card.setOfCards.folder.id})}">Go to folder</a>
+
             </div>
             <section class="card question-card">
                 <div class="card__content">

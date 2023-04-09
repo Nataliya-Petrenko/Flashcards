@@ -29,10 +29,11 @@
         <div class="set-view">
             <div class="set-view__buttons">
                 <!--                <p th:text="Set name: |${setOfCards.name}|. Set id: |${setOfCards.id}|"></p>-->
-<!--                <p th:text="|Set name: ${setOfCards.name}|"></p>-->
-                <a href="#" class="button bg-dark dark-border">&#60; Back</a>
-                <a href="#" class="button bg-dark dark-border auto-margin-left">Learn</a>
-                <a href="#" class="button bg-dark dark-border">Save set to file</a>
+                <!--                <p th:text="|Set name: ${setOfCards.name}|"></p>-->
+                <!--                <a href="#" class="button bg-dark dark-border">&#60; Back</a>-->
+                <!--                <a class="button bg-dark dark-border" th:href="@{/folder/{id}(id=${setOfCards.folder.id})}">Go to folder (with it template don't parse)</a>-->
+                <a href="#" class="button bg-dark dark-border auto-margin-left">Learn (not implemented)</a>
+                <a href="#" class="button bg-dark dark-border">Save set to file (not implemented)</a>
                 <a th:href="@{/set/{id}/edit(id=${setOfCards.id})}" class="button bg-dark dark-border">Edit set</a>
                 <a th:href="@{/set/{id}/delete(id=${setOfCards.id})}" class="button bg-dark dark-border">Delete set</a>
 
@@ -47,7 +48,9 @@
                         <a th:href="@{/card/{id}(id=${card.id})}" class="button bg-dark no-border">Show card</a>
                     </div>
 
-                    <a th:href="@{/card/create/{id}(id=${setOfCards.id})}" class="button bg-dark dark-border auto-margin-left">Create new card in this set</a>
+                    <a th:href="@{/card/create/{id}(id=${setOfCards.id})}"
+                       class="button bg-dark dark-border auto-margin-left">Create new card in this set</a>
+
 
                     <!--                    th:href="@{/card/create}"-->
                     <!--                    <div class="card card-in-set" th:each="card : ${cards}">-->

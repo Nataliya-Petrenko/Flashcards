@@ -28,21 +28,22 @@ public class FolderController {
         this.setOfCardsService = setOfCardsService;
     }
 
-//    @GetMapping("/set/{id}")
-//    public ModelAndView getSetById(@PathVariable("id") String id, ModelAndView modelAndView) {
-//        System.out.println("@GetMapping(/set/{id}) id: " + id);
-//        final SetOfCards setOfCards = setOfCardsService.getById(id);
-//        System.out.println("@GetMapping(/set/{id}) setOfCardsService.getById(id): " + setOfCards);
-//        modelAndView.addObject("setOfCards", setOfCards);
-//
-//        List<Card> cards = cardService.getBySet(setOfCards);
-//        System.out.println("@GetMapping(/set/{id})  List<Card> getBySet: " + cards);
-//        modelAndView.addObject("cards", cards);
-//
-//        modelAndView.setViewName("setViewById");
-//        System.out.println("@GetMapping(/set/{id}) before show setViewById.html");
-//        return modelAndView;
-//    }
+    @GetMapping("/folder/{id}")
+    public ModelAndView getFolderById(@PathVariable("id") String id, ModelAndView modelAndView) {
+        System.out.println("@GetMapping(/folder/{id}) id: " + id);
+        final Folder folder = folderService.getById(id);
+        System.out.println("@GetMapping(/folder/{id}) folder getById(id): " + folder);
+        modelAndView.addObject("folder", folder);
+
+        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
+        System.out.println("@GetMapping(/folder/{id}) List<SetOfCards> getByFolder: " + setsOfCards);
+        modelAndView.addObject("setsOfCards", setsOfCards);
+
+        modelAndView.setViewName("folderViewById");
+        System.out.println("@GetMapping(/folder/{id}) before show folderViewById.html");
+
+        return modelAndView;
+    }
 
     @GetMapping("/folder/create")
     public ModelAndView getFolderForm(ModelAndView modelAndView) {

@@ -21,7 +21,7 @@
     <main class="main">
         <form class="card-edit-view" th:action="@{/edit/{id}(id=${cardEditingDto.id})}" th:object="${cardEditingDto}" th:method="PUT">
             <div class="buttons">
-                <a th:href="@{/card/{id}(id=*{id})}" class="button bg-dark dark-border">&#60; Back to card</a>
+                <a th:href="@{/set/{id}(id=*{setOfCardsId})}" class="button bg-dark dark-border">&#60; Go to set</a>
 <!--                <div class="free-space"></div>-->
                 <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
                 <button class="button bg-dark dark-border" type="submit">Save</button>

@@ -70,6 +70,7 @@ public interface CardRepository extends CrudRepository<Card, String> {
             c.question,
             c.shortAnswer,
             c.longAnswer,
+            s.id as setOfCardsId,
             s.name as setOfCardsName)
             FROM Card as c
             LEFT JOIN c.setOfCards as s

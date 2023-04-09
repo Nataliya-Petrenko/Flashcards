@@ -39,7 +39,7 @@ public class SetController {
 //    }
 
     @GetMapping("/set/{id}")
-    public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView) {
+    public ModelAndView getSetById(@PathVariable("id") String id, ModelAndView modelAndView) {
         System.out.println("@GetMapping(/set/{id}) id: " + id);
         final SetOfCards setOfCards = setOfCardsService.getById(id);
         System.out.println("@GetMapping(/set/{id}) setOfCardsService.getById(id): " + setOfCards);
@@ -67,8 +67,8 @@ public class SetController {
 
     @PostMapping("/set")  // after created set
     public ModelAndView saveNewSet(@ModelAttribute SetOfCards setOfCards,
-                                    BindingResult bindingResult,
-                                    ModelAndView modelAndView) {
+                                   BindingResult bindingResult,
+                                   ModelAndView modelAndView) {
         System.out.println("@PostMapping(/set) " + setOfCards);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("setOfCards", setOfCards);
@@ -105,10 +105,10 @@ public class SetController {
     }
 
     @PutMapping("/set/{id}/edit")  // after edited set
-    public ModelAndView editCard(@PathVariable("id") String id,   // todo save id into Dto in view
-                                 @ModelAttribute SetOfCards setOfCards,
-                                 BindingResult bindingResult,
-                                 ModelAndView modelAndView) {
+    public ModelAndView editSet(@PathVariable("id") String id,   // todo save id into Dto in view
+                                @ModelAttribute SetOfCards setOfCards,
+                                BindingResult bindingResult,
+                                ModelAndView modelAndView) {
         System.out.println("@PutMapping(/set/{id}/edit) id: " + id);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("setOfCards", setOfCards);
@@ -128,99 +128,49 @@ public class SetController {
         return modelAndView;
     }
 
-//
-//    @GetMapping("/set/create")
-//    public ModelAndView getArticleForm(ModelAndView modelAndView) {
-//        Card card = new Card();
-//        modelAndView.addObject("card", card);
-//
-//        List<String> studyPriorities = Arrays.stream(StudyPriority.values())
-//                .map(Enum::toString)
-//                .toList();
-//        modelAndView.addObject("priorities", studyPriorities);
-//
-//        List<String> knowledgeLevels = Arrays.stream(KnowledgeLevel.values())
-//                .map(Enum::toString)
-//                .toList();
-//        modelAndView.addObject("knowledgeLevels", knowledgeLevels);
-//
-//        modelAndView.setViewName("editCardView");
-//        return modelAndView;
-//    }
-//
-//    @PostMapping("/card")
-//    public ModelAndView saveNewCard(@ModelAttribute Card card,
-//                                    @RequestParam("inputWords") String inputWords,
-//                                    @RequestParam("set") String setName,
-//                                    BindingResult bindingResult,
-//                                    ModelAndView modelAndView) {
-//        System.out.println("GetPost Creating a card " + card);
-//        if (bindingResult.hasErrors()) {
-//            System.out.println("Creating card has error");
-//            modelAndView.addObject("card", card);
-//            modelAndView.setViewName("editCardView.html");
-//            return modelAndView;
-//        }
-//        System.out.println("After if");
-//
-//        List<String> wordsList = Arrays.asList(inputWords.split(","));
-//        List<KeyWord> keyWords = new LinkedList<>();
-//        wordsList.forEach(w -> {
-//            KeyWord keyWord = new KeyWord();
-//            keyWord.setName(w);
-//            keyWords.add(keyWord);
-//            keyWordService.save(keyWord);
-//        });
-//        card.setKeyWords(keyWords);
-//
-//        SetOfCards setOfCards = new SetOfCards();
-//        setOfCards.setName(setName);
-//        setOfCardsService.save(setOfCards);
-//        card.setSetOfCards(setOfCards);
-//
-//        cardService.save(card);
-//        System.out.println(card);
-//        modelAndView.addObject("card", card);
-//        modelAndView.setViewName("cardView");
-//        return modelAndView;
-//    }
+    @GetMapping("/set/{id}/delete")
+    public ModelAndView getSetDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {
+        System.out.println("@GetMapping(/set/{id}/delete) id: " + id);
+        final SetOfCards setOfCards = setOfCardsService.getById(id);
+        System.out.println("@GetMapping(/set/{id}/delete) setOfCards getById: " + setOfCards);
+        modelAndView.addObject("setOfCards", setOfCards);
+        modelAndView.setViewName("deleteSetViewById");
 
-//    @PostMapping("/create")
-//    public ModelAndView saveNewCard(@ModelAttribute @Valid Card card, BindingResult bindingResult,
-//                                    ModelAndView modelAndView) {
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.addObject("card", card);
-//            modelAndView.setViewName("editCardView.html");
-//            return modelAndView;
-//        }
-//        cardService.save(card);
-//        System.out.println(card);
-//        modelAndView.setViewName("cardView");
-//        return modelAndView;
-//    }
+        List<Card> cards = cardService.getBySet(setOfCards);
+        System.out.println("@GetMapping(/set/{id})  List<Card> getBySet: " + cards);
+        modelAndView.addObject("cards", cards);
 
-//    @PutMapping("/edit")  // todo & ("/{id}") ?
-//    public ModelAndView updateCard(@ModelAttribute @Valid Card card, BindingResult bindingResult,
-//                                   ModelAndView modelAndView) {
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.addObject("card", card);
-//            modelAndView.setViewName("cardFormView");
-//            return modelAndView;
-//        }
-//        cardService.save(card);  // todo check correct work for update
-//        System.out.println(card);
-//        modelAndView.setViewName("cardView");
-//        return modelAndView;
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public void deleteCard(@PathVariable String id) {
-//        if (id != null) {
-//            cardService.deleteById(id);
-//        }
-//
-//        // go to set
-//    }
+        System.out.println("@GetMapping(/set/{id}/delete) before show deleteSetViewById.html");
+        return modelAndView;
+    }
+
+    @DeleteMapping("/set/{id}/delete")  // after delete card
+    public ModelAndView deleteSet(@PathVariable("id") String id, ModelAndView modelAndView) {
+        System.out.println("@DeleteMapping(/delete/{id}) id: " + id);
+
+        // get folder and go to folder view
+//        final SetOfCards setOfCards = setOfCardsService.getById(cardService.getById(id).getSetOfCards().getId());
+//        System.out.println("@DeleteMapping(/delete/{id}) setOfCards getById: " + setOfCards);
+//        modelAndView.addObject("setOfCards", setOfCards);
+
+        setOfCardsService.deleteById(id);
+        System.out.println("@DeleteMapping(/delete/{id}) setOfCards is deleted");
+
+//        List<Card> cards = cardService.getBySet(setOfCards);
+//        System.out.println("@DeleteMapping(/delete/{id}) List<Card>: " + cards);
+//        modelAndView.addObject("cards", cards);
+
+//        modelAndView.setViewName("setViewById");
+
+// todo go to folder or profile
+        SetOfCards setOfCards = new SetOfCards();
+        System.out.println("@DeleteMapping(/delete/{id}) new SetOfCards " + setOfCards);
+        modelAndView.addObject("setOfCards", setOfCards);
+        modelAndView.setViewName("createSetView");
+
+        System.out.println("@DeleteMapping(/delete/{id}) before show createSetView.html");
+        return modelAndView;
+    }
 
 
 }

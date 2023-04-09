@@ -92,6 +92,12 @@ public class SetOfCardsService {
         return setOfCardsRepository.findByName(name);
     }
 
+    public void deleteById(String id) {
+        List<Card> cards = cardRepository.getBySetOfCards(getById(id));
+        cards.forEach(c -> cardRepository.deleteById(c.getId()));
+        setOfCardsRepository.deleteById(id);
+    }
+
 //    public SetOfCards getByCardId(String id) {
 //        Card card = cardService.getById(id);
 //        return card.getSetOfCards();

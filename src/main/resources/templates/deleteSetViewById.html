@@ -27,16 +27,21 @@
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
         <div class="set-view">
-            <div class="set-view__buttons">
-                <!--                <p th:text="Set name: |${setOfCards.name}|. Set id: |${setOfCards.id}|"></p>-->
-<!--                <p th:text="|Set name: ${setOfCards.name}|"></p>-->
-                <a href="#" class="button bg-dark dark-border">&#60; Back</a>
-                <a href="#" class="button bg-dark dark-border auto-margin-left">Learn</a>
-                <a href="#" class="button bg-dark dark-border">Save set to file</a>
-                <a th:href="@{/set/{id}/edit(id=${setOfCards.id})}" class="button bg-dark dark-border">Edit set</a>
-                <a th:href="@{/set/{id}/delete(id=${setOfCards.id})}" class="button bg-dark dark-border">Delete set</a>
+            <nav class="set-view__buttons">
+                <p>Are you sure you want to delete the set and all the cards in the set?</p>
+                <form class="set-edit-form" th:action="@{/set/{id}/delete(id=${setOfCards.id})}" th:object="${setOfCards}" th:method="DELETE">
+                    <button class="button bg-dark dark-border" type="submit">Yes, delete set (and go to create new set)</button>
+                </form>
+                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${setOfCards.id})}">No, back to set</a>
+<!--                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Go to folder</a>-->
 
-            </div>
+                <!--                &lt;!&ndash;                <p th:text="Set name: |${setOfCards.name}|. Set id: |${setOfCards.id}|"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p th:text="|Set name: ${setOfCards.name}|"></p>&ndash;&gt;-->
+<!--                <a href="#" class="button bg-dark dark-border">&#60; Back</a>-->
+<!--                <a href="#" class="button bg-dark dark-border auto-margin-left">Learn</a>-->
+<!--                <a href="#" class="button bg-dark dark-border">Save set to file</a>-->
+<!--                <a th:href="@{/set/{id}/edit(id=${setOfCards.id})}" class="button bg-dark dark-border">Edit set</a>-->
+            </nav>
             <div class="card cards-container">
                 <div class="card__content">
 

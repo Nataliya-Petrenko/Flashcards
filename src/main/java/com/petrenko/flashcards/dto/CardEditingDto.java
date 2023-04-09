@@ -16,13 +16,16 @@ public class CardEditingDto {
 
     private String longAnswer;
 
+    private String setOfCardsId;
+
     private String setOfCardsName;
 
-    public CardEditingDto(String id, String question, String shortAnswer, String longAnswer, String setOfCardsName) {
+    public CardEditingDto(String id, String question, String shortAnswer, String longAnswer, String setOfCardsId, String setOfCardsName) {
         this.id = id;
         this.question = question;
         this.shortAnswer = shortAnswer;
         this.longAnswer = longAnswer;
+        this.setOfCardsId = setOfCardsId;
         this.setOfCardsName = setOfCardsName;
     }
 }

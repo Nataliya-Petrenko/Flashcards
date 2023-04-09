@@ -30,7 +30,7 @@
             <nav class="set-view__buttons">
                 <p>Are you sure you want to delete the set and all the cards in the set?</p>
                 <form class="set-edit-form" th:action="@{/set/{id}/delete(id=${setOfCards.id})}" th:object="${setOfCards}" th:method="DELETE">
-                    <button class="button bg-dark dark-border" type="submit">Yes, delete set (and go to create new set)</button>
+                    <button class="button bg-dark dark-border" type="submit">Yes, delete set</button>
                 </form>
                 <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${setOfCards.id})}">No, back to set</a>
 <!--                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Go to folder</a>-->

@@ -21,10 +21,11 @@
     <main class="main">
       <div class="folder-view">
         <div class="navigation">
-<!--          <a class="button bg-dark dark-border" href="#">&#60; Back (not implemented)</a>-->
-<!--          <a class="button bg-dark dark-border" href="#">&#9998; (not implemented)</a>-->
-          <a th:href="@{/folder/{id}/edit(id=${folder.id})}" class="button bg-dark dark-border">Edit Folder</a>
-          <a th:href="@{/folder/{id}/delete(id=${folder.id})}" class="button bg-dark dark-border">Delete Folder</a>
+          <p>Are you sure you want to delete the Folder and all the Sets and Cards in the folder?</p>
+          <form class="folder-edit-form" th:action="@{/folder/{id}/delete(id=${folder.id})}" th:object="${folder}" th:method="DELETE">
+            <button class="button bg-dark dark-border" type="submit">Yes, delete folder (and go to create new folder)</button>
+          </form>
+          <a class="button bg-dark dark-border" th:href="@{/folder/{id}(id=${folder.id})}">No, back to folder</a>
         </div>
         <div class="card folder-card">
           <div class="card__content folder-card__content">

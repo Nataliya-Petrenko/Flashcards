@@ -34,14 +34,14 @@ public class CardService {
 //        return cardViewByIdDto;
 //    }
 
-    public Card newCard(final SetOfCards setOfCards) {
-        Card card = new Card();
-        card.setSetOfCards(setOfCards);
-        card.setQuestion("question");
-        save(card);
-        System.out.println("Service: Created card " + card);
-        return card;
-    }
+//    public Card newCard(final SetOfCards setOfCards) {
+//        Card card = new Card();
+//        card.setSetOfCards(setOfCards);
+//        card.setQuestion("question");
+//        save(card);
+//        System.out.println("Service: Created card " + card);
+//        return card;
+//    }
 
     public Card save(final Card card) {
         Card savedCard = cardRepository.save(card);
@@ -62,8 +62,8 @@ public class CardService {
         card.setLongAnswer(cardCreatingDto.getLongAnswer());
 
         final String setOfCardsName = cardCreatingDto.getSetOfCardsName();
-        setOfCardsService.getByName(setOfCardsName).ifPresentOrElse(card::setSetOfCards,
-                () -> {
+        setOfCardsService.getByName(setOfCardsName).ifPresentOrElse(card::setSetOfCards,   //  todo how to break cyclical dependence:  cardService <--> setOfCardsService?
+                () -> {      //todo if a set with this name in this folder exist then show a massage and suggest the choice to set Set from rep or create a new one with another name
                     SetOfCards setOfCards = new SetOfCards();
                     setOfCards.setName(setOfCardsName);
                     setOfCardsService.save(setOfCards);
@@ -102,7 +102,7 @@ public class CardService {
         System.out.println("Service editCardByCardEditingDto: newSetOfCardsName" + newSetOfCardsName);
 
         setOfCardsService.getByName(newSetOfCardsName).ifPresentOrElse(card::setSetOfCards,
-                () -> {
+                () -> {  //todo if a set with this name in this folder exist then show a massage and suggest the choice to set Set from rep or create a new one with another name
                     SetOfCards setOfCards = new SetOfCards();
                     setOfCards.setName(newSetOfCardsName);
                     setOfCardsService.save(setOfCards);
@@ -114,7 +114,7 @@ public class CardService {
         return savedCard;
     }
 
-    public void deleteById(final String  id) {
+    public void deleteById(final String id) {
         cardRepository.deleteById(id);
     }
 }

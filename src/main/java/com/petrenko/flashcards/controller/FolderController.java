@@ -120,50 +120,40 @@ public class FolderController {
         System.out.println("@PutMapping(/folder/{id}/edit) before show folderViewById.html");
         return modelAndView;
     }
-//
-//    @GetMapping("/set/{id}/delete")
-//    public ModelAndView getSetDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-//        System.out.println("@GetMapping(/set/{id}/delete) id: " + id);
-//        final SetOfCards setOfCards = setOfCardsService.getById(id);
-//        System.out.println("@GetMapping(/set/{id}/delete) setOfCards getById: " + setOfCards);
-//        modelAndView.addObject("setOfCards", setOfCards);
-//        modelAndView.setViewName("deleteSetViewById");
-//
-//        List<Card> cards = cardService.getBySet(setOfCards);
-//        System.out.println("@GetMapping(/set/{id})  List<Card> getBySet: " + cards);
-//        modelAndView.addObject("cards", cards);
-//
-//        System.out.println("@GetMapping(/set/{id}/delete) before show deleteSetViewById.html");
-//        return modelAndView;
-//    }
-//
-//    @DeleteMapping("/set/{id}/delete")  // after delete card
-//    public ModelAndView deleteSet(@PathVariable("id") String id, ModelAndView modelAndView) {
-//        System.out.println("@DeleteMapping(/delete/{id}) id: " + id);
-//
-//        // get folder and go to folder view
-////        final SetOfCards setOfCards = setOfCardsService.getById(cardService.getById(id).getSetOfCards().getId());
-////        System.out.println("@DeleteMapping(/delete/{id}) setOfCards getById: " + setOfCards);
-////        modelAndView.addObject("setOfCards", setOfCards);
-//
-//        setOfCardsService.deleteById(id);
-//        System.out.println("@DeleteMapping(/delete/{id}) setOfCards is deleted");
-//
-////        List<Card> cards = cardService.getBySet(setOfCards);
-////        System.out.println("@DeleteMapping(/delete/{id}) List<Card>: " + cards);
-////        modelAndView.addObject("cards", cards);
-//
-////        modelAndView.setViewName("setViewById");
-//
-//// todo go to folder or profile
-//        SetOfCards setOfCards = new SetOfCards();
-//        System.out.println("@DeleteMapping(/delete/{id}) new SetOfCards " + setOfCards);
-//        modelAndView.addObject("setOfCards", setOfCards);
-//        modelAndView.setViewName("createSetView");
-//
-//        System.out.println("@DeleteMapping(/delete/{id}) before show createSetView.html");
-//        return modelAndView;
-//    }
+
+    @GetMapping("/folder/{id}/delete")
+    public ModelAndView getFolderDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {
+        System.out.println("@GetMapping(/folder/{id}/delete) id: " + id);
+        Folder folder = folderService.getById(id);
+        System.out.println("@GetMapping(/folder/{id}/delete) folder getById: " + folder);
+        modelAndView.addObject("folder", folder);
+
+        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
+        System.out.println("@GetMapping(/folder/{id}/delete)  List<SetOfCards> getByFolder: " + setsOfCards);
+        modelAndView.addObject("setsOfCards", setsOfCards);
+
+        modelAndView.setViewName("deleteFolderViewById");
+        System.out.println("@GetMapping(/folder/{id}/delete) before show deleteFolderViewById.html");
+        return modelAndView;
+    }
+
+    @DeleteMapping("/folder/{id}/delete")  // after delete card
+    public ModelAndView deleteFolder(@PathVariable("id") String id, ModelAndView modelAndView) {
+        System.out.println("@DeleteMapping(/folder/{id}/delete) id: " + id);
+
+        folderService.deleteById(id);
+        System.out.println("@DeleteMapping(/folder/{id}/delete) folder is deleted");
+
+// todo go to profile
+
+        Folder folder = new Folder();
+        System.out.println("@DeleteMapping(/folder/{id}/delete) new Folder " + folder);
+        modelAndView.addObject("folder", folder);
+        modelAndView.setViewName("createFolderView");
+        System.out.println("@DeleteMapping(/folder/{id}/delete) before show createFolderView.html");
+        return modelAndView;
+
+    }
 
 
 }

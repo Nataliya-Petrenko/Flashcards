@@ -15,23 +15,21 @@ import java.util.Optional;
 public class SetOfCardsService {
 
     private final SetOfCardsRepository setOfCardsRepository;
-    //    private final CardService cardService;
     private final CardRepository cardRepository;
 
     private final FolderService folderService;
 
     @Autowired
     public SetOfCardsService(final SetOfCardsRepository setOfCardsRepository,
-//                             final CardService cardService,
                              final CardRepository cardRepository,
-                             final FolderService folderService) {
+                             final FolderService folderService
+    ) {
         this.setOfCardsRepository = setOfCardsRepository;
-//        this.cardService = cardService;
         this.cardRepository = cardRepository;
         this.folderService = folderService;
     }
 
-    public SetOfCards save(SetOfCards setOfCards) {
+    public SetOfCards save(SetOfCards setOfCards) {     //todo if a folder with this name exist then show a massage and suggest the choice to set folder from rep or create a new one with another name
         System.out.println("Set service: save set" + setOfCards);
         return setOfCardsRepository.save(setOfCards);
     }
@@ -64,7 +62,7 @@ public class SetOfCardsService {
         final String newFolderName = setOfCards.getFolder().getName();
         System.out.println("Set service editSetOfCards: newFolderName" + newFolderName);
 
-        folderService.getByName(newFolderName).ifPresentOrElse((setOfCards::setFolder),
+        folderService.getByName(newFolderName).ifPresentOrElse((setOfCards::setFolder),      //todo if a folder with this name exist then show a massage and suggest the choice to set folder from rep or create a new one with another name
                 () -> {
                     Folder folder = new Folder();
                     folder.setName(newFolderName);

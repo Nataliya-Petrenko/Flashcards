@@ -50,15 +50,24 @@ public class CardController {
     public ModelAndView getCardForm(@PathVariable("id") String id, ModelAndView modelAndView) {
         System.out.println("@GetMapping(/card/create/{id}) with fill set name");
 
-        CardCreatingDto cardCreatingDto = new CardCreatingDto();
-        System.out.println("@GetMapping(/card/create/{id}) new CardCreatingDto() " + cardCreatingDto);
+//        CardCreatingDto cardCreatingDto = new CardCreatingDto();
+//        System.out.println("@GetMapping(/card/create/{id}) new CardCreatingDto() " + cardCreatingDto);
+//
+//        SetOfCards setOfCards = setOfCardsService.getById(id);
+//        System.out.println("@GetMapping(/card/create/{id}) setOfCards getById" + setOfCards);
+//        cardCreatingDto.setSetOfCardsName(setOfCards.getName());
+//        System.out.println("@GetMapping(/card/create/{id}) CardCreatingDto with name of set " + cardCreatingDto);
+//        modelAndView.addObject("cardCreatingDto", cardCreatingDto);
+////        modelAndView.addObject("setOfCardsId", id);
+
+        Card card = new Card();
+        System.out.println("@GetMapping(/card/create/{id}) new Card() " + card);
 
         SetOfCards setOfCards = setOfCardsService.getById(id);
         System.out.println("@GetMapping(/card/create/{id}) setOfCards getById" + setOfCards);
-        cardCreatingDto.setSetOfCardsName(setOfCards.getName());
-        System.out.println("@GetMapping(/card/create/{id}) CardCreatingDto with name of set " + cardCreatingDto);
-        modelAndView.addObject("cardCreatingDto", cardCreatingDto);
-//        modelAndView.addObject("setOfCardsId", id);
+        card.setSetOfCards(setOfCards);
+        System.out.println("@GetMapping(/card/create/{id}) card with name of set " + card);
+        modelAndView.addObject("card", card);
 
         modelAndView.setViewName("createCardView");
         System.out.println("@GetMapping(/card/create/{id}) before show createCardView");
@@ -69,34 +78,66 @@ public class CardController {
     public ModelAndView getCardFormWithSet(ModelAndView modelAndView) {
         System.out.println("@GetMapping(/card/create)");
 
-        CardCreatingDto cardCreatingDto = new CardCreatingDto();
-        System.out.println("@GetMapping(/card/create) new CardCreatingDto() " + cardCreatingDto);
-        modelAndView.addObject("cardCreatingDto", cardCreatingDto);
+//        CardCreatingDto cardCreatingDto = new CardCreatingDto();
+//        System.out.println("@GetMapping(/card/create) new CardCreatingDto() " + cardCreatingDto);
+//        modelAndView.addObject("cardCreatingDto", cardCreatingDto);
+
+        Card card = new Card();
+//        Card card = cardService.createNewEmptyCard();
+
+        System.out.println("@GetMapping(/card/create) new CardCreatingDto() " + card);
+        modelAndView.addObject("card", card);
 
         modelAndView.setViewName("createCardView");
         System.out.println("@GetMapping(/card/create) before show createCardView");
-        return modelAndView;
+        return modelAndView;  // todo changed saving card to saving set and folder correctly but template doesn't parse
     }
 
+//    @PostMapping("/card/create")  // after created card
+//    public ModelAndView saveNewCard(@ModelAttribute CardCreatingDto cardCreatingDto,
+//                                    BindingResult bindingResult,
+//                                    ModelAndView modelAndView) {
+//        System.out.println("@PostMapping(/card) after created card " + cardCreatingDto);
+//        if (bindingResult.hasErrors()) {
+//            modelAndView.addObject("cardCreatingDto", cardCreatingDto);
+//            modelAndView.setViewName("createCardView");
+//            return modelAndView;
+//        }
+//        Card card = cardService.saveToCard(cardCreatingDto);
+//        System.out.println("@PostMapping(/card) card saved " + card);
+//
+//        final SetOfCards setOfCards = setOfCardsService.getByName(cardCreatingDto.getSetOfCardsName())
+//                .orElseThrow(IllegalArgumentException::new);
+//        System.out.println("@GetMapping(/card/create) setOfCards getByName: " + setOfCards);
+//        modelAndView.addObject("setOfCards", setOfCards);
+//
+//        List<Card> cards = cardService.getBySet(setOfCards);
+//        System.out.println("@GetMapping(/card/create) List<Card>: " + cards);
+//        modelAndView.addObject("cards", cards);
+//
+//        modelAndView.setViewName("setViewById");
+//        System.out.println("@GetMapping(/card/create) before show setViewById.html");
+//        return modelAndView;
+//    }
+
     @PostMapping("/card/create")  // after created card
-    public ModelAndView saveNewCard(@ModelAttribute CardCreatingDto cardCreatingDto,
+    public ModelAndView saveNewCard(@ModelAttribute Card card,
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView) {
-        System.out.println("@PostMapping(/card) after created card " + cardCreatingDto);
+        System.out.println("@PostMapping(/card/create) after created card " + card);
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("cardCreatingDto", cardCreatingDto);
+            modelAndView.addObject("cardCreatingDto", card);
             modelAndView.setViewName("createCardView");
             return modelAndView;
         }
-        Card card = cardService.saveToCard(cardCreatingDto);
-        System.out.println("@PostMapping(/card) card saved " + card);
+        Card savedCard = cardService.save(card);
+        System.out.println("@PostMapping(/card/create) card saved " + savedCard);
 
-        final SetOfCards setOfCards = setOfCardsService.getByName(cardCreatingDto.getSetOfCardsName())
-                .orElseThrow(IllegalArgumentException::new);
-        System.out.println("@GetMapping(/card/create) setOfCards getByName: " + setOfCards);
+        final SetOfCards setOfCards = card.getSetOfCards();
+        System.out.println("@GetMapping(/card/create) setOfCards: " + setOfCards);
         modelAndView.addObject("setOfCards", setOfCards);
 
-        List<Card> cards = cardService.getBySet(setOfCards);
+        List<Card> cards = cardService.getBySet(card.getSetOfCards());
         System.out.println("@GetMapping(/card/create) List<Card>: " + cards);
         modelAndView.addObject("cards", cards);
 

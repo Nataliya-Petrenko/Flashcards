@@ -8,18 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CardService {
 
     private final CardRepository cardRepository;
     private final SetOfCardsService setOfCardsService;
+    private final FolderService folderService;
 
     @Autowired
     public CardService(final CardRepository cardRepository,
-                       final SetOfCardsService setOfCardsService) {
+                       final SetOfCardsService setOfCardsService,
+                       final FolderService folderService) {
         this.cardRepository = cardRepository;
         this.setOfCardsService = setOfCardsService;
+        this.folderService = folderService;
     }
 
     public Card getById(final String id) {
@@ -43,9 +47,21 @@ public class CardService {
 //        return card;
 //    }
 
+//    public Card createNewEmptyCard(){
+//        Folder folder = new Folder();
+//        SetOfCards setOfCards = new SetOfCards();
+//        setOfCards.setFolder(folder);
+//        Card card = new Card();
+//        card.setSetOfCards(setOfCards);
+//        return card;
+//    }
+
     public Card save(final Card card) {
+        SetOfCards setOfCards = setOfCardsService.saveCheckName(card.getSetOfCards());
+        card.setSetOfCards(setOfCards);
         Card savedCard = cardRepository.save(card);
-        System.out.println("Service: Saved card " + card.getId());
+
+        System.out.println("Service: Saved card " + savedCard);
         return savedCard;
     }
 

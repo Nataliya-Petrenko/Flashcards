@@ -30,6 +30,15 @@ public class FolderService {
 
 
 
+    public Folder saveCheckName(Folder folder) { //todo if a folder with this name exist then show a massage and suggest the choice to update the old one or create a new one with another name
+        String folderName = folder.getName();
+        final Folder finalFolder = folderRepository.findByName(folder.getName()).orElse(new Folder());
+        finalFolder.setName(folderName);
+        Folder savedFolder = folderRepository.save(finalFolder);
+        System.out.println("Folder service: save folder (check name)" + savedFolder);
+        return folderRepository.save(savedFolder);
+    }
+
     public Folder save(Folder folder) { //todo if a folder with this name exist then show a massage and suggest the choice to update the old one or create a new one with another name
         System.out.println("Set service: save set" + folder);
         return folderRepository.save(folder);

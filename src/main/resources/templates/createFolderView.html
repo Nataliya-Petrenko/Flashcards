@@ -17,55 +17,7 @@
 
 <body>
   <div class="wrapper">
-    <header class="header">
-      <div class="header__content">
-        <a href="#" class="button bg-dark light-border">Flashcards</a>
-        <input class="input bg-dark light-border light-placeholder auto-margin-left" type="text" placeholder="Search">
-        <div class="button bg-dark light-border extra-bold-text create-dropdown">
-          <span>+</span>
-          <div class="dropdown-content">
-            <ul class="dropdown-list">
-              <li class="dropdown-list__item">
-                <a href="./edit-card-view.html">New card</a>
-              </li>
-              <li class="dropdown-list__item">
-                <a href="./edit-set-view.html">New set</a>
-              </li>
-              <li class="dropdown-list__item">
-                <a href="./edit-folder-view.html">New folder</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <a href="#" class="button bg-dark light-border extra-bold-text">?</a>
-        <div class="profile">
-          <div class="profile-short-info">
-            <div class="profile__logo">
-              <img class="user-photo" src="./img/user-image.png" alt="user photo">
-            </div>
-            <p class="profile__text">User Name</p>
-          </div>
-          <div class="dropdown-content">
-            <ul class="dropdown-list">
-              <li class="profile-full-name info-text">
-                <p>FirstName</p>
-                <p>LastName</p>
-              </li>
-              <li class="info-text">
-                <p>SomeEmail@gmail.com</p>
-              </li>
-              <li class="dropdown-list__item">
-                <a href="#">Open profile</a>
-              </li>
-              <li class="profile-log-out">
-                <a href="./">Log out</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </header>
-<!--    <header class="header" th:insert="header :: header_fragment"></header>-->
+    <header class="header" th:insert="header :: header_fragment"></header>
 
     <main class="main">
       <div class="folder-edit-view hidden-scroll">

@@ -26,18 +26,23 @@
 <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
-        <form class="card-edit-view" th:action="@{/card/create}" th:object="${cardCreatingDto}" method="post">
+        <form class="card-edit-view" th:action="@{/card/create}" th:object="${card}" method="post">
             <div class="buttons">
                 <!--                <a href="./set-view.html" class="button bg-dark dark-border">&#60; Back</a>-->
-<!--                <a th:href="@{/set/{id}(id=*{setOfCardsId})}" class="button bg-dark dark-border">Go to set</a>-->
+                <!--                <a th:href="@{/set/{id}(id=*{setOfCardsId})}" class="button bg-dark dark-border">Go to set</a>-->
 
                 <button class="button bg-dark dark-border" type="reset">Clear</button>
                 <button class="button bg-dark dark-border" type="submit">Save</button>
             </div>
             <div class="card set-card">
-                <textarea class="card__content" name="set" th:field="*{setOfCardsName}"
+                                <textarea class="card__content" name="set" th:field="*{setOfCards.folder.name}"
+                                          placeholder="Enter name of folder *"
+                                          required></textarea>
+
+                <textarea class="card__content" name="set" th:field="*{setOfCards.name}"
                           placeholder="Enter name of set *"
                           required></textarea>
+
             </div>
             <div class="card question-card">
           <textarea class="card__content" name="question" th:field="*{question}" placeholder="Enter card question *"

@@ -4,18 +4,31 @@
   max-width: var(--content-width);
   height: 100%;
   display: grid;
-  grid-template-rows: var(--navigation-height) 1fr;
+  grid-template-rows: repeat(2, max-content) 1fr;
+  grid-template-areas:
+    "set-navigation"
+    "set-description"
+    "cards-container";
   gap: var(--g-20);
 }
 
-.set-view__buttons {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: var(--g-20);
+.set-navigation {
+  grid-area: set-navigation;
 }
 
-.card__content {
+.set-description {
+  grid-area: set-description;
+}
+
+.set-description__text {
+  padding: 0 var(--p-10);
+}
+
+.cards-container {
+  grid-area: cards-container;
+}
+
+.set-card-content {
   padding: var(--p-20);
   height: 100%;
   overflow: auto;

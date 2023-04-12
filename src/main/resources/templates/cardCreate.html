@@ -1,0 +1,53 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/variables.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/shared.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/edit-card-view.css}">
+    <title>Flashcards</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+    <main class="main">
+        <form class="card-edit-view" th:action="@{/card/create}" th:object="${card}" th:method="POST">
+            <div class="navigation card-edit-navigation">
+                <a href="./set-view.html" class="button bg-dark dark-border">&#60; Go to profile (not impl)</a>
+                <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
+                <button class="button bg-dark dark-border" type="submit">Save</button>
+            </div>
+            <div class="card folder-card">
+                <textarea class="card__content" rows="1" title="Folder name"
+                          th:field="*{setOfCards.folder.name}" placeholder="Enter name of folder *" required></textarea>
+            </div>
+            <div class="card set-card">
+                <textarea class="card__content" rows="1" title="Set name"
+                          th:field="*{setOfCards.name}" placeholder="Enter name of set *" required></textarea>
+            </div>
+            <div class="card question-card">
+                <textarea class="card__content" title="Question"
+                          th:field="*{question}" placeholder="Enter card question *" required></textarea>
+            </div>
+            <div class="card short-answer-card">
+                <textarea class="card__content" title="Short answer"
+                          th:field="*{shortAnswer}" placeholder="Enter short answer"></textarea>
+            </div>
+            <div class="card extended-answer-card">
+                <textarea class="card__content" title="Extended answer"
+                          th:field="*{longAnswer}" placeholder="Enter extended-answer"></textarea>
+            </div>
+        </form>
+    </main>
+</div>
+</body>
+
+</html>

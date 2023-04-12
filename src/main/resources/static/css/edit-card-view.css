@@ -5,30 +5,38 @@
   height: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: var(--navigation-height) repeat(8, 1fr);
+  grid-template-rows: repeat(3, max-content) repeat(5, 1fr);
   gap: var(--g-20);
   grid-template-areas:
-    "buttons buttons"
+    "card-edit-navigation card-edit-navigation"
+    "folder-card extended-answer-card"
     "set-card extended-answer-card"
     "question-card extended-answer-card"
     "question-card extended-answer-card"
     "short-answer-card extended-answer-card"
     "short-answer-card extended-answer-card"
-    "short-answer-card extended-answer-card"
-    "keywords-card priority-card"
-    "keywords-card knowledge-level-card";
+    "short-answer-card extended-answer-card";
 }
 
-.buttons {
-  grid-area: buttons;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: var(--g-20);
+.card-edit-navigation {
+  grid-area: card-edit-navigation;
+}
+
+.folder-card {
+  grid-area: folder-card;
 }
 
 .set-card {
   grid-area: set-card;
+}
+
+.folder-card,
+.folder-card::placeholder,
+.set-card,
+.set-card::placeholder {
+  line-height: normal;
+  display: flex;
+  align-items: center;
 }
 
 .question-card {

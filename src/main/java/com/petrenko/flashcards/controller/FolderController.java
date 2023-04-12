@@ -6,6 +6,8 @@ import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.FolderService;
 import com.petrenko.flashcards.service.SetOfCardsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,8 @@ import java.util.List;
 @Controller
 @RequestMapping()
 public class FolderController {
+    private final static Logger LOGGER = LoggerFactory.getLogger(FolderController.class);
+
 
     private final FolderService folderService;
     private final SetOfCardsService setOfCardsService;
@@ -30,29 +34,29 @@ public class FolderController {
 
     @GetMapping("/folder/{id}")
     public ModelAndView getFolderById(@PathVariable("id") String id, ModelAndView modelAndView) {
-        System.out.println("@GetMapping(/folder/{id}) id: " + id);
+        LOGGER.info("@GetMapping(/folder/{id}) id: " + id);
         final Folder folder = folderService.getById(id);
-        System.out.println("@GetMapping(/folder/{id}) folder getById(id): " + folder);
+        LOGGER.info("@GetMapping(/folder/{id}) folder getById(id): " + folder);
         modelAndView.addObject("folder", folder);
 
         List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        System.out.println("@GetMapping(/folder/{id}) List<SetOfCards> getByFolder: " + setsOfCards);
+        LOGGER.info("@GetMapping(/folder/{id}) List<SetOfCards> getByFolder: " + setsOfCards);
         modelAndView.addObject("setsOfCards", setsOfCards);
 
         modelAndView.setViewName("folderViewById");
-        System.out.println("@GetMapping(/folder/{id}) before show folderViewById.html");
+        LOGGER.info("@GetMapping(/folder/{id}) before show folderViewById.html");
 
         return modelAndView;
     }
 
     @GetMapping("/folder/create")
     public ModelAndView getFolderForm(ModelAndView modelAndView) {
-        System.out.println("@GetMapping(/folder/create)");
+        LOGGER.info("@GetMapping(/folder/create)");
         Folder folder = new Folder();
-        System.out.println("@GetMapping(/folder/create) new Folder " + folder);
+        LOGGER.info("@GetMapping(/folder/create) new Folder " + folder);
         modelAndView.addObject("folder", folder);
         modelAndView.setViewName("createFolderView");
-        System.out.println("@GetMapping(/folder/create) before show createFolderView.html");
+        LOGGER.info("@GetMapping(/folder/create) before show createFolderView.html");
         return modelAndView;
     }
 
@@ -60,7 +64,7 @@ public class FolderController {
     public ModelAndView saveNewFolder(@ModelAttribute Folder folder,
                                    BindingResult bindingResult,
                                    ModelAndView modelAndView) {
-        System.out.println("@PostMapping(/folder/create) " + folder);
+        LOGGER.info("@PostMapping(/folder/create) " + folder);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("folder", folder);
             modelAndView.setViewName("createFolderView");
@@ -68,32 +72,32 @@ public class FolderController {
         }
 
         Folder savedFolder = folderService.save(folder);
-        System.out.println("@PostMapping(/folder/create) savedFolder " + savedFolder);
+        LOGGER.info("@PostMapping(/folder/create) savedFolder " + savedFolder);
         modelAndView.addObject("folder", savedFolder);
 
         List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        System.out.println("@PostMapping(/folder/create)  List<SetOfCards> getByFolder: " + setsOfCards);
+        LOGGER.info("@PostMapping(/folder/create)  List<SetOfCards> getByFolder: " + setsOfCards);
         modelAndView.addObject("setsOfCards", setsOfCards);
 
         modelAndView.setViewName("folderViewById");
-        System.out.println("@PostMapping(/folder/create) before show folderViewById.html");
+        LOGGER.info("@PostMapping(/folder/create) before show folderViewById.html");
         return modelAndView;
     }
 
 
     @GetMapping("/folder/{id}/edit")
     public ModelAndView getFolderEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        System.out.println("@GetMapping(/folder/{id}/edit) id: " + id);
+        LOGGER.info("@GetMapping(/folder/{id}/edit) id: " + id);
         final Folder folder = folderService.getById(id);
-        System.out.println("@GetMapping(/folder/{id}/edit) folder getById(id): " + folder);
+        LOGGER.info("@GetMapping(/folder/{id}/edit) folder getById(id): " + folder);
         modelAndView.addObject("folder", folder);
 
         List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        System.out.println("@GetMapping(/folder/{id}/edit)  List<SetOfCards> getByFolder: " + setsOfCards);
+        LOGGER.info("@GetMapping(/folder/{id}/edit)  List<SetOfCards> getByFolder: " + setsOfCards);
         modelAndView.addObject("setsOfCards", setsOfCards);
 
         modelAndView.setViewName("editFolderView");
-        System.out.println("@GetMapping(/folder/{id}/edit) before show editFolderView.html");
+        LOGGER.info("@GetMapping(/folder/{id}/edit) before show editFolderView.html");
         return modelAndView;
     }
 
@@ -102,55 +106,55 @@ public class FolderController {
                                 @ModelAttribute Folder folder,
                                 BindingResult bindingResult,
                                 ModelAndView modelAndView) {
-        System.out.println("@PutMapping(/folder/{id}/edit) id: " + id);
+        LOGGER.info("@PutMapping(/folder/{id}/edit) id: " + id);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("folder", folder);
             modelAndView.setViewName("editFolderView");
             return modelAndView;
         }
         Folder savedFolder = folderService.save(folder);
-        System.out.println("@PutMapping(/folder/{id}/edit) savedFolder " + savedFolder);
+        LOGGER.info("@PutMapping(/folder/{id}/edit) savedFolder " + savedFolder);
         modelAndView.addObject("folder", savedFolder);
 
         List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        System.out.println("@PutMapping(/folder/{id}/edit)  List<SetOfCards> getByFolder: " + setsOfCards);
+        LOGGER.info("@PutMapping(/folder/{id}/edit)  List<SetOfCards> getByFolder: " + setsOfCards);
         modelAndView.addObject("setsOfCards", setsOfCards);
 
         modelAndView.setViewName("folderViewById");
-        System.out.println("@PutMapping(/folder/{id}/edit) before show folderViewById.html");
+        LOGGER.info("@PutMapping(/folder/{id}/edit) before show folderViewById.html");
         return modelAndView;
     }
 
     @GetMapping("/folder/{id}/delete")
     public ModelAndView getFolderDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        System.out.println("@GetMapping(/folder/{id}/delete) id: " + id);
+        LOGGER.info("@GetMapping(/folder/{id}/delete) id: " + id);
         Folder folder = folderService.getById(id);
-        System.out.println("@GetMapping(/folder/{id}/delete) folder getById: " + folder);
+        LOGGER.info("@GetMapping(/folder/{id}/delete) folder getById: " + folder);
         modelAndView.addObject("folder", folder);
 
         List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        System.out.println("@GetMapping(/folder/{id}/delete)  List<SetOfCards> getByFolder: " + setsOfCards);
+        LOGGER.info("@GetMapping(/folder/{id}/delete)  List<SetOfCards> getByFolder: " + setsOfCards);
         modelAndView.addObject("setsOfCards", setsOfCards);
 
         modelAndView.setViewName("deleteFolderViewById");
-        System.out.println("@GetMapping(/folder/{id}/delete) before show deleteFolderViewById.html");
+        LOGGER.info("@GetMapping(/folder/{id}/delete) before show deleteFolderViewById.html");
         return modelAndView;
     }
 
     @DeleteMapping("/folder/{id}/delete")  // after delete card
     public ModelAndView deleteFolder(@PathVariable("id") String id, ModelAndView modelAndView) {
-        System.out.println("@DeleteMapping(/folder/{id}/delete) id: " + id);
+        LOGGER.info("@DeleteMapping(/folder/{id}/delete) id: " + id);
 
         folderService.deleteById(id);
-        System.out.println("@DeleteMapping(/folder/{id}/delete) folder is deleted");
+        LOGGER.info("@DeleteMapping(/folder/{id}/delete) folder is deleted");
 
 // todo go to profile
 
         Folder folder = new Folder();
-        System.out.println("@DeleteMapping(/folder/{id}/delete) new Folder " + folder);
+        LOGGER.info("@DeleteMapping(/folder/{id}/delete) new Folder " + folder);
         modelAndView.addObject("folder", folder);
         modelAndView.setViewName("createFolderView");
-        System.out.println("@DeleteMapping(/folder/{id}/delete) before show createFolderView.html");
+        LOGGER.info("@DeleteMapping(/folder/{id}/delete) before show createFolderView.html");
         return modelAndView;
 
     }

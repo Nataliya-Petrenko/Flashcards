@@ -4,7 +4,7 @@
   height: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: var(--navigation-height) 1fr;
+  grid-template-rows: max-content 1fr;
   gap: var(--g-20);
   grid-template-areas:
     "navigation navigation"
@@ -19,15 +19,12 @@
 .set-edit-form {
   grid-area: set-edit-form;
   display: grid;
-  grid-template-rows: repeat(2, 4em) 2fr 1fr 0.6fr 1fr;
+  grid-template-rows: repeat(2, max-content) 1fr;
   gap: var(--g-20);
   grid-template-areas:
-    "set-name"
     "folder-name"
-    "set-description"
-    "set-priority"
-    "set-checkboxes"
-    "set-two-columns";
+    "set-name"
+    "set-description";
 }
 
 .set-name {
@@ -40,20 +37,6 @@
 
 .set-description {
   grid-area: set-description;
-}
-
-.set-priority {
-  grid-area: set-priority;
-}
-
-.set-checkboxes {
-  grid-area: set-checkboxes;
-}
-
-.set-two-columns {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--g-20);
 }
 
 .set-card {

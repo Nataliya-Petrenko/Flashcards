@@ -1,18 +1,22 @@
 package com.petrenko.flashcards.service;
 
+import com.petrenko.flashcards.controller.CardController;
 import com.petrenko.flashcards.dto.CardCreatingDto;
 import com.petrenko.flashcards.dto.CardEditingDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.repository.CardRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CardService {
-
+    private final static Logger LOGGER = LoggerFactory.getLogger(CardService.class);
     private final CardRepository cardRepository;
     private final SetOfCardsService setOfCardsService;
     private final FolderService folderService;
@@ -28,13 +32,13 @@ public class CardService {
 
     public Card getById(final String id) {
         Card card = cardRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        System.out.println("Service: getById: " + card);
+        LOGGER.info("Service: getById: " + card);
         return card;
     }
 
 //    public CardViewByIdDto getCardViewByIdDto(final String id) {  // query doesn't work
 //        CardViewByIdDto cardViewByIdDto = cardRepository.cardViewByIdDto(id).orElseThrow(IllegalArgumentException::new);
-//        System.out.println("CardService: cardViewByIdDto " + cardViewByIdDto);
+//        LOGGER.info("CardService: cardViewByIdDto " + cardViewByIdDto);
 //        return cardViewByIdDto;
 //    }
 
@@ -43,7 +47,7 @@ public class CardService {
 //        card.setSetOfCards(setOfCards);
 //        card.setQuestion("question");
 //        save(card);
-//        System.out.println("Service: Created card " + card);
+//        LOGGER.info("Service: Created card " + card);
 //        return card;
 //    }
 
@@ -57,17 +61,19 @@ public class CardService {
 //    }
 
     public Card save(final Card card) {
+
         SetOfCards setOfCards = setOfCardsService.saveCheckName(card.getSetOfCards());
         card.setSetOfCards(setOfCards);
+        card.setTimeOfCreation(LocalDateTime.now());
         Card savedCard = cardRepository.save(card);
 
-        System.out.println("Service: Saved card " + savedCard);
+        LOGGER.info("Service: Saved card " + savedCard);
         return savedCard;
     }
 
     public List<Card> getBySet(final SetOfCards setOfCards) {
         List<Card> bySetOfCards = cardRepository.getBySetOfCards(setOfCards);
-        System.out.println("Service: getBySet: " + bySetOfCards);
+        LOGGER.info("Service: getBySet: " + bySetOfCards);
         return bySetOfCards;
     }
 
@@ -89,16 +95,22 @@ public class CardService {
         return save(card);
     }
 
-    public String getNextOrFirstCardId(final String id) {
-        return cardRepository.getNextCardId(id)
+    public String getNextOrFirstCardId(final String id) { // todo add dependency on set and folder
+        LOGGER.info("invoked");
+        String nextOrFirstCardId = cardRepository.getNextCardId(id)
                 .orElse(cardRepository.getFirstCardId()
                         .orElseThrow(IllegalArgumentException::new));
+        LOGGER.info("nextOrFirstCardId " + nextOrFirstCardId);
+        return nextOrFirstCardId;
     }
 
-    public String getPreviousOrLastCardId(final String id) {
-        return cardRepository.getPreviousCardId(id)
+    public String getPreviousOrLastCardId(final String id) { // todo add dependency on set and folder
+        LOGGER.info("invoked");
+        String previousOrLastCardId = cardRepository.getPreviousCardId(id)
                 .orElse(cardRepository.getLastCardId()
                         .orElseThrow(IllegalArgumentException::new));
+        LOGGER.info("previousOrLastCardId " + previousOrLastCardId);
+        return previousOrLastCardId;
     }
 
     public CardEditingDto getCardEditingDto(final String id) {
@@ -107,15 +119,15 @@ public class CardService {
     }
 
     public Card editCardByCardEditingDto(final CardEditingDto cardEditingDto) {
-        System.out.println("Service editCardByCardEditingDto: start " + cardEditingDto);
+        LOGGER.info("Service editCardByCardEditingDto: start " + cardEditingDto);
         Card card = cardRepository.findById(cardEditingDto.getId()).orElseThrow(IllegalArgumentException::new);
-        System.out.println("Service editCardByCardEditingDto: card from rep" + card);
+        LOGGER.info("Service editCardByCardEditingDto: card from rep" + card);
         card.setQuestion(cardEditingDto.getQuestion());
         card.setShortAnswer(cardEditingDto.getShortAnswer());
         card.setLongAnswer(cardEditingDto.getLongAnswer());
 
         final String newSetOfCardsName = cardEditingDto.getSetOfCardsName();
-        System.out.println("Service editCardByCardEditingDto: newSetOfCardsName" + newSetOfCardsName);
+        LOGGER.info("Service editCardByCardEditingDto: newSetOfCardsName" + newSetOfCardsName);
 
         setOfCardsService.getByName(newSetOfCardsName).ifPresentOrElse(card::setSetOfCards,
                 () -> {  //todo if a set with this name in this folder exist then show a massage and suggest the choice to set Set from rep or create a new one with another name
@@ -126,7 +138,7 @@ public class CardService {
                 });
 
         Card savedCard = save(card);
-        System.out.println("Service editCardByCardEditingDto: card after checking" + card);
+        LOGGER.info("Service editCardByCardEditingDto: card after checking" + card);
         return savedCard;
     }
 

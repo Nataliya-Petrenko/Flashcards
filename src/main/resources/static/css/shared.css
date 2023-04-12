@@ -102,11 +102,13 @@ a {
 
 .card-in-set {
   border: 3px solid var(--main-color);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: 1fr max-content;
   gap: var(--g-10);
+}
+
+.card-in-set__button {
+  justify-self: center;
 }
 
 .border-card {

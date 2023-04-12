@@ -1,0 +1,51 @@
+.statistics-view {
+  overflow: hidden;
+  width: 100%;
+  max-width: var(--content-width);
+  height: 100%;
+  display: grid;
+  grid-template-rows: var(--navigation-height) repeat(3, max-content) 1fr;
+  gap: var(--g-20);
+  grid-template-areas:
+    "statistics-navigation"
+    "statistics-start-learning"
+    "statistics-progress"
+    "statistics-recommendations"
+    "study-condition";
+  overflow-y: auto;
+}
+
+.statistics-navigation {
+  grid-area: statistics-navigation;
+}
+
+.statistics-start-learning {
+  grid-area: statistics-start-learning;
+}
+
+.statistics-progress {
+  grid-area: statistics-progress;
+}
+
+.statistics-recommendations {
+  grid-area: statistics-recommendations;
+}
+
+.study-condition {
+  justify-self: center;
+  align-self: start;
+  grid-area: study-condition;
+  display: flex;
+  align-items: center;
+  gap: var(--g-20);
+}
+
+.statistics-card-content {
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: var(--g-20);
+}
+
+.statistics-card-title {
+  font-weight: 700;
+}

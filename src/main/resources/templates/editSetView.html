@@ -6,13 +6,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../../css/normalize.css">
-  <link rel="stylesheet" href="../../css/variables.css">
-  <link rel="stylesheet" href="../../css/styles.css">
-  <link rel="stylesheet" href="../../css/shared.css">
-  <link rel="stylesheet" href="../../css/header.css">
-  <link rel="stylesheet" href="../../css/edit-set-view.css">
-  <title>NataCardsProject</title>
+  <link rel="stylesheet" th:href="@{/css/normalize.css}">
+  <link rel="stylesheet" th:href="@{/css/variables.css}">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/shared.css}">
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/edit-set-view.css}">
+  <title>Flashcards</title>
 </head>
 
 <body>
@@ -21,115 +21,45 @@
     <main class="main">
       <div class="set-edit-view hidden-scroll">
         <div class="navigation">
-          <a href="./set-view.html" class="button bg-dark dark-border">&#60; Back</a>
-          <button class="button bg-dark dark-border auto-margin-left">Update from file</button>
-          <button class="button bg-dark dark-border">Save to file</button>
+          <a th:href="@{/folder/{id}(id=${setOfCards.folder.id})}" class="button bg-dark dark-border">Go to folder</a>
+
+<!--          <button class="button bg-dark dark-border auto-margin-left">Update from file (not impl)</button>-->
+<!--          <button class="button bg-dark dark-border">Save to file (not impl)</button>-->
+          <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
           <button class="button bg-dark dark-border" type="submit" form="set-edit-form">Save</button>
         </div>
         <form class="set-edit-form" id="set-edit-form" th:action="@{/set/{id}/edit(id=${setOfCards.id})}" th:object="${setOfCards}" th:method="PUT">
+<!--          add name of action-->
           <div class="card folder-name">
-            <input class="card__content dark-placeholder" type="text" name="folder-name" id="folder-name"
-                   th:field="*{folder.name}" placeholder="Enter folder name">
+            <input class="card__content dark-placeholder" type="text" title="Folder name"
+                   th:field="*{folder.name}" placeholder="Enter folder name *" required>
           </div>
-
           <div class="card set-name">
-            <input class="card__content dark-placeholder" type="text" name="set-name" id="set-name"
-                   th:field="*{name}" placeholder="Enter name of set *" required>
+            <input class="card__content dark-placeholder" type="text" title="Set name"
+                   th:field="*{name}" placeholder="Enter set name *" required>
           </div>
-
           <div class="card set-description">
-            <textarea class="card__content" name="set" id="set" th:field="*{description}"
-              placeholder="Enter a description for the set"></textarea>
+                  <textarea class="card__content" title="Set description"
+                            th:field="*{description}" placeholder="Enter a description for the set"></textarea>
           </div>
-<!--          <div class="card set-priority">-->
-<!--            <div class="card__content set-card-content">-->
-<!--              <h2 class="list-title">Select a priority for studying:</h2>-->
-<!--              <ul class="horizontal-list">-->
-<!--                <li class="list__item">-->
-<!--                  <input type="radio" id="necessarily" name="priority" value="Necessarily">-->
-<!--                  <label for="necessarily">Necessarily</label>-->
-<!--                </li>-->
-<!--                <li class="list__item">-->
-<!--                  <input type="radio" id="preferably" name="priority" value="Preferably" checked>-->
-<!--                  <label for="preferably">Preferably</label>-->
-<!--                </li>-->
-<!--                <li class="list__item">-->
-<!--                  <input type="radio" id="maybe" name="priority" value="Maybe">-->
-<!--                  <label for="maybe">Maybe</label>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="card set-checkboxes">-->
-<!--            <div class="card__content set-card-content">-->
-<!--              <ul class="horizontal-list">-->
-<!--                <li class="list__item">-->
-<!--                  <input type="checkbox" id="learned" name="learned" value="Learned">-->
-<!--                  <label for="learned">Display learned cards from the set</label>-->
-<!--                </li>-->
-<!--                <li class="list__item">-->
-<!--                  <input type="checkbox" id="knowledge-level" name="knowledge-level" value="Knowledge-level">-->
-<!--                  <label for="knowledge-level">Level of knowledge</label>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="set-two-columns">-->
-<!--            <div class="card set-sort">-->
-<!--              <div class="card__content set-card-content">-->
-<!--                <h2 class="list-title">Sort:</h2>-->
-<!--                <ul class="horizontal-list">-->
-<!--                  <li class="list__item">-->
-<!--                    <input type="radio" id="ordered" name="sort" value="ordered" checked>-->
-<!--                    <label for="ordered">Ordered</label>-->
-<!--                  </li>-->
-<!--                  <li class="list__item">-->
-<!--                    <input type="radio" id="random" name="sort" value="random">-->
-<!--                    <label for="random">Random</label>-->
-<!--                  </li>-->
-<!--                </ul>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="card set-visibility">-->
-<!--              <div class="card__content set-card-content">-->
-<!--                <h2 class="list-title">Visibility:</h2>-->
-<!--                <ul class="horizontal-list">-->
-<!--                  <li class="list__item">-->
-<!--                    <input type="radio" id="public" name="visibility" value="public">-->
-<!--                    <label for="ordered">Public</label>-->
-<!--                  </li>-->
-<!--                  <li class="list__item">-->
-<!--                    <input type="radio" id="private" name="visibility" value="private" checked>-->
-<!--                    <label for="random">Private</label>-->
-<!--                  </li>-->
-<!--                </ul>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
         </form>
+
         <div class="card set-card">
           <div class="card__content">
-            <div class="set-cards">
-
+            <div class="set-cards" title="Cards from this set">
               <div class="card card-in-set" th:each="card : ${cards}">
-
                 <p class="card-in-set__text" th:text="|${card.question}|">
                   Card question
                 </p>
-
-                <div class="buttons-container">
+<!--                  replace to set view-->
                   <a th:href="@{/card/{id}(id=${card.id})}" class="button bg-dark no-border">Show card</a>
                   <a th:href="@{/card/{id}/delete(id=${card.id})}" class="button bg-dark dark-border">Remove from Set</a>
-                  <!--                  <form action="" method="delete">-->
-<!--                    <button class="button bg-dark no-border" type="submit">Remove from Set</button>-->
-<!--                  </form>-->
                 </div>
-
               </div>
-
             </div>
           </div>
         </div>
+
       </div>
     </main>
   </div>

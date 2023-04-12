@@ -1,0 +1,58 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/variables.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/shared.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/card-view.css}">
+    <title>Flashcards</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+    <main class="main" th:object="${card}">
+        <section class="card-view">
+            <div class="navigation card-navigation">
+                <a class="button bg-dark dark-border" th:href="@{/folder/{id}(id=*{setOfCards.folder.id})}">Go to Folder</a>
+                <a class="button bg-dark dark-border auto-margin-right" th:href="@{/set/{id}(id=*{setOfCards.id})}">Go to Set</a>
+                <form th:action="@{/card/{id}/delete(id=*{id})}" th:method="DELETE">
+                    <button class="button bg-dark dark-border auto-margin-left" type="submit">Yes, delete card</button>
+                </form>
+                <a class="button bg-dark dark-border" th:href="@{/card/{id}(id=*{id})}">No, back to Card</a>
+            </div>
+            <div class="card-description">
+                <p class="card-description__text second-title"
+                   th:text="|Are you sure you want to delete the card from: *{setOfCards.folder.name}: *{setOfCards.name}?|"
+                   title="Folder name: Set name">
+                    Folder name: Set name
+                </p>
+            </div>
+            <div class="card question-card" title="Question">
+                <div class="card__content">
+                    <p  th:text="|*{question}|">Question</p>
+                </div>
+            </div>
+            <div class="card short-answer-card" title="Short answer">
+                <div class="card__content">
+                    <p th:text="|*{shortAnswer}|">Short answer does not exist</p>
+                </div>
+            </div>
+            <div class="card extended-answer-card" title="Extended answer">
+                <div class="card__content">
+                    <p th:text="|*{longAnswer}|">Extended answer does not exist</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+
+</html>

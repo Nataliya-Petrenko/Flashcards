@@ -1,0 +1,60 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/variables.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/shared.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/set-view.css}">
+    <title>Flashcards</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+    <main class="main">
+        <div class="set-view">
+            <nav class="navigation set-navigation">
+                <a th:href="@{/folder/{id}/(id=${setOfCards.folder.id})}" class="button bg-dark dark-border">&#60; Go to folder</a>
+                <a class="button bg-dark dark-border auto-margin-left" href="#">&#60; Previous (not implemented)</a>
+                <h2 class="first-title" th:text="|${setOfCards.name}|">Folder_Name/Set_Name</h2>
+                <a class="button bg-dark dark-border auto-margin-right" href="#">Next (not implemented) &#62;</a>
+                <a href="#" class="button bg-dark dark-border">Learn (not implemented)</a>
+
+                <a th:href="@{/card/create/{id}(id=${setOfCards.id})}" class="button bg-dark dark-border">Create new card in this set</a>
+                <a th:href="@{/set/{id}/edit(id=${setOfCards.id})}" class="button bg-dark dark-border" title="Edit set">Edit</a>
+                <a th:href="@{/set/{id}/delete(id=${setOfCards.id})}" class="button bg-dark dark-border">Delete</a>
+            </nav>
+<!--            <div class="card-description">-->
+<!--                <p class="card-description__text second-title" th:text="|*{setOfCards.folder.name}: *{setOfCards.name}|" title="Folder name: Set name">-->
+<!--                    Folder name: Set name-->
+<!--                </p>-->
+<!--            </div>-->
+            <div class="card set-description">
+                <p class="set-description__text" th:text="|${setOfCards.description}|"></p>
+            </div>
+            <div class="card cards-container">
+                <div class="card__content set-card-content" th:each="card : ${cards}">
+                    <div class="card card-in-set">
+                        <p class="card-in-set__text" th:text="|${card.question}|"></p>
+                        <a th:href="@{/card/{id}(id=${card.id})}" class="button bg-dark no-border card-in-set__button">Show card</a>
+<!--                        <a th:href="@{/card/{id}(id=${card.id})}" class="button bg-dark no-border">Show card</a>-->
+                        <a th:href="@{/card/{id}/delete(id=${card.id})}" class="button bg-dark dark-border card-in-set__button">Remove from Set</a>
+<!--                        <a th:href="@{/card/create/{id}(id=${setOfCards.id})}"-->
+<!--                           class="button bg-dark dark-border auto-margin-left">Create new card in this set</a>-->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+</body>
+
+</html>

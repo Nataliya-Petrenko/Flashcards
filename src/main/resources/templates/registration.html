@@ -12,31 +12,20 @@
   <link rel="stylesheet" th:href="@{/css/shared.css}">
   <link rel="stylesheet" th:href="@{/css/header.css}">
   <link rel="stylesheet" th:href="@{/css/sign-in-view.css}">
-  <title>NataCardsProject</title>
+  <title>Flashcards</title>
 </head>
 
 <body>
   <div class="wrapper">
-    <header class="header">
-      <div class="header__content">
-        <a href="#" class="button bg-dark light-border">Flashcards</a>
-        <div class="search-profile__container">
-          <input class="input bg-dark light-border light-placeholder" type="text" placeholder="Search">
-          <a href="./edit-card-view.html" class="button bg-dark light-border extra-bold-text">+</a>
-          <a href="#" class="button bg-dark light-border extra-bold-text">?</a>
-          <a href="./sign-in-view.html" class="button bg-dark light-border">Sign in</a>
-          <a href="./sign-up-view.html" class="button bg-dark light-border">Sign up</a>
-        </div>
-      </div>
-    </header>
+    <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
       <div class="sign-in">
         <h2 class="sign-in__title">Sign up</h2>
-        <form class="sing-in-form" action="./index.html">
-          <input class="input bg-light no-border dark-placeholder" type="input" placeholder="First name" autofocus>
-          <input class="input bg-light no-border dark-placeholder" type="input" placeholder="Last name">
-          <input class="input bg-light no-border dark-placeholder" type="email" placeholder="Email *" required>
-          <input class="input bg-light no-border dark-placeholder" type="password"
+        <form class="sing-in-form" th:action="@{/registration}" th:object="${user}" th:method="POST">
+          <input class="input bg-light no-border dark-placeholder" type="input" th:field="*{firstName}" placeholder="First name" autofocus>
+          <input class="input bg-light no-border dark-placeholder" type="input" th:field="*{lastName}" placeholder="Last name">
+          <input class="input bg-light no-border dark-placeholder" type="email" th:field="*{email}" placeholder="Email *" required>
+          <input class="input bg-light no-border dark-placeholder" type="password" th:field="*{password}"
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
             placeholder="Password *" required>

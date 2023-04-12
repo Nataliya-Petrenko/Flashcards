@@ -1,6 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="en">
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
@@ -12,9 +13,9 @@
 <body>
 
 <div class="header__content" th:fragment="header_fragment">
-    <a href="#" class="button bg-dark light-border">Flashcards</a>
-    <input class="input bg-dark light-border light-placeholder auto-margin-left" type="text" placeholder="Search">
-    <div class="button bg-dark light-border extra-bold-text create-dropdown">
+    <a th:href="@{/}" class="button bg-dark light-border">Flashcards</a>
+    <a th:href="@{/}" class="button bg-dark light-border auto-margin-left">Search</a>
+    <div class="button bg-dark light-border extra-bold-text create-dropdown" sec:authorize="isAuthenticated()">
         <span>+</span>
         <div class="dropdown-content">
             <ul class="dropdown-list">
@@ -31,9 +32,9 @@
         </div>
     </div>
     <a href="#" class="button bg-dark light-border extra-bold-text">?</a>
-    <a href="./sign-in-view.html" class="button bg-dark light-border">Sign in</a>
-    <a href="./sign-up-view.html" class="button bg-dark light-border">Sign up</a>
-    <div class="profile">
+    <a th:href="@{/login}" class="button bg-dark light-border" sec:authorize="!isAuthenticated()">Sign in</a>
+    <a th:href="@{/registration}" class="button bg-dark light-border" sec:authorize="!isAuthenticated()">Sign up</a>
+    <div class="profile" sec:authorize="isAuthenticated()">
         <div class="profile-short-info">
             <div class="profile__logo">
                 <img class="user-photo" src="../images/user-image.png" alt="user photo">
@@ -53,7 +54,7 @@
                     <a href="#">Open profile</a>
                 </li>
                 <li class="profile-log-out">
-                    <a href="./">Log out</a>
+                    <a th:href="@{/logout}">Log out</a>
                 </li>
             </ul>
         </div>

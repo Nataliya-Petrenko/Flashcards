@@ -129,7 +129,7 @@ public class PersonService implements UserDetailsService {
 //            String newPassword = editProfileDto.getPassword();
 //            personRepository.updatePersonFromEditProfileDto(userId, newEmail, newFirstName, newLastName, newPassword);
 //        }
-        personRepository.edit(userId, newEmail, newFirstName, newLastName);
+        personRepository.update(userId, newEmail, newFirstName, newLastName);
 
         Person editedPerson = getById(userId);
         LOGGER.info("editedPerson {}", editedPerson);

@@ -5,6 +5,7 @@ import com.petrenko.flashcards.dto.FolderIdNameDescriptionDto;
 import com.petrenko.flashcards.dto.FolderIdNameDto;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -35,13 +36,13 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
             """)
     List<FolderIdNameDto> getFoldersIdNameDtoByPersonId(String userId);
 
-    @Query("""
-        SELECT new com.petrenko.flashcards.dto.FolderByIdDto(f.id, f.name, f.description)
-        FROM Folder f
-        LEFT JOIN f.person p
-        WHERE p.id = :userId AND f.id = :folderId
-            """)
-    FolderByIdDto getFolderByIdDto(String userId, String folderId);
+//    @Query("""
+//        SELECT new com.petrenko.flashcards.dto.FolderByIdDto(f.id, f.name, f.description)
+//        FROM Folder f
+//        LEFT JOIN f.person p
+//        WHERE p.id = :userId AND f.id = :folderId
+//            """)
+//    FolderByIdDto getFolderByIdDto(String userId, String folderId); // todo delete
 
     @Query("""
             SELECT f.id
@@ -98,4 +99,27 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
                 )
                  """)
     Optional<String> getFirstId(String userId);
+
+    @Query("""
+        SELECT new com.petrenko.flashcards.dto.FolderIdNameDescriptionDto(f.id, f.name, f.description)
+        FROM Folder f
+        LEFT JOIN f.person p
+        WHERE p.id = :userId AND f.id = :folderId
+            """)
+    Optional<FolderIdNameDescriptionDto> getFolderIdNameDescriptionDto(String userId, String folderId);
+
+    @Query("""
+            SELECT f.id
+            FROM Folder as f
+            LEFT JOIN f.person as p
+            WHERE f.name = :newName AND p.id = :userId
+            """)
+    Optional<String> findIdByUserIdAndName(String userId, String newName);
+
+    @Modifying
+    @Query("""
+            UPDATE Folder f SET f.name = :newName, f.description = :newDescription 
+            WHERE f.person.id = :userId
+            """)
+    void update(String userId, String newName, String newDescription);
 }

@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -126,18 +127,25 @@ public class FolderService {
         return savedFolder;
     }
 
-    public Folder getFolderWithNameOrNew(String userId, String folderName){
+    private Folder getFolderWithNameOrNew(String userId, String folderName) {
         LOGGER.info("invoked");
         final Folder folder = folderRepository.findByUserIdAndName(userId, folderName).orElse(new Folder());
         LOGGER.info("finalFolder {}", folder);
         return folder;
     }
 
-    public FolderByIdDto getFolderByIdDto(String userId, String folderId) {
+    @Transactional
+    public FolderByIdDto getFolderByIdDto(String userId, String folderId) { // todo get by single DTO
         LOGGER.info("invoked");
 
-        FolderByIdDto folderByIdDto = folderRepository.getFolderByIdDto(userId, folderId);
+        FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
+                .getFolderIdNameDescriptionDto(userId, folderId).orElseThrow(IllegalArgumentException::new);
 
+        FolderByIdDto folderByIdDto = new FolderByIdDto();
+
+        folderByIdDto.setId(folderIdNameDescriptionDto.getId());
+        folderByIdDto.setName(folderIdNameDescriptionDto.getName());
+        folderByIdDto.setDescription(folderIdNameDescriptionDto.getDescription());
         folderByIdDto.setPreviousOrLastFolderId(getPreviousOrLastFolderId(userId, folderId));
         folderByIdDto.setNextOrFirstFolderId(getNextOrFirstFolderId(userId, folderId));
 
@@ -145,7 +153,7 @@ public class FolderService {
         return folderByIdDto;
     }
 
-    private String getPreviousOrLastFolderId(final String userId, final String folderId) { // todo ERROR: syntax error at or near "outer"
+    private String getPreviousOrLastFolderId(final String userId, final String folderId) {
         LOGGER.info("invoked");
         String previousOrLastFolderId = folderRepository.getPreviousId(userId, folderId)
                 .orElse(folderRepository.getLastId(userId)
@@ -163,5 +171,34 @@ public class FolderService {
         return nextOrFirstFolderId;
     }
 
+    public FolderIdNameDescriptionDto getFolderIdNameDescriptionDto(String userId, String folderId) {
+        LOGGER.info("invoked");
+        FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
+                .getFolderIdNameDescriptionDto(userId, folderId)
+                .orElseThrow(IllegalArgumentException::new);
+        LOGGER.info("folderIdNameDescriptionDto {}", folderIdNameDescriptionDto);
+        return folderIdNameDescriptionDto;
+    }
 
+    @Transactional
+    public Folder updateFolderIdNameDescriptionDtoToFolder(String userId, FolderIdNameDescriptionDto folderIdNameDescriptionDto) {
+        LOGGER.info("invoked");
+
+        String newName = folderIdNameDescriptionDto.getName();
+
+        Optional<String> idByUserIdAndName = folderRepository.findIdByUserIdAndName(userId, newName);
+        if (idByUserIdAndName.isPresent() && !idByUserIdAndName.get().equals(folderIdNameDescriptionDto.getId())) {
+            throw new IllegalArgumentException("Folder with this newName already exist: " + newName);
+        }
+
+        String newDescription = folderIdNameDescriptionDto.getDescription();
+
+        folderRepository.update(userId, newName, newDescription);
+
+        Folder updatedFolder = folderRepository.findById(folderIdNameDescriptionDto.getId()) // todo delete get folder after checking work
+                .orElseThrow(IllegalArgumentException::new);
+
+        LOGGER.info("updatedFolder {}", updatedFolder);
+        return updatedFolder;
+    }
 }

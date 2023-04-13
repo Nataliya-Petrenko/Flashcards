@@ -21,12 +21,12 @@
     <main class="main">
       <div class="folder-edit-view hidden-scroll">
         <div class="navigation folder-edit-view-nav">
-          <a th:href="@{/folder/{id}(id=${folder.id})}"class="button bg-dark dark-border">Go to folder</a>
+          <a th:href="@{/folder/{id}(id=${folderIdNameDescriptionDto.id})}"class="button bg-dark dark-border">Go to folder</a>
 
           <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
           <button class="button bg-dark dark-border" type="submit" form="folder-edit-form">Save</button>
         </div>
-        <form class="folder-edit-form" id="folder-edit-form" th:action="@{/folder/{id}/edit(id=${folder.id})}" th:object="${folder}" th:method="PUT">
+        <form class="folder-edit-form" id="folder-edit-form" th:action="@{/folder/{id}/edit(id=${folderIdNameDescriptionDto.id})}" th:object="${folderIdNameDescriptionDto}" th:method="PUT">
           <div class="card folder-name">
             <textarea class="card__content dark-placeholder" name="set-name" id="set-name" rows="5" title="Folder name"
                       th:field="*{name}" placeholder="Enter name of folder *" required></textarea>

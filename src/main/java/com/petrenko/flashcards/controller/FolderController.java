@@ -1,9 +1,6 @@
 package com.petrenko.flashcards.controller;
 
-import com.petrenko.flashcards.dto.FolderByIdDto;
-import com.petrenko.flashcards.dto.FolderCreateDto;
-import com.petrenko.flashcards.dto.FolderIdNameDto;
-import com.petrenko.flashcards.dto.SetIdNameDto;
+import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.service.FolderService;
@@ -98,7 +95,7 @@ public class FolderController {
         final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        FolderByIdDto folderByIdDto = folderService.getFolderByIdDto(userId, id);
+        FolderByIdDto folderByIdDto = folderService.getFolderByIdDto(userId, id); // todo get all information by single Dto
         LOGGER.info("folderByIdDto: {}", folderByIdDto);
         modelAndView.addObject("folderByIdDto", folderByIdDto);
 
@@ -112,42 +109,46 @@ public class FolderController {
     }
 
     @GetMapping("/folder/{id}/edit")
-    public ModelAndView getFolderEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("@GetMapping(/folder/{id}/edit) id: " + id);
-        final Folder folder = folderService.getById(id);
-        LOGGER.info("@GetMapping(/folder/{id}/edit) folder getById(id): " + folder);
-        modelAndView.addObject("folder", folder);
+    public ModelAndView getFolderEditForm(@PathVariable("id") String id,
+                                          Principal principal,
+                                          ModelAndView modelAndView) {
+        LOGGER.info("folder id from link: {}", id);
 
-        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        LOGGER.info("@GetMapping(/folder/{id}/edit)  List<SetOfCards> getByFolder: " + setsOfCards);
-        modelAndView.addObject("setsOfCards", setsOfCards);
+        final String userId = principal.getName();
+        LOGGER.info("userId {}", userId);
 
-        modelAndView.setViewName("editFolderView");
-        LOGGER.info("@GetMapping(/folder/{id}/edit) before show editFolderView.html");
+        final FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderService.getFolderIdNameDescriptionDto(userId, id);
+        LOGGER.info("folderIdNameDescriptionDto: {}", folderIdNameDescriptionDto);
+        modelAndView.addObject("folderIdNameDescriptionDto", folderIdNameDescriptionDto);
+
+        modelAndView.setViewName("folderEdit");
+        LOGGER.info("before show folderEdit.html");
         return modelAndView;
     }
 
-    @PutMapping("/folder/{id}/edit")  // after edited folder
-    public ModelAndView editSet(@PathVariable("id") String id,   // todo save id into Dto in view
-                                @ModelAttribute Folder folder,
+    @PutMapping("/folder/{id}/edit")
+    public ModelAndView editFolder(@PathVariable("id") String id,    // todo Do I need id into link?
+                                @ModelAttribute FolderIdNameDescriptionDto folderIdNameDescriptionDto,
+                                Principal principal,
                                 BindingResult bindingResult,
                                 ModelAndView modelAndView) {
-        LOGGER.info("@PutMapping(/folder/{id}/edit) id: " + id);
+        LOGGER.info("folderIdNameDescriptionDto from form: {}", folderIdNameDescriptionDto);
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("folder", folder);
-            modelAndView.setViewName("editFolderView");
+            LOGGER.info("return with input error {}", folderIdNameDescriptionDto);
+            modelAndView.addObject("folderIdNameDescriptionDto", folderIdNameDescriptionDto);
+            modelAndView.setViewName("folderEdit");
             return modelAndView;
         }
-        Folder savedFolder = folderService.save(folder);
-        LOGGER.info("@PutMapping(/folder/{id}/edit) savedFolder " + savedFolder);
-        modelAndView.addObject("folder", savedFolder);
 
-        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        LOGGER.info("@PutMapping(/folder/{id}/edit)  List<SetOfCards> getByFolder: " + setsOfCards);
-        modelAndView.addObject("setsOfCards", setsOfCards);
+        final String userId = principal.getName();
+        LOGGER.info("userId {}", userId);
 
-        modelAndView.setViewName("folderById");
-        LOGGER.info("@PutMapping(/folder/{id}/edit) before show folderById.html");
+        Folder updatedFolder = folderService.updateFolderIdNameDescriptionDtoToFolder(userId, folderIdNameDescriptionDto); // todo delete get folder after checking work
+        LOGGER.info("updatedFolder {}", updatedFolder);
+
+        String red = "redirect:/folder/" + id;
+        modelAndView.setViewName(red);
+        LOGGER.info("before {}", red);
         return modelAndView;
     }
 

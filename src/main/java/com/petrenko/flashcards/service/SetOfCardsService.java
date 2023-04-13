@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.service;
 
+import com.petrenko.flashcards.dto.SetFolderNameSetNameDescriptionDto;
 import com.petrenko.flashcards.dto.SetIdNameDto;
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Folder;
@@ -93,17 +94,51 @@ public class SetOfCardsService {
         return savedSetOfCards;
     }
 
-    public Optional<String> getIdFromFolderByName(String name, String folderId) {
-        Optional<String> idFromFolderByName = getIdFromFolderByName(name, folderId);
-        LOGGER.info("get SetOfCards FromFolderByName " + idFromFolderByName.get());
-        return idFromFolderByName;
-    }
+//    public Optional<String> getIdFromFolderByName(String name, String folderId) {
+//        Optional<String> idFromFolderByName = getIdFromFolderByName(name, folderId);
+//        LOGGER.info("get SetOfCards FromFolderByName " + idFromFolderByName.get());
+//        return idFromFolderByName;
+//    }
 
+    // new
     public List<SetIdNameDto> getByFolderId(String folderId) {
         LOGGER.info("invoked");
         List<SetIdNameDto> sets = setOfCardsRepository.getByFolderId(folderId);
         LOGGER.info("SetOfCards getByFolderId: {}", sets);
         return sets;
+    }
+
+    public SetOfCards saveSetFolderNameSetNameDescriptionDto(String userId, SetFolderNameSetNameDescriptionDto setDto) {
+        LOGGER.info("invoked");
+
+        String newFolderName = setDto.getFolderName();
+        String newSetName = setDto.getName();
+
+        SetOfCards setOfCards = getByNameAndFolderNameOrNew(userId, newFolderName, newSetName);
+
+        setOfCards.setDescription(setDto.getDescription());
+
+        SetOfCards savedSet = setOfCardsRepository.save(setOfCards);
+
+        LOGGER.info("savedSet {}", savedSet);
+        return savedSet;
+    }
+
+    public SetOfCards getByNameAndFolderNameOrNew(String userId, String folderName, String setName) {
+        LOGGER.info("invoked");
+
+        Folder folder = folderService.getFolderWithNameOrNew(userId, folderName);
+
+        final SetOfCards setOfCards = setOfCardsRepository.findByNameAndFolderId(setName, folder.getId())
+                .orElseGet(() -> {
+                    SetOfCards newSet = new SetOfCards();
+                    newSet.setName(setName);
+                    newSet.setFolder(folder);
+                    return setOfCardsRepository.save(newSet);
+                });
+
+        LOGGER.info("setOfCards {}", setOfCards);
+        return setOfCards;
     }
 
 }

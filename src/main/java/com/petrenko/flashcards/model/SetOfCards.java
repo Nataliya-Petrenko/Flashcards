@@ -31,6 +31,16 @@ public class SetOfCards {
     @ManyToOne
     private Folder folder;
 
+    public SetOfCards() {
+    }
+    public SetOfCards(String id, String name, String description, LocalDateTime timeOfCreation, Folder folder) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.timeOfCreation = timeOfCreation;
+        this.folder = folder;
+    }
+
     @PrePersist
     protected void prePersist() {
         timeOfCreation = LocalDateTime.now();

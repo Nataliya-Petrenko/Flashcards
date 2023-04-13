@@ -25,10 +25,11 @@
                 <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
                 <button class="button bg-dark dark-border" type="submit" form="set-edit-form">Save</button>
             </div>
-            <form class="set-edit-form" id="set-edit-form" th:action="@{/set/create}" th:object="${setOfCards}" th:method="POST">
+            <form class="set-edit-form" id="set-edit-form" th:action="@{/set/create}" th:object="${setDto}"
+                  th:method="POST">
                 <div class="card folder-name">
                     <input class="card__content dark-placeholder" type="text" title="Folder name"
-                           th:field="*{folder.name}" placeholder="Enter folder name *" required>
+                           th:field="*{folderName}" placeholder="Enter folder name *" required>
                 </div>
                 <div class="card set-name">
                     <input class="card__content dark-placeholder" type="text" title="Set name"

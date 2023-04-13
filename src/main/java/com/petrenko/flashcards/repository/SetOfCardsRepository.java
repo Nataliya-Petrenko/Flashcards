@@ -30,4 +30,24 @@ public interface SetOfCardsRepository extends CrudRepository<SetOfCards, String>
             """)
     List<SetIdNameDto> getByFolderId(String folderId);
 
+    @Query("""
+            SELECT s.id
+            FROM SetOfCards as s
+            LEFT JOIN s.folder f
+            LEFT JOIN f.person as p
+            WHERE p.id = :userId AND f.name = :folderName AND s.name = :setName
+            """)
+    Optional<String> getSetIdWithNameInFolder(String userId, String folderName, String setName);
+
+//    @Query("""
+//            SELECT new com.petrenko.flashcards.model.SetOfCards(
+//            f.id, f.name, f.description, f.timeOfCreation, f.person
+//            )
+//            FROM Folder as f
+//            LEFT JOIN f.person as p
+//            WHERE f.name = :newName AND p.id = :userId
+//            """)
+//    Optional<SetOfCards> getSetByFolderIdWith(String folderId, String setName);
+
+    Optional<SetOfCards> findByNameAndFolderId(String setName, String folderId);
 }

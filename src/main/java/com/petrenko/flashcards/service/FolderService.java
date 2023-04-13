@@ -117,8 +117,8 @@ public class FolderService {
         final Folder folder = getFolderWithNameOrNew(userId, folderCreateDto.getName());
         LOGGER.info("getFolderWithNameOrNew {}", folder);
 
-        folder.setPerson(personService.getById(userId));
-        folder.setName(folderCreateDto.getName());
+//        folder.setPerson(personService.getById(userId));
+//        folder.setName(folderCreateDto.getName());
         folder.setDescription(folderCreateDto.getDescription());
 
         Folder savedFolder = folderRepository.save(folder);
@@ -127,9 +127,15 @@ public class FolderService {
         return savedFolder;
     }
 
-    private Folder getFolderWithNameOrNew(String userId, String folderName) {
+    public Folder getFolderWithNameOrNew(String userId, String folderName) {
         LOGGER.info("invoked");
-        final Folder folder = folderRepository.findByUserIdAndName(userId, folderName).orElse(new Folder());
+        final Folder folder = folderRepository.findByUserIdAndName(userId, folderName)
+                .orElseGet(() -> {
+                    Folder newFolder = new Folder();
+                    newFolder.setName(folderName);
+                    newFolder.setPerson(personService.getById(userId));
+                    return folderRepository.save(newFolder);
+                });
         LOGGER.info("finalFolder {}", folder);
         return folder;
     }

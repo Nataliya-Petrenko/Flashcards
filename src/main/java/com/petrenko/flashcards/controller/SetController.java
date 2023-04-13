@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.SetFolderNameSetNameDescriptionDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.FolderService;
@@ -34,19 +35,38 @@ public class SetController {
         this.folderService = folderService;
     }
 
-    @GetMapping("/set/{id}")
-    public ModelAndView getSetById(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("@GetMapping(/set/{id}) id: " + id);
-        final SetOfCards setOfCards = setOfCardsService.getById(id);
-        LOGGER.info("@GetMapping(/set/{id}) setOfCardsService.getById(id): " + setOfCards);
-        modelAndView.addObject("setOfCards", setOfCards);
+    @GetMapping("/set/create")
+    public ModelAndView getSetForm(ModelAndView modelAndView) {
+        LOGGER.info("invoked");
+        SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto();
+        LOGGER.info("new setFolderNameSetNameDescriptionDto {}", setDto);
+        modelAndView.addObject("setDto", setDto);
+        modelAndView.setViewName("setCreate");
+        LOGGER.info("before show setCreate.html");
+        return modelAndView;
+    }
 
-        List<Card> cards = cardService.getBySet(setOfCards);
-        LOGGER.info("@GetMapping(/set/{id})  List<Card> getBySet: " + cards);
-        modelAndView.addObject("cards", cards);
+    @PostMapping("/set/create")
+    public ModelAndView saveNewSet(@ModelAttribute SetFolderNameSetNameDescriptionDto setDto,
+                                   BindingResult bindingResult,
+                                   Principal principal,
+                                   ModelAndView modelAndView) {
+        LOGGER.info("SetFolderNameSetNameDescriptionDto from form {}", setDto);
+        if (bindingResult.hasErrors()) {
+            LOGGER.info("return with input error {}", setDto);
+            modelAndView.addObject("setDto", setDto);
+            modelAndView.setViewName("setCreate");
+            return modelAndView;
+        }
 
-        modelAndView.setViewName("setById");
-        LOGGER.info("@GetMapping(/set/{id}) before show setById.html");
+        String userId = principal.getName(); // userName = id
+
+        SetOfCards savedSetOfCards = setOfCardsService.saveSetFolderNameSetNameDescriptionDto(userId, setDto); // todo delete get savedSetOfCards after checking work
+        LOGGER.info("set saved {}", savedSetOfCards);
+
+        String red = "redirect:/set/" + savedSetOfCards.getId();
+        modelAndView.setViewName(red);
+        LOGGER.info("before {}", red);
         return modelAndView;
     }
 
@@ -68,42 +88,39 @@ public class SetController {
         return modelAndView;
     }
 
-    @GetMapping("/set/create")
-    public ModelAndView getSetForm(ModelAndView modelAndView) {
-        LOGGER.info("@GetMapping(/set/create)");
-        SetOfCards setOfCards = new SetOfCards();
-        LOGGER.info("@GetMapping(/set/create) new SetOfCards " + setOfCards);
+    @GetMapping("/set/{id}")
+    public ModelAndView getSetById(@PathVariable("id") String id, ModelAndView modelAndView) {
+        LOGGER.info("@GetMapping(/set/{id}) id: " + id);
+        final SetOfCards setOfCards = setOfCardsService.getById(id);
+        LOGGER.info("@GetMapping(/set/{id}) setOfCardsService.getById(id): " + setOfCards);
         modelAndView.addObject("setOfCards", setOfCards);
-        modelAndView.setViewName("createSetView");
-        LOGGER.info("@GetMapping(/set/create) before show createSetView.html");
-        return modelAndView;
-    }
 
-    @PostMapping("/set/create")  // after created set
-    public ModelAndView saveNewSet(@ModelAttribute SetOfCards setOfCards,
-                                   BindingResult bindingResult,
-                                   Principal principal,
-                                   ModelAndView modelAndView) {
-        LOGGER.info("@PostMapping(/set) " + setOfCards);
-        if (bindingResult.hasErrors()) {
-            modelAndView.addObject("setOfCards", setOfCards);
-            modelAndView.setViewName("createSetView");
-            return modelAndView;
-        }
-
-        String userId = principal.getName(); // userName = id
-        SetOfCards savedSetOfCards = setOfCardsService.saveCheckName(userId, setOfCards);  // todo fix description don't save
-        LOGGER.info("set saved {}", savedSetOfCards);
-        modelAndView.addObject("setOfCards", savedSetOfCards);
-
-        List<Card> cards = cardService.getBySet(savedSetOfCards);
-        LOGGER.info("List<Card> getBySet: {}", cards);
+        List<Card> cards = cardService.getBySet(setOfCards);
+        LOGGER.info("@GetMapping(/set/{id})  List<Card> getBySet: " + cards);
         modelAndView.addObject("cards", cards);
 
         modelAndView.setViewName("setById");
-        LOGGER.info("before show setById.html");
+        LOGGER.info("@GetMapping(/set/{id}) before show setById.html");
         return modelAndView;
     }
+
+//    @GetMapping("/set/create/{id}")  // with fill folder name by setId
+//    public ModelAndView getSetForm(@PathVariable("id") String id, ModelAndView modelAndView) {
+//        LOGGER.info("@GetMapping(/set/create/{id}) with fill folder name");
+//
+//        SetOfCards setOfCards = new SetOfCards();
+//        LOGGER.info("@GetMapping(/set/create/{id}) new setOfCards " + setOfCards);
+//
+//        Folder folder = folderService.getById(id);
+//        LOGGER.info("@GetMapping(/set/create/{id}) folder getById" + folder);
+//        setOfCards.setFolder(folder);
+//        LOGGER.info("@GetMapping(/set/create/{id}) setOfCards with name of folder " + setOfCards);
+//        modelAndView.addObject("setOfCards", setOfCards);
+//
+//        modelAndView.setViewName("createSetView");
+//        LOGGER.info("@GetMapping(/set/create/{id}) before show createSetView");
+//        return modelAndView;
+//    }
 
 
     @GetMapping("/set/{id}/edit")

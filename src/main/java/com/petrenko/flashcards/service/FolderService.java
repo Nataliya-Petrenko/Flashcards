@@ -1,6 +1,8 @@
 package com.petrenko.flashcards.service;
 
+import com.petrenko.flashcards.dto.FolderByIdDto;
 import com.petrenko.flashcards.dto.FolderCreateDto;
+import com.petrenko.flashcards.dto.FolderIdNameDescriptionDto;
 import com.petrenko.flashcards.dto.FolderIdNameDto;
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Folder;
@@ -125,8 +127,41 @@ public class FolderService {
     }
 
     public Folder getFolderWithNameOrNew(String userId, String folderName){
+        LOGGER.info("invoked");
         final Folder folder = folderRepository.findByUserIdAndName(userId, folderName).orElse(new Folder());
         LOGGER.info("finalFolder {}", folder);
         return folder;
     }
+
+    public FolderByIdDto getFolderByIdDto(String userId, String folderId) {
+        LOGGER.info("invoked");
+
+        FolderByIdDto folderByIdDto = folderRepository.getFolderByIdDto(userId, folderId);
+
+        folderByIdDto.setPreviousOrLastFolderId(getPreviousOrLastFolderId(userId, folderId));
+        folderByIdDto.setNextOrFirstFolderId(getNextOrFirstFolderId(userId, folderId));
+
+        LOGGER.info("folderByIdDto {}", folderByIdDto);
+        return folderByIdDto;
+    }
+
+    private String getPreviousOrLastFolderId(final String userId, final String folderId) { // todo ERROR: syntax error at or near "outer"
+        LOGGER.info("invoked");
+        String previousOrLastFolderId = folderRepository.getPreviousId(userId, folderId)
+                .orElse(folderRepository.getLastId(userId)
+                        .orElseThrow(IllegalArgumentException::new));
+        LOGGER.info("nextOrFirstFolderId {}", previousOrLastFolderId);
+        return previousOrLastFolderId;
+    }
+
+    private String getNextOrFirstFolderId(final String userId, final String folderId) {
+        LOGGER.info("invoked");
+        String nextOrFirstFolderId = folderRepository.getNextId(userId, folderId)
+                .orElse(folderRepository.getFirstId(userId)
+                        .orElseThrow(IllegalArgumentException::new));
+        LOGGER.info("nextOrFirstFolderId {}", nextOrFirstFolderId);
+        return nextOrFirstFolderId;
+    }
+
+
 }

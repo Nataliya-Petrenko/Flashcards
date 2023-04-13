@@ -1,6 +1,7 @@
 package com.petrenko.flashcards.service;
 
 import com.petrenko.flashcards.controller.CardController;
+import com.petrenko.flashcards.dto.SetIdNameDto;
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
@@ -98,5 +99,12 @@ public class SetOfCardsService {
         Optional<String> idFromFolderByName = getIdFromFolderByName(name, folderId);
         LOGGER.info("get SetOfCards FromFolderByName " + idFromFolderByName.get());
         return idFromFolderByName;
+    }
+
+    public List<SetIdNameDto> getByFolderId(String userId, String folderId) {
+        LOGGER.info("invoked");
+        List<SetIdNameDto> sets = setOfCardsRepository.getByFolderId(userId, folderId);
+        LOGGER.info("SetOfCards getByFolderId: {}", sets);
+        return sets;
     }
 }

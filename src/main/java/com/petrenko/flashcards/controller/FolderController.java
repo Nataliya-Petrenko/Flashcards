@@ -1,7 +1,9 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.FolderByIdDto;
 import com.petrenko.flashcards.dto.FolderCreateDto;
 import com.petrenko.flashcards.dto.FolderIdNameDto;
+import com.petrenko.flashcards.dto.SetIdNameDto;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.service.FolderService;
@@ -43,63 +45,11 @@ public class FolderController {
         LOGGER.info("List<FolderIdNameDto> ByPersonId {}", foldersIdNameDto);
         modelAndView.addObject("foldersIdNameDto", foldersIdNameDto);
 
-        modelAndView.setViewName("allFolders");
-        LOGGER.info("before show allFolders.html");
+        modelAndView.setViewName("foldersAll");
+        LOGGER.info("before show foldersAll.html");
 
         return modelAndView;
     }
-
-    @GetMapping("/folder/{id}")
-    public ModelAndView getFolderById(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("@GetMapping(/folder/{id}) id: " + id);
-        final Folder folder = folderService.getById(id);
-        LOGGER.info("@GetMapping(/folder/{id}) folder getById(id): " + folder);
-        modelAndView.addObject("folder", folder);
-
-        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        LOGGER.info("@GetMapping(/folder/{id}) List<SetOfCards> getByFolder: " + setsOfCards);
-        modelAndView.addObject("setsOfCards", setsOfCards);
-
-        modelAndView.setViewName("folderViewById");
-        LOGGER.info("@GetMapping(/folder/{id}) before show folderViewById.html");
-
-        return modelAndView;
-    }
-
-//    @GetMapping("/folder/create")
-//    public ModelAndView getFolderForm(ModelAndView modelAndView) {
-//        LOGGER.info("@GetMapping(/folder/create)");
-//        Folder folder = new Folder();
-//        LOGGER.info("@GetMapping(/folder/create) new Folder " + folder);
-//        modelAndView.addObject("folder", folder);
-//        modelAndView.setViewName("createFolderView");
-//        LOGGER.info("@GetMapping(/folder/create) before show createFolderView.html");
-//        return modelAndView;
-//    }
-//
-//    @PostMapping("/folder/create")  // after created folder
-//    public ModelAndView saveNewFolder(@ModelAttribute Folder folder,
-//                                   BindingResult bindingResult,
-//                                   ModelAndView modelAndView) {
-//        LOGGER.info("@PostMapping(/folder/create) " + folder);
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.addObject("folder", folder);
-//            modelAndView.setViewName("createFolderView");
-//            return modelAndView;
-//        }
-//
-//        Folder savedFolder = folderService.save(folder);
-//        LOGGER.info("@PostMapping(/folder/create) savedFolder " + savedFolder);
-//        modelAndView.addObject("folder", savedFolder);
-//
-//        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-//        LOGGER.info("@PostMapping(/folder/create)  List<SetOfCards> getByFolder: " + setsOfCards);
-//        modelAndView.addObject("setsOfCards", setsOfCards);
-//
-//        modelAndView.setViewName("folderViewById");
-//        LOGGER.info("@PostMapping(/folder/create) before show folderViewById.html");
-//        return modelAndView;
-//    }
 
     @GetMapping("/folder/create")
     public ModelAndView getFolderForm(ModelAndView modelAndView) {
@@ -109,12 +59,12 @@ public class FolderController {
         LOGGER.info("new folderCreateDto {}", folderCreateDto);
         modelAndView.addObject("folderCreateDto", folderCreateDto);
 
-        modelAndView.setViewName("createFolderView");
-        LOGGER.info("before show createFolderView.html");
+        modelAndView.setViewName("folderCreate");
+        LOGGER.info("before show folderCreate.html");
         return modelAndView;
     }
 
-    @PostMapping("/folder/create")  // after created folder
+    @PostMapping("/folder/create")
     public ModelAndView saveNewFolder(@ModelAttribute FolderCreateDto folderCreateDto,
                                       BindingResult bindingResult,
                                       Principal principal,
@@ -123,7 +73,7 @@ public class FolderController {
         if (bindingResult.hasErrors()) {
             LOGGER.info("return with input error {}", folderCreateDto);
             modelAndView.addObject("folderCreateDto", folderCreateDto);
-            modelAndView.setViewName("createFolderView");
+            modelAndView.setViewName("folderCreate");
             return modelAndView;
         }
 
@@ -136,17 +86,30 @@ public class FolderController {
         modelAndView.setViewName("redirect:/folder");
         LOGGER.info("before redirect:/folder");
 
-//        modelAndView.addObject("folder", savedFolder); // todo redirect to folderViewById?
-//
-//        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-//        LOGGER.info("@PostMapping(/folder/create)  List<SetOfCards> getByFolder: " + setsOfCards);
-//        modelAndView.addObject("setsOfCards", setsOfCards);
-//
-//        modelAndView.setViewName("folderViewById");
-//        LOGGER.info("@PostMapping(/folder/create) before show folderViewById.html");
         return modelAndView;
     }
 
+    @GetMapping("/folder/{id}")
+    public ModelAndView getFolderById(@PathVariable("id") String id,
+                                      Principal principal,
+                                      ModelAndView modelAndView) {
+        LOGGER.info("folder id from link: " + id);
+
+        final String userId = principal.getName();
+        LOGGER.info("userId {}", userId);
+
+        FolderByIdDto folderByIdDto = folderService.getFolderByIdDto(userId, id);
+        LOGGER.info("folderByIdDto: {}", folderByIdDto);
+        modelAndView.addObject("folderByIdDto", folderByIdDto);
+
+        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(userId, id);
+        LOGGER.info("List<setsIdNameDto> getByFolderId: {}", setsIdNameDto);
+        modelAndView.addObject("setsIdNameDto", setsIdNameDto);
+
+        modelAndView.setViewName("folderById");
+        LOGGER.info("before show folderById.html");
+        return modelAndView;
+    }
 
     @GetMapping("/folder/{id}/edit")
     public ModelAndView getFolderEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
@@ -183,8 +146,8 @@ public class FolderController {
         LOGGER.info("@PutMapping(/folder/{id}/edit)  List<SetOfCards> getByFolder: " + setsOfCards);
         modelAndView.addObject("setsOfCards", setsOfCards);
 
-        modelAndView.setViewName("folderViewById");
-        LOGGER.info("@PutMapping(/folder/{id}/edit) before show folderViewById.html");
+        modelAndView.setViewName("folderById");
+        LOGGER.info("@PutMapping(/folder/{id}/edit) before show folderById.html");
         return modelAndView;
     }
 
@@ -216,8 +179,8 @@ public class FolderController {
         Folder folder = new Folder();
         LOGGER.info("@DeleteMapping(/folder/{id}/delete) new Folder " + folder);
         modelAndView.addObject("folder", folder);
-        modelAndView.setViewName("createFolderView");
-        LOGGER.info("@DeleteMapping(/folder/{id}/delete) before show createFolderView.html");
+        modelAndView.setViewName("folderCreate");
+        LOGGER.info("@DeleteMapping(/folder/{id}/delete) before show folderCreate.html");
         return modelAndView;
 
     }

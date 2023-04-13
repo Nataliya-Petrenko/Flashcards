@@ -185,8 +185,8 @@ public class SetController {
         LOGGER.info("List<SetOfCards> getByFolder: {}", setsOfCards);
         modelAndView.addObject("setsOfCards", setsOfCards);
 
-        modelAndView.setViewName("folderViewById");
-        LOGGER.info("before show folderViewById.html");
+        modelAndView.setViewName("folderById");
+        LOGGER.info("before show folderById.html");
 
         return modelAndView;
     }

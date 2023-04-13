@@ -105,7 +105,7 @@ public class PersonService implements UserDetailsService {
 //        person.setRole(user.getEmail().equalsIgnoreCase("admin") ? Role.ADMIN : Role.USER); // todo another approach get role
 
         Person savedPerson = personRepository.save(person);
-        LOGGER.info("savedPerson");
+        LOGGER.info("savedPerson {}", savedPerson);
         return savedPerson;
     }
 

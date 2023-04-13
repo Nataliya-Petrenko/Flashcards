@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.service;
 
+import com.petrenko.flashcards.dto.FolderCreateDto;
 import com.petrenko.flashcards.dto.FolderIdNameDto;
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Folder;
@@ -26,14 +27,19 @@ public class FolderService {
 
     private final PersonRepository personRepository;
 
+    private final PersonService personService;
+
     @Autowired
     public FolderService(final FolderRepository folderRepository,
                          final SetOfCardsRepository setOfCardsRepository,
-                         final CardRepository cardRepository, PersonRepository personRepository) {
+                         final CardRepository cardRepository,
+                         PersonRepository personRepository,
+                         PersonService personService) {
         this.folderRepository = folderRepository;
         this.setOfCardsRepository = setOfCardsRepository;
         this.cardRepository = cardRepository;
         this.personRepository = personRepository;
+        this.personService = personService;
     }
 
 
@@ -61,7 +67,7 @@ public class FolderService {
     }
 
     public Folder save(Folder folder) { //todo if a folder with this name exist then show a massage and suggest the choice to update the old one or create a new one with another name
-        LOGGER.info("Set service: save set" + folder);
+        LOGGER.info("{}}", folder);
         return folderRepository.save(folder);
     }
 
@@ -100,5 +106,27 @@ public class FolderService {
         List<FolderIdNameDto> folderIdNameDto = folderRepository.getFoldersIdNameDtoByPersonId(userId);
         LOGGER.info("folderNameIdDto {}", folderIdNameDto);
         return folderIdNameDto;
+    }
+
+    public Folder saveFolderCreateDtoToFolder(String userId, FolderCreateDto folderCreateDto) {
+        LOGGER.info("invoked");
+
+        final Folder folder = getFolderWithNameOrNew(userId, folderCreateDto.getName());
+        LOGGER.info("getFolderWithNameOrNew {}", folder);
+
+        folder.setPerson(personService.getById(userId));
+        folder.setName(folderCreateDto.getName());
+        folder.setDescription(folderCreateDto.getDescription());
+
+        Folder savedFolder = folderRepository.save(folder);
+        LOGGER.info("savedFolder {}", savedFolder);
+
+        return savedFolder;
+    }
+
+    public Folder getFolderWithNameOrNew(String userId, String folderName){
+        final Folder folder = folderRepository.findByUserIdAndName(userId, folderName).orElse(new Folder());
+        LOGGER.info("finalFolder {}", folder);
+        return folder;
     }
 }

@@ -26,7 +26,7 @@
           <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
           <button class="button bg-dark dark-border" type="submit" form="folder-edit-form">Save</button>
         </div>
-        <form class="folder-edit-form" id="folder-edit-form"  th:action="@{/folder/create}" th:object="${folder}" th:method="POST">
+        <form class="folder-edit-form" id="folder-edit-form"  th:action="@{/folder/create}" th:object="${folderCreateDto}" th:method="POST">
           <div class="card folder-name">
             <textarea class="card__content dark-placeholder" type="text" title="Folder name"
                    th:field="*{name}" placeholder="Enter name of folder *" required></textarea>

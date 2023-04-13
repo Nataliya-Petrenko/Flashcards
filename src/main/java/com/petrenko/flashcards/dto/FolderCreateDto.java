@@ -8,14 +8,13 @@ import org.hibernate.annotations.Type;
 @Setter
 @Getter
 @ToString
-public class FolderIdNameDto {
-    private String id;
+public class FolderCreateDto {
+
+    //    @NotBlank(message = "Field is mandatory")
     @Type(type = "text")
     private String name;
 
-    public FolderIdNameDto(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    @Type(type = "text")
+    private String description;
 
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,10 +20,10 @@ public class Folder {
     private String id;
 
     //    @NotBlank(message = "Field is mandatory")
-//    @Type(type = "text")
+    @Type(type = "text")
     private String name;
 
-//    @Column(name = "description_of_set")
+    @Type(type = "text")
     private String description;
 
     private LocalDateTime timeOfCreation;

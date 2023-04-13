@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.FolderCreateDto;
 import com.petrenko.flashcards.dto.FolderIdNameDto;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
@@ -30,25 +31,9 @@ public class FolderController {
         this.setOfCardsService = setOfCardsService;
     }
 
-//    @GetMapping("/folder")
-//    public ModelAndView getAllFolders(Principal principal, ModelAndView modelAndView) {
-//        LOGGER.info("invoked");
-//
-//        String userId = principal.getName();
-//        LOGGER.info("userId {}", userId);
-//
-//        List<Folder> folders = folderService.getFoldersByPersonId(userId);
-//        LOGGER.info("List<Folder> ByPersonId {}", folders);
-//        modelAndView.addObject("folders", folders);
-//
-//        modelAndView.setViewName("allFolders");
-//        LOGGER.info("before show allFolders.html");
-//
-//        return modelAndView;
-//    }
-
     @GetMapping("/folder")
-    public ModelAndView getAllFolders(Principal principal, ModelAndView modelAndView) {
+    public ModelAndView getAllFolders(Principal principal,
+                                      ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
         String userId = principal.getName();
@@ -81,38 +66,84 @@ public class FolderController {
         return modelAndView;
     }
 
+//    @GetMapping("/folder/create")
+//    public ModelAndView getFolderForm(ModelAndView modelAndView) {
+//        LOGGER.info("@GetMapping(/folder/create)");
+//        Folder folder = new Folder();
+//        LOGGER.info("@GetMapping(/folder/create) new Folder " + folder);
+//        modelAndView.addObject("folder", folder);
+//        modelAndView.setViewName("createFolderView");
+//        LOGGER.info("@GetMapping(/folder/create) before show createFolderView.html");
+//        return modelAndView;
+//    }
+//
+//    @PostMapping("/folder/create")  // after created folder
+//    public ModelAndView saveNewFolder(@ModelAttribute Folder folder,
+//                                   BindingResult bindingResult,
+//                                   ModelAndView modelAndView) {
+//        LOGGER.info("@PostMapping(/folder/create) " + folder);
+//        if (bindingResult.hasErrors()) {
+//            modelAndView.addObject("folder", folder);
+//            modelAndView.setViewName("createFolderView");
+//            return modelAndView;
+//        }
+//
+//        Folder savedFolder = folderService.save(folder);
+//        LOGGER.info("@PostMapping(/folder/create) savedFolder " + savedFolder);
+//        modelAndView.addObject("folder", savedFolder);
+//
+//        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
+//        LOGGER.info("@PostMapping(/folder/create)  List<SetOfCards> getByFolder: " + setsOfCards);
+//        modelAndView.addObject("setsOfCards", setsOfCards);
+//
+//        modelAndView.setViewName("folderViewById");
+//        LOGGER.info("@PostMapping(/folder/create) before show folderViewById.html");
+//        return modelAndView;
+//    }
+
     @GetMapping("/folder/create")
     public ModelAndView getFolderForm(ModelAndView modelAndView) {
-        LOGGER.info("@GetMapping(/folder/create)");
-        Folder folder = new Folder();
-        LOGGER.info("@GetMapping(/folder/create) new Folder " + folder);
-        modelAndView.addObject("folder", folder);
+        LOGGER.info("invoked");
+
+        FolderCreateDto folderCreateDto = new FolderCreateDto();
+        LOGGER.info("new folderCreateDto {}", folderCreateDto);
+        modelAndView.addObject("folderCreateDto", folderCreateDto);
+
         modelAndView.setViewName("createFolderView");
-        LOGGER.info("@GetMapping(/folder/create) before show createFolderView.html");
+        LOGGER.info("before show createFolderView.html");
         return modelAndView;
     }
 
     @PostMapping("/folder/create")  // after created folder
-    public ModelAndView saveNewFolder(@ModelAttribute Folder folder,
-                                   BindingResult bindingResult,
-                                   ModelAndView modelAndView) {
-        LOGGER.info("@PostMapping(/folder/create) " + folder);
+    public ModelAndView saveNewFolder(@ModelAttribute FolderCreateDto folderCreateDto,
+                                      BindingResult bindingResult,
+                                      Principal principal,
+                                      ModelAndView modelAndView) {
+        LOGGER.info("folderCreateDto from form {}", folderCreateDto);
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("folder", folder);
+            LOGGER.info("return with input error {}", folderCreateDto);
+            modelAndView.addObject("folderCreateDto", folderCreateDto);
             modelAndView.setViewName("createFolderView");
             return modelAndView;
         }
 
-        Folder savedFolder = folderService.save(folder);
-        LOGGER.info("@PostMapping(/folder/create) savedFolder " + savedFolder);
-        modelAndView.addObject("folder", savedFolder);
+        String userId = principal.getName();
+        LOGGER.info("userId {}", userId);
 
-        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        LOGGER.info("@PostMapping(/folder/create)  List<SetOfCards> getByFolder: " + setsOfCards);
-        modelAndView.addObject("setsOfCards", setsOfCards);
+        Folder savedFolder = folderService.saveFolderCreateDtoToFolder(userId, folderCreateDto);
+        LOGGER.info("savedFolder {}", savedFolder);
 
-        modelAndView.setViewName("folderViewById");
-        LOGGER.info("@PostMapping(/folder/create) before show folderViewById.html");
+        modelAndView.setViewName("redirect:/folder");
+        LOGGER.info("before redirect:/folder");
+
+//        modelAndView.addObject("folder", savedFolder); // todo redirect to folderViewById?
+//
+//        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
+//        LOGGER.info("@PostMapping(/folder/create)  List<SetOfCards> getByFolder: " + setsOfCards);
+//        modelAndView.addObject("setsOfCards", setsOfCards);
+//
+//        modelAndView.setViewName("folderViewById");
+//        LOGGER.info("@PostMapping(/folder/create) before show folderViewById.html");
         return modelAndView;
     }
 

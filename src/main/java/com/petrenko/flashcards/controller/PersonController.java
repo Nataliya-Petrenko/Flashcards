@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.RegistrationPersonDto;
 import com.petrenko.flashcards.model.Person;
 import com.petrenko.flashcards.service.PersonService;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
@@ -26,21 +28,30 @@ public class PersonController {
     @GetMapping("/registration")
     public ModelAndView getRegistrationForm(ModelAndView modelAndView) {
         LOGGER.info("invoked");
-        Person person = new Person();
-        modelAndView.addObject("user", person);
-        LOGGER.info("new Person() {}", person);
+        RegistrationPersonDto registrationPersonDto = new RegistrationPersonDto();
+        modelAndView.addObject("registrationPersonDto", registrationPersonDto);
+        LOGGER.info("new RegistrationPersonDto() {}", registrationPersonDto);
         modelAndView.setViewName("registration");
         LOGGER.info("before show registration.html");
         return modelAndView;
     }
 
     @PostMapping("/registration")
-    public ModelAndView saveNewPerson(@ModelAttribute Person user, ModelAndView modelAndView) {
+    public ModelAndView saveNewPerson(@ModelAttribute @Valid RegistrationPersonDto registrationPersonDto,
+                                      BindingResult bindingResult,
+                                      ModelAndView modelAndView) {
         LOGGER.info("invoked");
-        Person savedPerson = personService.save(user);
+        if (bindingResult.hasErrors()) {
+            LOGGER.info("return with input error {}", registrationPersonDto);
+            modelAndView.addObject("registrationPersonDto", registrationPersonDto);
+            modelAndView.setViewName("registration");
+            return modelAndView;
+        }
+        Person savedPerson = personService.saveRegistrationPersonDtoToPerson(registrationPersonDto);
         LOGGER.info("savedPerson {}", savedPerson);
-        modelAndView.setViewName("redirect:/profile");
-        LOGGER.info("before redirect:/profile");
+
+        modelAndView.setViewName("redirect:/");
+        LOGGER.info("before redirect:/");
         return modelAndView;
     }
 

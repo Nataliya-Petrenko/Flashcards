@@ -1,6 +1,6 @@
 package com.petrenko.flashcards.service;
 
-import com.petrenko.flashcards.controller.PersonController;
+import com.petrenko.flashcards.dto.RegistrationPersonDto;
 import com.petrenko.flashcards.model.Person;
 import com.petrenko.flashcards.model.Role;
 import com.petrenko.flashcards.repository.PersonRepository;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -36,22 +35,22 @@ public class PersonService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public Person save(Person user) {
-        LOGGER.info("invoked");
-        if (user.getPassword() == null) {
-            throw new IllegalArgumentException("Password is incorrect");
-        }
-        if (personRepository.findPersonByEmail(user.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("User already exists");
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(user.getEmail().equalsIgnoreCase("admin") ? Role.ADMIN : Role.USER); // todo another approach get role
-        Person savedPerson = personRepository.save(user);
-        LOGGER.info("savedPerson {}", savedPerson);
-        return savedPerson;
-    }
+//    public Person save(Person user) {
+//        LOGGER.info("invoked");
+//        if (user.getPassword() == null) {
+//            throw new IllegalArgumentException("Password is incorrect");
+//        }
+//        if (personRepository.findPersonByEmail(user.getEmail()).isPresent()) {
+//            throw new IllegalArgumentException("User already exists");
+//        }
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setRole(user.getEmail().equalsIgnoreCase("admin") ? Role.ADMIN : Role.USER); // todo another approach get role
+//        Person savedPerson = personRepository.save(user);
+//        LOGGER.info("savedPerson {}", savedPerson);
+//        return savedPerson;
+//    }
 
-    @Transactional
+    //    @Transactional
     public Person edit(Person person, String userId) {
         LOGGER.info("invoked");
         String newEmail = person.getEmail();
@@ -81,6 +80,52 @@ public class PersonService implements UserDetailsService {
         Person person = personRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
         LOGGER.info("Person findById {}", person);
         return person;
+    }
+
+//    @Transactional
+//    public Person saveRegistrationPersonDtoToPerson(RegistrationPersonDto user) {
+//        LOGGER.info("invoked");
+////        if (user.getPassword() == null) {               //todo Do I need it if I have validation?
+////            throw new IllegalArgumentException("Password is incorrect");
+////        }
+////        if (personRepository.findPersonByEmail(user.getEmail()).isPresent()) {
+////            throw new IllegalArgumentException("User already exists");
+////        }
+//        Person person = new Person();
+//
+//        person.setPassword(passwordEncoder.encode(user.getPassword()));
+//        person.setEmail(user.getEmail());
+//        person.setFirstName(user.getFirstName());
+//        person.setLastName(user.getLastName());
+//        person.setRole(user.getEmail().equalsIgnoreCase("admin") ? Role.ADMIN : Role.USER); // todo another approach get role
+//
+//        Person savedPerson = personRepository.save(person);
+//        LOGGER.info("savedPerson {}", savedPerson);
+//        return savedPerson;
+//    }
+
+    //    @Transactional
+    public Person saveRegistrationPersonDtoToPerson(RegistrationPersonDto user) {
+        LOGGER.info("invoked");
+//        if (user.getPassword() == null) {               //todo Do I need it if I have validation?
+//            throw new IllegalArgumentException("Password is incorrect");
+//        }
+        if (personRepository.findPersonByEmail(user.getEmail()).isPresent()) {
+            LOGGER.info("User already exists {}", user.getEmail());
+            throw new IllegalArgumentException("User already exists");
+        }
+        Person person = new Person();
+
+        person.setPassword(passwordEncoder.encode(user.getPassword()));
+        person.setEmail(user.getEmail());
+        person.setFirstName(user.getFirstName());
+        person.setLastName(user.getLastName());
+        person.setRole(Role.USER);
+//        person.setRole(user.getEmail().equalsIgnoreCase("admin") ? Role.ADMIN : Role.USER); // todo another approach get role
+
+        Person savedPerson = personRepository.save(person);
+        LOGGER.info("savedPerson");
+        return savedPerson;
     }
 
     // todo admin can block user (enable=false)

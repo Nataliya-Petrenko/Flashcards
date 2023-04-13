@@ -11,9 +11,8 @@ public interface PersonRepository extends CrudRepository<Person, String> {
 
     Optional<Person> findPersonByEmail(String email);
 
-    Person findByEmail(String userName);
+    Optional<Person> findByEmail(String userName);
 
-//    @Transactional
     @Modifying
     @Query("UPDATE Person p SET p.email = :newEmail, p.firstName = :newFirstName, p.lastName = :newLastName WHERE p.id = :userId")
     void edit(String userId, String newEmail, String newFirstName, String newLastName);
@@ -21,4 +20,5 @@ public interface PersonRepository extends CrudRepository<Person, String> {
     @Modifying
     @Query("UPDATE Person p SET p.password = :newPassword WHERE p.id = :userId")
     void editPassword(String userId, String newPassword);
+
 }

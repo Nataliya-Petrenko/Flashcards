@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,8 +26,10 @@ public class Person implements UserDetails {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+//    @NotBlank(message = "Field is mandatory")
     private String password;
 
+//    @NotBlank(message = "Field is mandatory") // todo Do I need it if I have checking in DTO?
     private String email;
 
     private String firstName;
@@ -37,9 +41,6 @@ public class Person implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @OneToMany
-//    private List<Folder> folders = new LinkedList<>();
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(role);
@@ -49,10 +50,6 @@ public class Person implements UserDetails {
     public String getUsername() {
         return id;
     }
-
-//    public String getUsername() {
-//        return email;
-//    }
 
     @Override
     public boolean isAccountNonExpired() {

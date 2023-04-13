@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.service;
 
+import com.petrenko.flashcards.dto.EditProfileDto;
 import com.petrenko.flashcards.dto.RegistrationPersonDto;
 import com.petrenko.flashcards.model.Person;
 import com.petrenko.flashcards.model.Role;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -51,21 +53,21 @@ public class PersonService implements UserDetailsService {
 //    }
 
     //    @Transactional
-    public Person edit(Person person, String userId) {
-        LOGGER.info("invoked");
-        String newEmail = person.getEmail();
-        String newFirstName = person.getFirstName();
-        String newLastName = person.getLastName();
-        personRepository.edit(userId, newEmail, newFirstName, newLastName);
-        Person editedPerson = getById(userId);
-        LOGGER.info("editedPerson {}", editedPerson);
-
-        if (!person.getPassword().isBlank()) { // todo add another required for password pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-            personRepository.editPassword(userId, passwordEncoder.encode(person.getPassword()));
-        }
-
-        return editedPerson;
-    }
+//    public Person edit(Person person, String userId) {
+//        LOGGER.info("invoked");
+//        String newEmail = person.getEmail();
+//        String newFirstName = person.getFirstName();
+//        String newLastName = person.getLastName();
+//        personRepository.edit(userId, newEmail, newFirstName, newLastName);
+//        Person editedPerson = getById(userId);
+//        LOGGER.info("editedPerson {}", editedPerson);
+//
+//        if (!person.getPassword().isBlank()) { // todo add another required for password pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+//            personRepository.editPassword(userId, passwordEncoder.encode(person.getPassword()));
+//        }
+//
+//        return editedPerson;
+//    }
 
 
 //    public Person getPersonByName(String name) {
@@ -82,29 +84,8 @@ public class PersonService implements UserDetailsService {
         return person;
     }
 
-//    @Transactional
-//    public Person saveRegistrationPersonDtoToPerson(RegistrationPersonDto user) {
-//        LOGGER.info("invoked");
-////        if (user.getPassword() == null) {               //todo Do I need it if I have validation?
-////            throw new IllegalArgumentException("Password is incorrect");
-////        }
-////        if (personRepository.findPersonByEmail(user.getEmail()).isPresent()) {
-////            throw new IllegalArgumentException("User already exists");
-////        }
-//        Person person = new Person();
-//
-//        person.setPassword(passwordEncoder.encode(user.getPassword()));
-//        person.setEmail(user.getEmail());
-//        person.setFirstName(user.getFirstName());
-//        person.setLastName(user.getLastName());
-//        person.setRole(user.getEmail().equalsIgnoreCase("admin") ? Role.ADMIN : Role.USER); // todo another approach get role
-//
-//        Person savedPerson = personRepository.save(person);
-//        LOGGER.info("savedPerson {}", savedPerson);
-//        return savedPerson;
-//    }
+// -----------------for new DTO------------
 
-    //    @Transactional
     public Person saveRegistrationPersonDtoToPerson(RegistrationPersonDto user) {
         LOGGER.info("invoked");
 //        if (user.getPassword() == null) {               //todo Do I need it if I have validation?
@@ -126,6 +107,34 @@ public class PersonService implements UserDetailsService {
         Person savedPerson = personRepository.save(person);
         LOGGER.info("savedPerson");
         return savedPerson;
+    }
+
+    public EditProfileDto getEditProfileDtoByUserId(String userId) {
+        LOGGER.info("invoked");
+        EditProfileDto editProfileDto = personRepository.getEditProfileDtoByUserId(userId)
+                .orElseThrow(IllegalArgumentException::new);
+        LOGGER.info("editProfileDto {}", editProfileDto);
+        return editProfileDto;
+    }
+
+    @Transactional
+    public Person updatePersonFromEditProfileDto(String userId, EditProfileDto editProfileDto) {
+        LOGGER.info("invoked");
+
+        String newEmail = editProfileDto.getEmail();
+        String newFirstName = editProfileDto.getFirstName();
+        String newLastName = editProfileDto.getLastName();
+
+//        if (!editProfileDto.getPassword().isBlank()) { // todo own page for password to add required for password pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" in form
+//            String newPassword = editProfileDto.getPassword();
+//            personRepository.updatePersonFromEditProfileDto(userId, newEmail, newFirstName, newLastName, newPassword);
+//        }
+        personRepository.edit(userId, newEmail, newFirstName, newLastName);
+
+        Person editedPerson = getById(userId);
+        LOGGER.info("editedPerson {}", editedPerson);
+
+        return editedPerson;
     }
 
     // todo admin can block user (enable=false)

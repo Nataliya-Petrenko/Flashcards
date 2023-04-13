@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.EditProfileDto;
 import com.petrenko.flashcards.dto.RegistrationPersonDto;
 import com.petrenko.flashcards.model.Person;
 import com.petrenko.flashcards.service.PersonService;
@@ -55,16 +56,56 @@ public class PersonController {
         return modelAndView;
     }
 
+//    @GetMapping("/profile")
+//    public ModelAndView getProfileForm(ModelAndView modelAndView,
+//                                   Principal principal) {
+//        LOGGER.info("invoked");
+//        String userId = principal.getName();
+//
+//        Person personByName = personService.getById(userId);
+//        modelAndView.addObject("person", personByName);
+//
+//        String newPassword = "";
+//        modelAndView.addObject("newPassword", newPassword);
+//
+//        modelAndView.setViewName("profileEdit");
+//        LOGGER.info("before show profileEdit.html");
+//        return modelAndView;
+//    }
+//
+//    @PutMapping("/profile/edit")
+//    public ModelAndView editProfile(@ModelAttribute Person person,
+//                                   @ModelAttribute String newPassword, // todo I'm not sure it is good approach
+//                                   BindingResult bindingResult,
+//                                   ModelAndView modelAndView,
+//                                   Principal principal) {
+//        LOGGER.info("person from form {}", person);
+//        if (bindingResult.hasErrors()) {
+//            modelAndView.addObject("person", person);
+//            modelAndView.setViewName("profileEdit");
+//            return modelAndView;
+//        }
+//
+//        person.setPassword(newPassword);
+//        String userId = principal.getName();
+//        Person savedPerson = personService.edit(person, userId);
+//        LOGGER.info("savedPerson {}", savedPerson);
+//
+//        modelAndView.setViewName("redirect:/");
+//        LOGGER.info("before redirect:/");
+//        return modelAndView;
+//    }
+
     @GetMapping("/profile")
     public ModelAndView getProfileForm(ModelAndView modelAndView,
-                                   Principal principal) {
+                                       Principal principal) {
         LOGGER.info("invoked");
         String userId = principal.getName();
-        Person personByName = personService.getById(userId);
-        modelAndView.addObject("person", personByName);
+        LOGGER.info("userId {}", userId);
 
-        String newPassword = "";
-        modelAndView.addObject("newPassword", newPassword);
+        EditProfileDto editProfileDto = personService.getEditProfileDtoByUserId(userId);
+        LOGGER.info("editProfileDto {}", editProfileDto);
+        modelAndView.addObject("editProfileDto", editProfileDto);
 
         modelAndView.setViewName("profileEdit");
         LOGGER.info("before show profileEdit.html");
@@ -72,21 +113,20 @@ public class PersonController {
     }
 
     @PutMapping("/profile/edit")
-    public ModelAndView editProfile(@ModelAttribute Person person,
-                                   @ModelAttribute String newPassword, // todo I'm not sure it is good approach
-                                   BindingResult bindingResult,
-                                   ModelAndView modelAndView,
-                                   Principal principal) {
-        LOGGER.info("person from form {}", person);
+    public ModelAndView editProfile(@ModelAttribute EditProfileDto editProfileDto,
+                                    BindingResult bindingResult,
+                                    ModelAndView modelAndView,
+                                    Principal principal) {
+        LOGGER.info("editProfileDto from form {}", editProfileDto);
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("person", person);
+            LOGGER.info("return with input error {}", editProfileDto);
+            modelAndView.addObject("editProfileDto", editProfileDto);
             modelAndView.setViewName("profileEdit");
             return modelAndView;
         }
 
-        person.setPassword(newPassword);
         String userId = principal.getName();
-        Person savedPerson = personService.edit(person, userId);
+        Person savedPerson = personService.updatePersonFromEditProfileDto(userId, editProfileDto);
         LOGGER.info("savedPerson {}", savedPerson);
 
         modelAndView.setViewName("redirect:/");

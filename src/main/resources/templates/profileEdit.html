@@ -25,7 +25,7 @@
           <a th:href="@{/folder}" class="button bg-dark dark-border">Go to all folders</a>
           <button class="button bg-dark no-border" type="submit" form="edit-profile-form">Save</button>
         </div>
-        <form id="edit-profile-form" class="card edit-profile-form user-info-card" th:action="@{/profile/edit}" th:object="${person}" th:method="PUT">
+        <form id="edit-profile-form" class="card edit-profile-form user-info-card" th:action="@{/profile/edit}" th:object="${editProfileDto}" th:method="PUT">
           <label class="photo-wrapper tooltip" for="avatar">
             <img class="user-photo" src="./img/user-image.png" alt="user photo">
             <span class="tooltip-text">Select new profile photo</span>
@@ -49,10 +49,10 @@
                 <span class="caption-text">Email:</span>
                 <input class="" type="text" th:field="*{email}" required>
               </li>
-              <li class="user-info-card__info-list-item">
-                <span class="caption-text">New password:</span>
-                <input class="" type="password" th:field="${newPassword}">
-              </li>
+<!--              <li class="user-info-card__info-list-item">-->
+<!--                <span class="caption-text">New password:</span>-->
+<!--                <input class="" type="password" th:field="${newPassword}">-->
+<!--              </li>-->
             </ul>
           </div>
         </form>

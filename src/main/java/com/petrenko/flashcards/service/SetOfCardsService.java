@@ -1,6 +1,5 @@
 package com.petrenko.flashcards.service;
 
-import com.petrenko.flashcards.controller.CardController;
 import com.petrenko.flashcards.dto.SetIdNameDto;
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Folder;
@@ -27,8 +26,7 @@ public class SetOfCardsService {
     @Autowired
     public SetOfCardsService(final SetOfCardsRepository setOfCardsRepository,
                              final CardRepository cardRepository,
-                             final FolderService folderService
-    ) {
+                             final FolderService folderService) {
         this.setOfCardsRepository = setOfCardsRepository;
         this.cardRepository = cardRepository;
         this.folderService = folderService;
@@ -101,10 +99,11 @@ public class SetOfCardsService {
         return idFromFolderByName;
     }
 
-    public List<SetIdNameDto> getByFolderId(String userId, String folderId) {
+    public List<SetIdNameDto> getByFolderId(String folderId) {
         LOGGER.info("invoked");
-        List<SetIdNameDto> sets = setOfCardsRepository.getByFolderId(userId, folderId);
+        List<SetIdNameDto> sets = setOfCardsRepository.getByFolderId(folderId);
         LOGGER.info("SetOfCards getByFolderId: {}", sets);
         return sets;
     }
+
 }

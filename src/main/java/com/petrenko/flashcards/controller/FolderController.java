@@ -99,7 +99,7 @@ public class FolderController {
         LOGGER.info("folderByIdDto: {}", folderByIdDto);
         modelAndView.addObject("folderByIdDto", folderByIdDto);
 
-        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(userId, id);
+        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id);
         LOGGER.info("List<setsIdNameDto> getByFolderId: {}", setsIdNameDto);
         modelAndView.addObject("setsIdNameDto", setsIdNameDto);
 
@@ -110,14 +110,10 @@ public class FolderController {
 
     @GetMapping("/folder/{id}/edit")
     public ModelAndView getFolderEditForm(@PathVariable("id") String id,
-                                          Principal principal,
                                           ModelAndView modelAndView) {
         LOGGER.info("folder id from link: {}", id);
 
-        final String userId = principal.getName();
-        LOGGER.info("userId {}", userId);
-
-        final FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderService.getFolderIdNameDescriptionDto(userId, id);
+        final FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderService.getFolderIdNameDescriptionDto(id);
         LOGGER.info("folderIdNameDescriptionDto: {}", folderIdNameDescriptionDto);
         modelAndView.addObject("folderIdNameDescriptionDto", folderIdNameDescriptionDto);
 
@@ -127,7 +123,7 @@ public class FolderController {
     }
 
     @PutMapping("/folder/{id}/edit")
-    public ModelAndView editFolder(@PathVariable("id") String id,    // todo Do I need id into link?
+    public ModelAndView editFolder(@PathVariable("id") String id,           // todo Do I need id into link?
                                 @ModelAttribute FolderIdNameDescriptionDto folderIdNameDescriptionDto,
                                 Principal principal,
                                 BindingResult bindingResult,
@@ -153,38 +149,36 @@ public class FolderController {
     }
 
     @GetMapping("/folder/{id}/delete")
-    public ModelAndView getFolderDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("@GetMapping(/folder/{id}/delete) id: " + id);
-        Folder folder = folderService.getById(id);
-        LOGGER.info("@GetMapping(/folder/{id}/delete) folder getById: " + folder);
-        modelAndView.addObject("folder", folder);
+    public ModelAndView getFolderDeleteForm(@PathVariable("id") String id,
+                                            ModelAndView modelAndView) {
 
-        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        LOGGER.info("@GetMapping(/folder/{id}/delete)  List<SetOfCards> getByFolder: " + setsOfCards);
-        modelAndView.addObject("setsOfCards", setsOfCards);
+        LOGGER.info("folder id from link: " + id);
 
-        modelAndView.setViewName("deleteFolderViewById");
-        LOGGER.info("@GetMapping(/folder/{id}/delete) before show deleteFolderViewById.html");
+        FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderService.getFolderIdNameDescriptionDto(id);
+        LOGGER.info("folderIdNameDescriptionDto: {}", folderIdNameDescriptionDto);
+        modelAndView.addObject("folderIdNameDescriptionDto", folderIdNameDescriptionDto);
+
+        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id); // todo get only setsName?
+        LOGGER.info("List<setsIdNameDto> getByFolderId: {}", setsIdNameDto);
+        modelAndView.addObject("setsIdNameDto", setsIdNameDto);
+
+        modelAndView.setViewName("folderDeleteById");
+        LOGGER.info("before show folderDeleteById.html");
         return modelAndView;
     }
 
-    @DeleteMapping("/folder/{id}/delete")  // after delete card
-    public ModelAndView deleteFolder(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("@DeleteMapping(/folder/{id}/delete) id: " + id);
+    @DeleteMapping("/folder/{id}/delete")
+    public ModelAndView deleteFolder(@PathVariable("id") String id,
+                                     ModelAndView modelAndView) {
+        LOGGER.info("folder id from link: " + id);
 
-        folderService.deleteById(id);
-        LOGGER.info("@DeleteMapping(/folder/{id}/delete) folder is deleted");
+        folderService.deleteAllByFolderId(id);
+        LOGGER.info("folder is deleted");
 
-// todo go to profile
-
-        Folder folder = new Folder();
-        LOGGER.info("@DeleteMapping(/folder/{id}/delete) new Folder " + folder);
-        modelAndView.addObject("folder", folder);
-        modelAndView.setViewName("folderCreate");
-        LOGGER.info("@DeleteMapping(/folder/{id}/delete) before show folderCreate.html");
+        modelAndView.setViewName("redirect:/folder");
+        LOGGER.info("before redirect:/folder");
         return modelAndView;
 
     }
-
 
 }

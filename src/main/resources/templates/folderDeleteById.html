@@ -21,20 +21,20 @@
     <main class="main">
       <div class="folder-view">
         <div class="navigation folder-navigation">
-          <a th:href="@{/folder}" class="button bg-dark dark-border">Go to all folders</a>
-          <form th:action="@{/set/{id}/delete(id=${setOfCards.id})}" th:object="${setOfCards}" th:method="DELETE">
-            <button class="button bg-dark dark-border auto-margin-left" type="submit">Yes, delete folder</button>
+          <a th:href="@{/folder}" class="button bg-dark dark-border auto-margin-left">Go to all folders</a>
+          <form th:action="@{/folder/{id}/delete(id=*{id})}" th:object="${folderIdNameDescriptionDto}" th:method="DELETE">
+            <button class="button bg-dark dark-border auto-margin-right" type="submit">Yes, delete folder</button>
           </form>
-          <a th:href="@{/folder/{id}(id=${folder.id})}" class="button bg-dark dark-border">No, back to folder</a>
+          <a th:href="@{/folder/{id}(id=*{id})}" class="button bg-dark dark-border">No, back to folder</a>
         </div>
 <!--        <h2 class="second-title folder-title" th:text="|${folder.name}|" title="Folder name"></h2>-->
-        <h2 class="second-title set-title" th:text="|Are you sure you want to delete the folder: ${folder.name}?|"></h2>
+        <h2 class="second-title set-title" th:text="|Are you sure you want to delete the folder: *{name}?|"></h2>
 
         <div class="card folder-description">
-          <p class="folder-description__text" th:text="|${folder.description}|" title="Folder description"></p>
+          <p class="folder-description__text" th:text="|*{description}|" title="Folder description"></p>
         </div>
         <div class="card folder-card">
-          <div class="card__content folder-card__content" th:each="set : ${setsOfCards}" title="Sets">
+          <div class="card__content folder-card__content" th:each="set : ${setsIdNameDto}" title="Sets">
             <div class="card border-card card-in-set">
               <p th:text="|${set.name}|" title="Set name"></p>
 <!--              <div class="card-buttons">-->

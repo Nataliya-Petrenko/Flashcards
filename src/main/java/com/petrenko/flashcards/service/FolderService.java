@@ -139,7 +139,7 @@ public class FolderService {
         LOGGER.info("invoked");
 
         FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
-                .getFolderIdNameDescriptionDto(userId, folderId).orElseThrow(IllegalArgumentException::new);
+                .getFolderIdNameDescriptionDto(folderId).orElseThrow(IllegalArgumentException::new);
 
         FolderByIdDto folderByIdDto = new FolderByIdDto();
 
@@ -171,10 +171,10 @@ public class FolderService {
         return nextOrFirstFolderId;
     }
 
-    public FolderIdNameDescriptionDto getFolderIdNameDescriptionDto(String userId, String folderId) {
+    public FolderIdNameDescriptionDto getFolderIdNameDescriptionDto(String folderId) {
         LOGGER.info("invoked");
         FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
-                .getFolderIdNameDescriptionDto(userId, folderId)
+                .getFolderIdNameDescriptionDto(folderId)
                 .orElseThrow(IllegalArgumentException::new);
         LOGGER.info("folderIdNameDescriptionDto {}", folderIdNameDescriptionDto);
         return folderIdNameDescriptionDto;
@@ -200,5 +200,15 @@ public class FolderService {
 
         LOGGER.info("updatedFolder {}", updatedFolder);
         return updatedFolder;
+    }
+
+    @Transactional
+    public void deleteAllByFolderId(String folderId) {
+        List<String> setsId = folderRepository.getSetsIdByFolderId(folderId);
+        setsId.forEach(s -> {
+            cardRepository.deleteBySetId(s);
+            setOfCardsRepository.deleteById(s);
+        });
+        folderRepository.deleteById(folderId);
     }
 }

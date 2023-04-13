@@ -3,6 +3,7 @@ package com.petrenko.flashcards.repository;
 import com.petrenko.flashcards.dto.CardEditingDto;
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.SetOfCards;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -95,5 +96,13 @@ public interface CardRepository extends CrudRepository<Card, String> {
             WHERE c.id = :id
             """)
     Optional<CardEditingDto> getCardEditingDto(@Param("id") String id);
+
+    @Modifying
+    @Query("""
+            DELETE
+            FROM Card c
+            WHERE c.setOfCards.id = :setId
+            """)
+    void deleteBySetId(String setId);
 
 }

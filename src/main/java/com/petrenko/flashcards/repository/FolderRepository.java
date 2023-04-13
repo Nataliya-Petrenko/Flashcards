@@ -1,14 +1,11 @@
 package com.petrenko.flashcards.repository;
 
-import com.petrenko.flashcards.dto.FolderByIdDto;
 import com.petrenko.flashcards.dto.FolderIdNameDescriptionDto;
 import com.petrenko.flashcards.dto.FolderIdNameDto;
 import com.petrenko.flashcards.model.Folder;
-import com.petrenko.flashcards.model.SetOfCards;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -101,12 +98,11 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
     Optional<String> getFirstId(String userId);
 
     @Query("""
-        SELECT new com.petrenko.flashcards.dto.FolderIdNameDescriptionDto(f.id, f.name, f.description)
-        FROM Folder f
-        LEFT JOIN f.person p
-        WHERE p.id = :userId AND f.id = :folderId
-            """)
-    Optional<FolderIdNameDescriptionDto> getFolderIdNameDescriptionDto(String userId, String folderId);
+            SELECT new com.petrenko.flashcards.dto.FolderIdNameDescriptionDto(f.id, f.name, f.description)
+            FROM Folder f
+            WHERE f.id = :folderId
+                """)
+    Optional<FolderIdNameDescriptionDto> getFolderIdNameDescriptionDto(String folderId);
 
     @Query("""
             SELECT f.id
@@ -122,4 +118,22 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
             WHERE f.person.id = :userId
             """)
     void update(String userId, String newName, String newDescription);
+
+    @Query("""
+            SELECT s.id
+            FROM SetOfCards s
+            LEFT JOIN s.folder f
+            WHERE f.id = :folderId
+            """)
+    List<String> getSetsIdByFolderId(String folderId);
+
+    //    @Query("""
+//            DELETE
+//            FROM CARD c
+//            LEFT JOIN c.setOfCards s
+//            WHERE s.id = :setId
+//            """)
+
+
+
 }

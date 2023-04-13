@@ -26,8 +26,8 @@ public interface SetOfCardsRepository extends CrudRepository<SetOfCards, String>
             SELECT new com.petrenko.flashcards.dto.SetIdNameDto(s.id, s.name)
             FROM SetOfCards s
             LEFT JOIN s.folder f
-            LEFT JOIN f.person p
-            WHERE f.id = :folderId AND p.id = :userId
+            WHERE f.id = :folderId
             """)
-    List<SetIdNameDto> getByFolderId(String userId, String folderId);
+    List<SetIdNameDto> getByFolderId(String folderId);
+
 }

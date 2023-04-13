@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.repository;
 
+import com.petrenko.flashcards.dto.FolderIdNameDto;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +23,12 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
     Optional<Folder> findByUserIdAndName(String userId, String newName);
 
     List<Folder> findByPersonId(String userId);
+
+    @Query("""
+            SELECT new com.petrenko.flashcards.dto.FolderIdNameDto(f.id, f.name)
+            FROM Folder f
+            LEFT JOIN f.person p
+            WHERE p.id = :userId
+            """)
+    List<FolderIdNameDto> getFoldersIdNameDtoByPersonId(String userId);
 }

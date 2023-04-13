@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.service;
 
+import com.petrenko.flashcards.dto.FolderIdNameDto;
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
@@ -90,5 +91,14 @@ public class FolderService {
         List<Folder> folders = folderRepository.findByPersonId(userId);
         LOGGER.info("folders {}", folders);
         return folders;
+    }
+
+    // -----------------for new DTO------------
+
+    public List<FolderIdNameDto> getFoldersIdNameDtoByPersonId(String userId) {
+        LOGGER.info("invoked");
+        List<FolderIdNameDto> folderIdNameDto = folderRepository.getFoldersIdNameDtoByPersonId(userId);
+        LOGGER.info("folderNameIdDto {}", folderIdNameDto);
+        return folderIdNameDto;
     }
 }

@@ -24,7 +24,7 @@
                   <a th:href="@{/folder/create}" class="button bg-dark dark-border auto-margin-left">New folder</a>
               </div>
               <div class="card all-folders-card">
-                  <div class="card__content all-folders-card__content" th:each="folder : ${folders}">
+                  <div class="card__content all-folders-card__content" th:each="folder : ${foldersIdNameDto}">
                       <div class="card border-card card-in-set">
                           <p th:text="|${folder.name}|" title="Folder name"></p>
                           <div class="card-buttons">

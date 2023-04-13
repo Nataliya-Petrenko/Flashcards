@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.FolderIdNameDto;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.service.FolderService;
@@ -29,6 +30,23 @@ public class FolderController {
         this.setOfCardsService = setOfCardsService;
     }
 
+//    @GetMapping("/folder")
+//    public ModelAndView getAllFolders(Principal principal, ModelAndView modelAndView) {
+//        LOGGER.info("invoked");
+//
+//        String userId = principal.getName();
+//        LOGGER.info("userId {}", userId);
+//
+//        List<Folder> folders = folderService.getFoldersByPersonId(userId);
+//        LOGGER.info("List<Folder> ByPersonId {}", folders);
+//        modelAndView.addObject("folders", folders);
+//
+//        modelAndView.setViewName("allFolders");
+//        LOGGER.info("before show allFolders.html");
+//
+//        return modelAndView;
+//    }
+
     @GetMapping("/folder")
     public ModelAndView getAllFolders(Principal principal, ModelAndView modelAndView) {
         LOGGER.info("invoked");
@@ -36,9 +54,9 @@ public class FolderController {
         String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        List<Folder> folders = folderService.getFoldersByPersonId(userId);
-        LOGGER.info("List<Folder> ByPersonId {}", folders);
-        modelAndView.addObject("folders", folders);
+        List<FolderIdNameDto> foldersIdNameDto = folderService.getFoldersIdNameDtoByPersonId(userId);
+        LOGGER.info("List<FolderIdNameDto> ByPersonId {}", foldersIdNameDto);
+        modelAndView.addObject("foldersIdNameDto", foldersIdNameDto);
 
         modelAndView.setViewName("allFolders");
         LOGGER.info("before show allFolders.html");

@@ -56,46 +56,6 @@ public class PersonController {
         return modelAndView;
     }
 
-//    @GetMapping("/profile")
-//    public ModelAndView getProfileForm(ModelAndView modelAndView,
-//                                   Principal principal) {
-//        LOGGER.info("invoked");
-//        String userId = principal.getName();
-//
-//        Person personByName = personService.getById(userId);
-//        modelAndView.addObject("person", personByName);
-//
-//        String newPassword = "";
-//        modelAndView.addObject("newPassword", newPassword);
-//
-//        modelAndView.setViewName("profileEdit");
-//        LOGGER.info("before show profileEdit.html");
-//        return modelAndView;
-//    }
-//
-//    @PutMapping("/profile/edit")
-//    public ModelAndView editProfile(@ModelAttribute Person person,
-//                                   @ModelAttribute String newPassword, // todo I'm not sure it is good approach
-//                                   BindingResult bindingResult,
-//                                   ModelAndView modelAndView,
-//                                   Principal principal) {
-//        LOGGER.info("person from form {}", person);
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.addObject("person", person);
-//            modelAndView.setViewName("profileEdit");
-//            return modelAndView;
-//        }
-//
-//        person.setPassword(newPassword);
-//        String userId = principal.getName();
-//        Person savedPerson = personService.edit(person, userId);
-//        LOGGER.info("savedPerson {}", savedPerson);
-//
-//        modelAndView.setViewName("redirect:/");
-//        LOGGER.info("before redirect:/");
-//        return modelAndView;
-//    }
-
     @GetMapping("/profile")
     public ModelAndView getProfileForm(ModelAndView modelAndView,
                                        Principal principal) {
@@ -133,6 +93,13 @@ public class PersonController {
         LOGGER.info("before redirect:/");
         return modelAndView;
     }
+
+    //todo personInfo for header or link to profile instead of info
+//    @ModelAttribute(name = "personInfo")
+//    private EditProfileDto getPersonInfo() {
+//
+//        return editProfileDto;
+//    }
 
 //    @GetMapping("/signin")
 //    public ModelAndView getSigninForm(ModelAndView modelAndView) {

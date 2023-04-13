@@ -210,11 +210,19 @@ public class FolderService {
 
     @Transactional
     public void deleteAllByFolderId(String folderId) {
+        LOGGER.info("invoked");
         List<String> setsId = folderRepository.getSetsIdByFolderId(folderId);
         setsId.forEach(s -> {
             cardRepository.deleteBySetId(s);
             setOfCardsRepository.deleteById(s);
         });
         folderRepository.deleteById(folderId);
+    }
+
+    public String getNameById(String id) {
+        LOGGER.info("invoked");
+        String folderName = folderRepository.findNameById(id).orElseThrow(IllegalArgumentException::new);
+        LOGGER.info("folderName {}", folderName);
+        return folderName;
     }
 }

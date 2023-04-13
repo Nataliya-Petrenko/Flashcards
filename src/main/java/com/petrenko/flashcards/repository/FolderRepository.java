@@ -127,13 +127,10 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
             """)
     List<String> getSetsIdByFolderId(String folderId);
 
-    //    @Query("""
-//            DELETE
-//            FROM CARD c
-//            LEFT JOIN c.setOfCards s
-//            WHERE s.id = :setId
-//            """)
-
-
-
+    @Query("""
+            SELECT name
+            FROM Folder
+            WHERE id = :folderId
+            """)
+    Optional<String> findNameById(String folderId);
 }

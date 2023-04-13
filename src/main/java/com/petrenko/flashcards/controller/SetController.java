@@ -72,19 +72,20 @@ public class SetController {
 
     @GetMapping("/set/create/{id}")  // with fill folder name by setId
     public ModelAndView getSetForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("@GetMapping(/set/create/{id}) with fill folder name");
+        LOGGER.info("invoked");
 
-        SetOfCards setOfCards = new SetOfCards();
-        LOGGER.info("@GetMapping(/set/create/{id}) new setOfCards " + setOfCards);
+        SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto();
+        LOGGER.info("new SetFolderNameSetNameDescriptionDto {}", setDto);
 
-        Folder folder = folderService.getById(id);
-        LOGGER.info("@GetMapping(/set/create/{id}) folder getById" + folder);
-        setOfCards.setFolder(folder);
-        LOGGER.info("@GetMapping(/set/create/{id}) setOfCards with name of folder " + setOfCards);
-        modelAndView.addObject("setOfCards", setOfCards);
+        String folderName = folderService.getNameById(id);
+        LOGGER.info("folderName getNameById {}", folderName);
 
-        modelAndView.setViewName("createSetView");
-        LOGGER.info("@GetMapping(/set/create/{id}) before show createSetView");
+        setDto.setFolderName(folderName);
+
+        modelAndView.addObject("setDto", setDto);
+
+        modelAndView.setViewName("setCreate");
+        LOGGER.info("before show setCreate");
         return modelAndView;
     }
 

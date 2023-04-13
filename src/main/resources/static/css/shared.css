@@ -111,6 +111,12 @@ a {
   justify-self: center;
 }
 
+.card-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--g-20);
+}
+
 .border-card {
   border: 3px solid var(--main-color);
 }

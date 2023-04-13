@@ -1,0 +1,43 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/variables.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/shared.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/all-folders-view.css}">
+  <title>Flashcards</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+      <main class="main">
+          <div class="all-folders-view">
+              <div class="navigation all-folders-navigation">
+                  <a th:href="@{/folder/create}" class="button bg-dark dark-border auto-margin-left">New folder</a>
+              </div>
+              <div class="card all-folders-card">
+                  <div class="card__content all-folders-card__content" th:each="folder : ${folders}">
+                      <div class="card border-card card-in-set">
+                          <p th:text="|${folder.name}|" title="Folder name"></p>
+                          <div class="card-buttons">
+                              <a th:href="@{/folder/{id}(id=${folder.id})}" class="button bg-dark no-border">Show folder</a>
+                              <a th:href="@{/folder/{id}/delete(id=${folder.id})}" class="button bg-dark no-border">Delete</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </main>
+
+  </div>
+</body>
+
+</html>

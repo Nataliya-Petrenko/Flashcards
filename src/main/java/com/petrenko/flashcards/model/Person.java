@@ -11,6 +11,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +37,9 @@ public class Person implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+//    @OneToMany
+//    private List<Folder> folders = new LinkedList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(role);
@@ -42,8 +47,12 @@ public class Person implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return id;
     }
+
+//    public String getUsername() {
+//        return email;
+//    }
 
     @Override
     public boolean isAccountNonExpired() {

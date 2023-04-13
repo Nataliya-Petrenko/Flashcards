@@ -30,25 +30,17 @@
             </div>
             <div class="card-description">
                 <p class="card-description__text second-title"
-                   th:text="|Are you sure you want to delete the card from: *{setOfCards.folder.name}: *{setOfCards.name}?|"
-                   title="Folder name: Set name">
-                    Folder name: Set name
+                   th:text="|Are you sure you want to delete the card from: *{setOfCards.folder.name}: *{setOfCards.name}?|">
                 </p>
             </div>
             <div class="card question-card" title="Question">
-                <div class="card__content">
-                    <p  th:text="|*{question}|">Question</p>
-                </div>
+                    <textarea class="card__content"  th:text="|*{question}|">Question</textarea>
             </div>
             <div class="card short-answer-card" title="Short answer">
-                <div class="card__content">
-                    <p th:text="|*{shortAnswer}|">Short answer does not exist</p>
-                </div>
+                    <textarea class="card__content" th:text="|*{shortAnswer}|">Short answer does not exist</textarea>
             </div>
             <div class="card extended-answer-card" title="Extended answer">
-                <div class="card__content">
-                    <p th:text="|*{longAnswer}|">Extended answer does not exist</p>
-                </div>
+                    <textarea class="card__content" th:text="|*{longAnswer}|">Extended answer does not exist</textarea>
             </div>
         </section>
     </main>

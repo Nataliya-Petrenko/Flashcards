@@ -27,6 +27,20 @@ public class Folder {
 
     private LocalDateTime timeOfCreation;
 
+    @ManyToOne
+    private Person person;
+
+    public Folder() {
+    }
+
+    public Folder(String id, String name, String description, LocalDateTime timeOfCreation, Person person) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.timeOfCreation = timeOfCreation;
+        this.person = person;
+    }
+
     @PrePersist
     protected void prePersist() {
         timeOfCreation = LocalDateTime.now();

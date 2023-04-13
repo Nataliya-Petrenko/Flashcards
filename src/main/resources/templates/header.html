@@ -44,6 +44,7 @@
         <div class="dropdown-content">
             <ul class="dropdown-list">
                 <li class="profile-full-name info-text">
+                    <!--                    <p th:text="|${person.firstName}|">FirstName</p>-->
                     <p>FirstName</p>
                     <p>LastName</p>
                 </li>
@@ -51,7 +52,10 @@
                     <p>SomeEmail@gmail.com</p>
                 </li>
                 <li class="dropdown-list__item">
-                    <a href="#">Open profile</a>
+                    <a th:href="@{/folder}">Go to all folders</a>
+                </li>
+                <li class="dropdown-list__item">
+                    <a th:href="@{/profile}">Edit profile</a>
                 </li>
                 <li class="profile-log-out">
                     <a th:href="@{/logout}">Log out</a>

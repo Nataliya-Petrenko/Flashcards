@@ -60,9 +60,9 @@ public class CardService {
 //        return card;
 //    }
 
-    public Card save(final Card card) {
+    public Card save(final String userId, final Card card) {
 
-        SetOfCards setOfCards = setOfCardsService.saveCheckName(card.getSetOfCards());
+        SetOfCards setOfCards = setOfCardsService.saveCheckName(userId, card.getSetOfCards());
         card.setSetOfCards(setOfCards);
         card.setTimeOfCreation(LocalDateTime.now());
         Card savedCard = cardRepository.save(card);
@@ -73,43 +73,52 @@ public class CardService {
 
     public List<Card> getBySet(final SetOfCards setOfCards) {
         List<Card> bySetOfCards = cardRepository.getBySetOfCards(setOfCards);
-        LOGGER.info("Service: getBySet: " + bySetOfCards);
+        LOGGER.info("List<Card> bySetOfCards: {}", bySetOfCards);
         return bySetOfCards;
     }
 
-    public Card saveToCard(final CardCreatingDto cardCreatingDto) {
-        Card card = new Card();
-        card.setQuestion(cardCreatingDto.getQuestion());
-        card.setShortAnswer(cardCreatingDto.getShortAnswer());
-        card.setLongAnswer(cardCreatingDto.getLongAnswer());
+//    public Card saveToCard(final CardCreatingDto cardCreatingDto) {
+//        Card card = new Card();
+//        card.setQuestion(cardCreatingDto.getQuestion());
+//        card.setShortAnswer(cardCreatingDto.getShortAnswer());
+//        card.setLongAnswer(cardCreatingDto.getLongAnswer());
+//
+//        final String setOfCardsName = cardCreatingDto.getSetOfCardsName();
+//        setOfCardsService.getByName(setOfCardsName).ifPresentOrElse(card::setSetOfCards,   //  todo how to break cyclical dependence:  cardService <--> setOfCardsService?
+//                () -> {      //todo if a set with this name in this folder exist then show a massage and suggest the choice to set Set from rep or create a new one with another name
+//                    SetOfCards setOfCards = new SetOfCards();
+//                    setOfCards.setName(setOfCardsName);
+//                    setOfCardsService.save(setOfCards);
+//                    card.setSetOfCards(setOfCards);
+//                });
+//
+//        return save(card);
+//    }
 
-        final String setOfCardsName = cardCreatingDto.getSetOfCardsName();
-        setOfCardsService.getByName(setOfCardsName).ifPresentOrElse(card::setSetOfCards,   //  todo how to break cyclical dependence:  cardService <--> setOfCardsService?
-                () -> {      //todo if a set with this name in this folder exist then show a massage and suggest the choice to set Set from rep or create a new one with another name
-                    SetOfCards setOfCards = new SetOfCards();
-                    setOfCards.setName(setOfCardsName);
-                    setOfCardsService.save(setOfCards);
-                    card.setSetOfCards(setOfCards);
-                });
-
-        return save(card);
-    }
-
-    public String getNextOrFirstCardId(final String id) { // todo add dependency on set and folder
+    public String getNextOrFirstCardId(final String userId, final String cardId) { // todo add dependency on set and folder
         LOGGER.info("invoked");
-        String nextOrFirstCardId = cardRepository.getNextCardId(id)
-                .orElse(cardRepository.getFirstCardId()
+        String nextOrFirstCardId = cardRepository.getNextCardId(cardId)
+                .orElse(cardRepository.getFirstCardId(cardId)
                         .orElseThrow(IllegalArgumentException::new));
+//        String nextOrFirstCardId = cardRepository.getNextCardId(userId, cardId)
+//                .orElse(cardRepository.getFirstCardId(userId, cardId)
+//                        .orElseThrow(IllegalArgumentException::new));
         LOGGER.info("nextOrFirstCardId " + nextOrFirstCardId);
         return nextOrFirstCardId;
     }
 
-    public String getPreviousOrLastCardId(final String id) { // todo add dependency on set and folder
+    public String getPreviousOrLastCardId(final String userId, final String cardId) { // todo add dependency on set and folder
         LOGGER.info("invoked");
-        String previousOrLastCardId = cardRepository.getPreviousCardId(id)
-                .orElse(cardRepository.getLastCardId()
+        String previousOrLastCardId = cardRepository.getPreviousCardId(cardId)
+                .orElse(cardRepository.getLastCardId(cardId)
                         .orElseThrow(IllegalArgumentException::new));
-        LOGGER.info("previousOrLastCardId " + previousOrLastCardId);
+//        String previousOrLastCardId = cardRepository.getPreviousCardId(userId, cardId)
+//                .orElse(cardRepository.getLastCardId(userId, cardId)
+//                        .orElseThrow(IllegalArgumentException::new));
+        LOGGER.info("previousOrLastCardId {}", previousOrLastCardId);
+
+//        Optional<String> previousCardIdNew = cardRepository.getPreviousCardIdNew(userId, cardId);
+//        LOGGER.info("getPreviousCardIdNew {}", previousCardIdNew.get());
         return previousOrLastCardId;
     }
 
@@ -118,29 +127,29 @@ public class CardService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public Card editCardByCardEditingDto(final CardEditingDto cardEditingDto) {
-        LOGGER.info("Service editCardByCardEditingDto: start " + cardEditingDto);
-        Card card = cardRepository.findById(cardEditingDto.getId()).orElseThrow(IllegalArgumentException::new);
-        LOGGER.info("Service editCardByCardEditingDto: card from rep" + card);
-        card.setQuestion(cardEditingDto.getQuestion());
-        card.setShortAnswer(cardEditingDto.getShortAnswer());
-        card.setLongAnswer(cardEditingDto.getLongAnswer());
-
-        final String newSetOfCardsName = cardEditingDto.getSetOfCardsName();
-        LOGGER.info("Service editCardByCardEditingDto: newSetOfCardsName" + newSetOfCardsName);
-
-        setOfCardsService.getByName(newSetOfCardsName).ifPresentOrElse(card::setSetOfCards,
-                () -> {  //todo if a set with this name in this folder exist then show a massage and suggest the choice to set Set from rep or create a new one with another name
-                    SetOfCards setOfCards = new SetOfCards();
-                    setOfCards.setName(newSetOfCardsName);
-                    setOfCardsService.save(setOfCards);
-                    card.setSetOfCards(setOfCards);
-                });
-
-        Card savedCard = save(card);
-        LOGGER.info("Service editCardByCardEditingDto: card after checking" + card);
-        return savedCard;
-    }
+//    public Card editCardByCardEditingDto(final CardEditingDto cardEditingDto) {
+//        LOGGER.info("Service editCardByCardEditingDto: start " + cardEditingDto);
+//        Card card = cardRepository.findById(cardEditingDto.getId()).orElseThrow(IllegalArgumentException::new);
+//        LOGGER.info("Service editCardByCardEditingDto: card from rep" + card);
+//        card.setQuestion(cardEditingDto.getQuestion());
+//        card.setShortAnswer(cardEditingDto.getShortAnswer());
+//        card.setLongAnswer(cardEditingDto.getLongAnswer());
+//
+//        final String newSetOfCardsName = cardEditingDto.getSetOfCardsName();
+//        LOGGER.info("Service editCardByCardEditingDto: newSetOfCardsName" + newSetOfCardsName);
+//
+//        setOfCardsService.getByName(newSetOfCardsName).ifPresentOrElse(card::setSetOfCards,
+//                () -> {  //todo if a set with this name in this folder exist then show a massage and suggest the choice to set Set from rep or create a new one with another name
+//                    SetOfCards setOfCards = new SetOfCards();
+//                    setOfCards.setName(newSetOfCardsName);
+//                    setOfCardsService.save(setOfCards);
+//                    card.setSetOfCards(setOfCards);
+//                });
+//
+//        Card savedCard = save(card);
+//        LOGGER.info("Service editCardByCardEditingDto: card after checking" + card);
+//        return savedCard;
+//    }
 
     public void deleteById(final String id) {
         cardRepository.deleteById(id);

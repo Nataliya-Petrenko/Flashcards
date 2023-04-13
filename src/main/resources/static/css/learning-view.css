@@ -1,22 +1,25 @@
 .learning-view {
   width: 100%;
-  max-width: var(--content-width);
+  max-width: 900px;
   height: 100%;
   display: grid;
-  grid-template-rows: var(--navigation-height) 1fr var(--navigation-height);
+  grid-template-rows: repeat(2, max-content) 1fr max-content;
   gap: var(--g-20);
   grid-template-areas:
-    "set-navigation"
+    "learning-navigation"
+    "learning-set-name"
     "learning-card"
     "cards-navigation";
   align-items: center;
   overflow-y: auto;
 }
 
-.set-navigation {
-  grid-area: set-navigation;
-  display: flex;
-  justify-content: space-between;
+.learning-navigation {
+  grid-area: learning-navigation;
+}
+
+.learning-title {
+  text-align: center;
 }
 
 .learning-card {
@@ -24,7 +27,6 @@
   justify-self: center;
   height: 100%;
   width: 100%;
-  max-width: 900px;
   display: flex;
   flex-direction: column;
   gap: var(--g-20);
@@ -72,4 +74,8 @@
   display: flex;
   justify-content: center;
   gap: calc(var(--g-20) * 2);
+}
+
+.learning-button {
+  width: 200px;
 }

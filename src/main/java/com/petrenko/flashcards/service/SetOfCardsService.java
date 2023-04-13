@@ -33,8 +33,8 @@ public class SetOfCardsService {
         this.folderService = folderService;
     }
 
-    public SetOfCards saveCheckName(SetOfCards setOfCards) {
-        Folder folder = folderService.saveCheckName(setOfCards.getFolder());
+    public SetOfCards saveCheckName(String userId, SetOfCards setOfCards) {
+        Folder folder = folderService.saveCheckName(userId, setOfCards.getFolder());
 
         String setName = setOfCards.getName();
         final SetOfCards finalSet = setOfCardsRepository.findByName(setOfCards.getName()).orElse(new SetOfCards());
@@ -76,10 +76,10 @@ public class SetOfCardsService {
     }
 
     public SetOfCards editSetOfCards(final SetOfCards setOfCards) {
-        LOGGER.info("Set service editSetOfCards " + setOfCards);
+        LOGGER.info("{}", setOfCards);
 
         final String newFolderName = setOfCards.getFolder().getName();
-        LOGGER.info("Set service editSetOfCards: newFolderName" + newFolderName);
+        LOGGER.info("newFolderName {}", newFolderName);
 
         folderService.getByName(newFolderName).ifPresentOrElse((setOfCards::setFolder),      //todo if a folder with this name exist then show a massage and suggest the choice to set folder from rep or create a new one with another name
                 () -> {
@@ -90,7 +90,7 @@ public class SetOfCardsService {
                 });
 
         SetOfCards savedSetOfCards = save(setOfCards);
-        LOGGER.info("Set service editSetOfCards: savedSetOfCards" + savedSetOfCards);
+        LOGGER.info("savedSetOfCards {}", savedSetOfCards);
         return savedSetOfCards;
     }
 

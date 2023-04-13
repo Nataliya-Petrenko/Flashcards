@@ -33,6 +33,24 @@ public interface CardRepository extends CrudRepository<Card, String> {
             SELECT c.id
             FROM Card c
             WHERE c.timeOfCreation = (
+              SELECT MAX(c2.timeOfCreation)
+              FROM Card c2
+              WHERE c2.timeOfCreation < (
+                SELECT c3.timeOfCreation
+                FROM Card c3
+                    LEFT JOIN c3.setOfCards s
+                    LEFT JOIN s.folder f
+                    LEFT JOIN f.person p
+                WHERE c3.id = :cardId AND p.id = :userId AND s.id = c3.setOfCards.id AND f.id = c3.setOfCards.folder.id
+              )
+            )
+            """)
+    Optional<String> getPreviousCardIdNew(String userId, String cardId); // work (the oldest get null) todo not work -- it's time to create DTO
+
+    @Query("""
+            SELECT c.id
+            FROM Card c
+            WHERE c.timeOfCreation = (
               SELECT MIN(c2.timeOfCreation)
               FROM Card c2
               WHERE c2.timeOfCreation > (
@@ -52,7 +70,7 @@ public interface CardRepository extends CrudRepository<Card, String> {
             From Card
             )
                  """)
-    Optional<String> getFirstCardId(); // work
+    Optional<String> getFirstCardId(String id); // work
 
     @Query("""
             SELECT id
@@ -62,7 +80,7 @@ public interface CardRepository extends CrudRepository<Card, String> {
             From Card
             )
                  """)
-    Optional<String> getLastCardId(); // work
+    Optional<String> getLastCardId(String id); // work
 
     @Query("""
             SELECT new com.petrenko.flashcards.dto.CardEditingDto(

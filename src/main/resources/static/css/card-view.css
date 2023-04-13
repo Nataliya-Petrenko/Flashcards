@@ -25,6 +25,7 @@
 
 .card-description {
   grid-area: card-description;
+  text-align: center;
 }
 
 .card-description__text {

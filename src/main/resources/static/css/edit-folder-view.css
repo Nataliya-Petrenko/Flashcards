@@ -1,14 +1,13 @@
 .folder-edit-view {
   width: 100%;
-  max-width: var(--content-width);
+  max-width: 900px;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: var(--navigation-height) 1fr;
+  grid-template-rows: max-content minmax(max-content, 1fr);
   gap: var(--g-20);
   grid-template-areas:
-    "folder-edit-view-nav folder-edit-view-nav"
-    "folder-edit-form sets-card";
+    "folder-edit-view-nav"
+    "folder-edit-form";
   overflow-y: auto;
 }
 
@@ -19,7 +18,7 @@
 .folder-edit-form {
   grid-area: folder-edit-form;
   display: grid;
-  grid-template-rows: max-content 3fr;
+  grid-template-rows: max-content 1fr;
   grid-template-areas:
     "folder-name"
     "folder-description";
@@ -32,20 +31,4 @@
 
 .folder-description {
   grid-area: folder-description;
-}
-
-.sets-card {
-  grid-area: sets-card;
-}
-
-.sets {
-  display: grid;
-  grid-auto-rows: max-content;
-  gap: var(--g-20);
-}
-
-.card-in-folder {
-  display: flex;
-  flex-direction: column;
-  gap: var(--g-10);
 }

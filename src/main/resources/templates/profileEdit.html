@@ -1,0 +1,64 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/normalize.css}">
+  <link rel="stylesheet" th:href="@{/css/variables.css}">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/shared.css}">
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/edit-profile-view.css}">
+  <title>Flashcards</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+    <main class="main">
+      <div class="edit-profile-view hidden-scroll">
+        <div class="navigation edit-profile-navigation">
+          <a th:href="@{/folder}" class="button bg-dark dark-border">Go to all folders</a>
+          <button class="button bg-dark no-border" type="submit" form="edit-profile-form">Save</button>
+        </div>
+        <form id="edit-profile-form" class="card edit-profile-form user-info-card" th:action="@{/profile/edit}" th:object="${person}" th:method="PUT">
+          <label class="photo-wrapper tooltip" for="avatar">
+            <img class="user-photo" src="./img/user-image.png" alt="user photo">
+            <span class="tooltip-text">Select new profile photo</span>
+          </label>
+          <input class="download-photo-input" type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"
+            title="Select photo">
+          <div class="user-info-card__info-block">
+            <h2 class="user-info-card__title">
+              Personal information:
+            </h2>
+            <ul class="user-info-card__info-list">
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">First name:</span>
+                <input class="" type="text" th:field="*{firstName}">
+              </li>
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">Last name:</span>
+                <input class="" type="text" th:field="*{lastName}">
+              </li>
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">Email:</span>
+                <input class="" type="text" th:field="*{email}" required>
+              </li>
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">New password:</span>
+                <input class="" type="password" th:field="${newPassword}">
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

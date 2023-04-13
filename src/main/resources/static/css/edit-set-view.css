@@ -1,19 +1,17 @@
-.set-edit-view {
+.edit-set-view {
   width: 100%;
-  max-width: var(--content-width);
+  max-width: 900px;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: max-content 1fr;
   gap: var(--g-20);
   grid-template-areas:
-    "navigation navigation"
-    "set-edit-form set-card";
-  overflow-y: auto;
+    "edit-set-navigation"
+    "set-edit-form";
 }
 
-.navigation {
-  grid-area: navigation;
+.edit-set-navigation {
+  grid-area: edit-set-navigation;
 }
 
 .set-edit-form {
@@ -37,29 +35,4 @@
 
 .set-description {
   grid-area: set-description;
-}
-
-.set-card {
-  grid-area: set-card;
-}
-
-.set-cards {
-  display: grid;
-  gap: var(--g-20);
-}
-
-.set-card-content {
-  height: max-content;
-  display: flex;
-  flex-direction: column;
-  gap: var(--g-10);
-  text-transform: capitalize;
-}
-
-.buttons-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: var(--g-20);
 }

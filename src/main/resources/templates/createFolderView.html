@@ -18,100 +18,24 @@
 <body>
   <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
-
     <main class="main">
       <div class="folder-edit-view hidden-scroll">
         <div class="navigation folder-edit-view-nav">
-          <a href="#" class="button bg-dark dark-border">&#60; Back (not implemented)</a>
-          <button class="button bg-dark dark-border auto-margin-left">New set (not implemented)</button>
+          <a th:href="@{/folder}" class="button bg-dark dark-border">Go to all folders</a>
+
+          <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
           <button class="button bg-dark dark-border" type="submit" form="folder-edit-form">Save</button>
         </div>
-        <form class="folder-edit-form" id="folder-edit-form" th:action="@{/folder/create}" th:object="${folder}" th:method="POST">
+        <form class="folder-edit-form" id="folder-edit-form"  th:action="@{/folder/create}" th:object="${folder}" th:method="POST">
           <div class="card folder-name">
-            <input class="card__content dark-placeholder" type="text" name="set-name" id="set-name"
-                   th:field="*{name}" placeholder="Enter name of folder *" required>
+            <textarea class="card__content dark-placeholder" type="text" title="Folder name"
+                   th:field="*{name}" placeholder="Enter name of folder *" required></textarea>
           </div>
           <div class="card folder-description">
-            <textarea class="card__content" name="folder" id="folder"
+            <textarea class="card__content" title="Folder description"
                       th:field="*{description}" placeholder="Enter a description for the folder"></textarea>
           </div>
-<!--          <div class="card folder-visibility">-->
-<!--            <div class="card__content">-->
-<!--              <h2 class="list-title">Visibility:</h2>-->
-<!--              <ul class="horizontal-list">-->
-<!--                <li class="list__item">-->
-<!--                  <input type="radio" id="public" name="visibility" value="public">-->
-<!--                  <label for="ordered">Public</label>-->
-<!--                </li>-->
-<!--                <li class="list__item">-->
-<!--                  <input type="radio" id="private" name="visibility" value="random" checked>-->
-<!--                  <label for="random">private</label>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--          </div>-->
         </form>
-<!--        <div class="card sets-card">-->
-<!--          <div class="card__content">-->
-<!--            <div class="sets">-->
-<!--              <div class="card border-card card-in-folder">-->
-<!--                <p class="card__text">-->
-<!--                  Set Name-->
-<!--                </p>-->
-<!--                <div class="navigation">-->
-<!--                  <a href="#" class="button bg-dark no-border">Show set</a>-->
-<!--                  <form action="" method="delete">-->
-<!--                    <button class="button bg-dark no-border" type="submit">Remove from folder</button>-->
-<!--                  </form>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="card border-card card-in-folder">-->
-<!--                <p class="card__text">-->
-<!--                  Set Name-->
-<!--                </p>-->
-<!--                <div class="navigation">-->
-<!--                  <a href="#" class="button bg-dark no-border">Show set</a>-->
-<!--                  <form action="" method="delete">-->
-<!--                    <button class="button bg-dark no-border" type="submit">Remove from folder</button>-->
-<!--                  </form>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="card border-card card-in-folder">-->
-<!--                <p class="card__text">-->
-<!--                  Set Name-->
-<!--                </p>-->
-<!--                <div class="navigation">-->
-<!--                  <a href="#" class="button bg-dark no-border">Show set</a>-->
-<!--                  <form action="" method="delete">-->
-<!--                    <button class="button bg-dark no-border" type="submit">Remove from folder</button>-->
-<!--                  </form>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="card border-card card-in-folder">-->
-<!--                <p class="card__text">-->
-<!--                  Set Name-->
-<!--                </p>-->
-<!--                <div class="navigation">-->
-<!--                  <a href="#" class="button bg-dark no-border">Show set</a>-->
-<!--                  <form action="" method="delete">-->
-<!--                    <button class="button bg-dark no-border" type="submit">Remove from folder</button>-->
-<!--                  </form>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="card border-card card-in-folder">-->
-<!--                <p class="card__text">-->
-<!--                  Set Name-->
-<!--                </p>-->
-<!--                <div class="navigation">-->
-<!--                  <a href="#" class="button bg-dark no-border">Show set</a>-->
-<!--                  <form action="" method="delete">-->
-<!--                    <button class="button bg-dark no-border" type="submit">Remove from folder</button>-->
-<!--                  </form>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
       </div>
     </main>
   </div>

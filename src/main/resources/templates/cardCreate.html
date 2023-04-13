@@ -21,7 +21,7 @@
     <main class="main">
         <form class="card-edit-view" th:action="@{/card/create}" th:object="${card}" th:method="POST">
             <div class="navigation card-edit-navigation">
-                <a href="./set-view.html" class="button bg-dark dark-border">&#60; Go to profile (not impl)</a>
+                <a th:href="@{/folder}" class="button bg-dark dark-border">Go to all folders</a>
                 <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
                 <button class="button bg-dark dark-border" type="submit">Save</button>
             </div>

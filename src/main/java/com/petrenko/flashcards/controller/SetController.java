@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -81,6 +82,7 @@ public class SetController {
     @PostMapping("/set/create")  // after created set
     public ModelAndView saveNewSet(@ModelAttribute SetOfCards setOfCards,
                                    BindingResult bindingResult,
+                                   Principal principal,
                                    ModelAndView modelAndView) {
         LOGGER.info("@PostMapping(/set) " + setOfCards);
         if (bindingResult.hasErrors()) {
@@ -89,17 +91,17 @@ public class SetController {
             return modelAndView;
         }
 
-        folderService.save(setOfCards.getFolder());
-        SetOfCards savedSetOfCards = setOfCardsService.save(setOfCards);
-        LOGGER.info("@PostMapping(/set) savedSetOfCards " + savedSetOfCards);
+        String userId = principal.getName(); // userName = id
+        SetOfCards savedSetOfCards = setOfCardsService.saveCheckName(userId, setOfCards);  // todo fix description don't save
+        LOGGER.info("set saved {}", savedSetOfCards);
         modelAndView.addObject("setOfCards", savedSetOfCards);
 
-        List<Card> cards = cardService.getBySet(setOfCards);
-        LOGGER.info("@PostMapping(/set)  List<Card> getBySet: " + cards);
+        List<Card> cards = cardService.getBySet(savedSetOfCards);
+        LOGGER.info("List<Card> getBySet: {}", cards);
         modelAndView.addObject("cards", cards);
 
         modelAndView.setViewName("setById");
-        LOGGER.info("@PostMapping(/set) before show setById.html");
+        LOGGER.info("before show setById.html");
         return modelAndView;
     }
 
@@ -125,6 +127,7 @@ public class SetController {
     public ModelAndView editSet(@PathVariable("id") String id,   // todo save id into Dto in view
                                 @ModelAttribute SetOfCards setOfCards,
                                 BindingResult bindingResult,
+                                Principal principal,
                                 ModelAndView modelAndView) {
         LOGGER.info("@PutMapping(/set/{id}/edit) id: " + id);
         if (bindingResult.hasErrors()) {
@@ -132,52 +135,58 @@ public class SetController {
             modelAndView.setViewName("editSetView");
             return modelAndView;
         }
-        SetOfCards savedSetOfCards = setOfCardsService.editSetOfCards(setOfCards);
-        LOGGER.info("@PutMapping(/set/{id}/edit) setOfCards saved " + savedSetOfCards);
+
+        String userId = principal.getName(); // userName = id
+        SetOfCards savedSetOfCards = setOfCardsService.saveCheckName(userId, setOfCards); // todo fix description don't save
+        LOGGER.info("set saved {}", savedSetOfCards);
         modelAndView.addObject("setOfCards", savedSetOfCards);
 
+//        SetOfCards savedSetOfCards = setOfCardsService.editSetOfCards(setOfCards);
+//        LOGGER.info("@PutMapping(/set/{id}/edit) setOfCards saved " + savedSetOfCards);
+//        modelAndView.addObject("setOfCards", savedSetOfCards);
+
         List<Card> cards = cardService.getBySet(setOfCards);
-        LOGGER.info("@PutMapping(/set/{id}/edit)  List<Card> getBySet: " + cards);
+        LOGGER.info("List<Card> getBySet: {}", cards);
         modelAndView.addObject("cards", cards);
 
         modelAndView.setViewName("setById");
-        LOGGER.info("@PutMapping(/set/{id}/edit) before show setById.html");
+        LOGGER.info("before show setById.html");
         return modelAndView;
     }
 
     @GetMapping("/set/{id}/delete")
     public ModelAndView getSetDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("@GetMapping(/set/{id}/delete) id: " + id);
+        LOGGER.info("id: {}", id);
         final SetOfCards setOfCards = setOfCardsService.getById(id);
-        LOGGER.info("@GetMapping(/set/{id}/delete) setOfCards getById: " + setOfCards);
+        LOGGER.info("setOfCards getById: {}", setOfCards);
         modelAndView.addObject("setOfCards", setOfCards);
         modelAndView.setViewName("deleteSetViewById");
 
         List<Card> cards = cardService.getBySet(setOfCards);
-        LOGGER.info("@GetMapping(/set/{id})  List<Card> getBySet: " + cards);
+        LOGGER.info("List<Card> getBySet: {}", cards);
         modelAndView.addObject("cards", cards);
 
-        LOGGER.info("@GetMapping(/set/{id}/delete) before show deleteSetViewById.html");
+        LOGGER.info("before show deleteSetViewById.html");
         return modelAndView;
     }
 
     @DeleteMapping("/set/{id}/delete")  // after delete card
     public ModelAndView deleteSet(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("@DeleteMapping(/delete/{id}) id: " + id);
+        LOGGER.info("id: " + id);
 
         Folder folder = setOfCardsService.getById(id).getFolder();
-        LOGGER.info("@DeleteMapping(/set/{id}/delete) folder for setId: " + folder);
+        LOGGER.info("folder for setId: {}", folder);
         modelAndView.addObject("folder", folder);
 
         setOfCardsService.deleteById(id);
-        LOGGER.info("@DeleteMapping(/delete/{id}) setOfCards is deleted");
+        LOGGER.info("setOfCards is deleted");
 
         List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        LOGGER.info("@GetMapping(/folder/{id}) List<SetOfCards> getByFolder: " + setsOfCards);
+        LOGGER.info("List<SetOfCards> getByFolder: {}", setsOfCards);
         modelAndView.addObject("setsOfCards", setsOfCards);
 
         modelAndView.setViewName("folderViewById");
-        LOGGER.info("@GetMapping(/folder/{id}) before show folderViewById.html");
+        LOGGER.info("before show folderViewById.html");
 
         return modelAndView;
     }

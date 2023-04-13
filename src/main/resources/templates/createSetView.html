@@ -19,16 +19,13 @@
 <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
-        <div class="set-edit-view hidden-scroll">
-            <div class="navigation">
-                <a href="./set-view.html" class="button bg-dark dark-border">&#60; Go to profile (not impl)</a>
-                <!--          <button class="button bg-dark dark-border auto-margin-left">Update from file</button>-->
-                <!--          <button class="button bg-dark dark-border">Save to file</button>-->
+        <div class="edit-set-view hidden-scroll">
+            <div class="navigation edit-set-navigation">
+                <a th:href="@{/folder}" class="button bg-dark dark-border">Go to all folders</a>
                 <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
                 <button class="button bg-dark dark-border" type="submit" form="set-edit-form">Save</button>
             </div>
-            <form class="set-edit-form" id="set-edit-form" th:action="@{/set/create}" th:object="${setOfCards}"
-                  th:method="POST">
+            <form class="set-edit-form" id="set-edit-form" th:action="@{/set/create}" th:object="${setOfCards}" th:method="POST">
                 <div class="card folder-name">
                     <input class="card__content dark-placeholder" type="text" title="Folder name"
                            th:field="*{folder.name}" placeholder="Enter folder name *" required>
@@ -38,35 +35,10 @@
                            th:field="*{name}" placeholder="Enter set name *" required>
                 </div>
                 <div class="card set-description">
-                  <textarea class="card__content" title="Set description"
-                      th:field="*{description}" placeholder="Enter a description for the set"></textarea>
+            <textarea class="card__content" title="Set description"
+                      th:field="*{description}" placeholder="Enter set description"></textarea>
                 </div>
             </form>
-            <div class="card set-card">
-                <div class="card__content">
-                    <div class="set-cards">
-
-                        <div class="card card-in-set">
-
-                            <!--                <p class="card-in-set__text">-->
-                            <!--                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet odio earum veritatis dolorum mollitia-->
-                            <!--                  sit-->
-                            <!--                  ipsa modi vitae-->
-                            <!--                </p>-->
-                            <div class="buttons-container">
-                                <a href="#" class="button bg-dark no-border">Save set and add card into this set (not
-                                    impl)</a>
-                                <!--                  <form action="" method="delete">-->
-                                <!--                    <button class="button bg-dark no-border" type="submit">Remove from Set</button>-->
-                                <!--                  </form>-->
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
         </div>
     </main>
 </div>

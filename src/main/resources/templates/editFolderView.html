@@ -21,67 +21,21 @@
     <main class="main">
       <div class="folder-edit-view hidden-scroll">
         <div class="navigation folder-edit-view-nav">
-          <a href="#" class="button bg-dark dark-border">&#60; Back (not implemented)</a>
-          <button class="button bg-dark dark-border auto-margin-left">New set (not implemented)</button>
+          <a th:href="@{/folder/{id}(id=${folder.id})}"class="button bg-dark dark-border">Go to folder</a>
+
+          <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
           <button class="button bg-dark dark-border" type="submit" form="folder-edit-form">Save</button>
         </div>
         <form class="folder-edit-form" id="folder-edit-form" th:action="@{/folder/{id}/edit(id=${folder.id})}" th:object="${folder}" th:method="PUT">
           <div class="card folder-name">
-            <input class="card__content dark-placeholder" type="text" name="set-name" id="set-name"
-                   th:field="*{name}" placeholder="Enter name of folder *" required>
+            <textarea class="card__content dark-placeholder" name="set-name" id="set-name" rows="5" title="Folder name"
+                      th:field="*{name}" placeholder="Enter name of folder *" required></textarea>
           </div>
           <div class="card folder-description">
-            <textarea class="card__content" name="folder" id="folder"
+            <textarea class="card__content" name="folder" id="folder" rows="7" title="Folder description"
                       th:field="*{description}" placeholder="Enter a description for the folder"></textarea>
           </div>
-<!--          <div class="card folder-visibility">-->
-<!--            <div class="card__content">-->
-<!--              <h2 class="list-title">Visibility:</h2>-->
-<!--              <ul class="horizontal-list">-->
-<!--                <li class="list__item">-->
-<!--                  <input type="radio" id="public" name="visibility" value="public">-->
-<!--                  <label for="ordered">Public</label>-->
-<!--                </li>-->
-<!--                <li class="list__item">-->
-<!--                  <input type="radio" id="private" name="visibility" value="random" checked>-->
-<!--                  <label for="random">private</label>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--          </div>-->
         </form>
-
-        <div class="card sets-card">
-
-          <div class="card__content">
-
-            <div class="sets" th:each="set : ${setsOfCards}">
-
-
-              <div class="card border-card card-in-folder">
-                <p class="card__text" th:text="|${set.name}|">
-                  Set Name
-                </p>
-                <div class="navigation">
-
-                  <a th:href="@{/set/{id}(id=${set.id})}" class="button bg-dark no-border">Show set</a>
-                  <a th:href="@{/set/{id}/delete(id=${set.id})}" class="button bg-dark dark-border">Remove from folder</a>
-
-<!--                  <form action="" method="delete">-->
-<!--                    <button class="button bg-dark no-border" type="submit">Remove from folder</button>-->
-<!--                  </form>-->
-
-                </div>
-              </div>
-
-
-
-            </div>
-
-          </div>
-
-        </div>
-
       </div>
     </main>
   </div>

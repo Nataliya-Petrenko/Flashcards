@@ -4,9 +4,10 @@
   max-width: var(--content-width);
   height: 100%;
   display: grid;
-  grid-template-rows: repeat(2, max-content) 1fr;
+  grid-template-rows: repeat(3, max-content) 1fr;
   grid-template-areas:
     "set-navigation"
+    "set-title"
     "set-description"
     "cards-container";
   gap: var(--g-20);
@@ -16,10 +17,19 @@
   grid-area: set-navigation;
 }
 
-.set-description {
-  grid-area: set-description;
+.set-title {
+  grid-area: set-title;
+  text-align: center;
 }
 
+.set-description {
+  grid-area: set-description;
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-10);
+}
+
+.set-description__title,
 .set-description__text {
   padding: 0 var(--p-10);
 }

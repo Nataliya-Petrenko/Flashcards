@@ -1,9 +1,7 @@
 package com.petrenko.flashcards.controller;
 
-import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
-import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.FolderService;
 import com.petrenko.flashcards.service.SetOfCardsService;
 import org.slf4j.Logger;
@@ -14,14 +12,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequestMapping()
 public class FolderController {
     private final static Logger LOGGER = LoggerFactory.getLogger(FolderController.class);
-
-
     private final FolderService folderService;
     private final SetOfCardsService setOfCardsService;
 
@@ -30,6 +27,23 @@ public class FolderController {
                             final SetOfCardsService setOfCardsService) {
         this.folderService = folderService;
         this.setOfCardsService = setOfCardsService;
+    }
+
+    @GetMapping("/folder")
+    public ModelAndView getAllFolders(Principal principal, ModelAndView modelAndView) {
+        LOGGER.info("invoked");
+
+        String userId = principal.getName();
+        LOGGER.info("userId {}", userId);
+
+        List<Folder> folders = folderService.getFoldersByPersonId(userId);
+        LOGGER.info("List<Folder> ByPersonId {}", folders);
+        modelAndView.addObject("folders", folders);
+
+        modelAndView.setViewName("allFolders");
+        LOGGER.info("before show allFolders.html");
+
+        return modelAndView;
     }
 
     @GetMapping("/folder/{id}")

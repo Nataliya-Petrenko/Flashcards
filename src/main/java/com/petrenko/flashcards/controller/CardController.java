@@ -3,6 +3,7 @@ package com.petrenko.flashcards.controller;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.SetOfCardsService;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -50,17 +52,18 @@ public class CardController {
 //    }
 
     @GetMapping("/card/{id}")
-    public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView) {
-        final String previousCardId = cardService.getPreviousOrLastCardId(id);
+    public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView, Principal principal) {
+        String userId = principal.getName();
+        final String previousCardId = cardService.getPreviousOrLastCardId(userId, id);
         LOGGER.info("previousCardId " + previousCardId);
         modelAndView.addObject("previousCardId", previousCardId);
 
-        final String nextCardId = cardService.getNextOrFirstCardId(id);
+        final String nextCardId = cardService.getNextOrFirstCardId(userId, id);
         LOGGER.info("nextCardId " + nextCardId);
         modelAndView.addObject("nextCardId", nextCardId);
 
         final Card card = cardService.getById(id);
-        modelAndView.addObject("card", card);
+        modelAndView.addObject("card", card);  // todo show text from DB with formatting
         LOGGER.info("Card by id: " + card);
 
         modelAndView.setViewName("cardById");
@@ -95,20 +98,23 @@ public class CardController {
 
         modelAndView.setViewName("cardCreate");
         LOGGER.info("before show cardCreate");
-        return modelAndView;  // todo changed saving card to saving set and folder correctly but template doesn't parse
+        return modelAndView;
     }
 
     @PostMapping("/card/create")  // after created card
     public ModelAndView createCard(@ModelAttribute Card card,
-                                    BindingResult bindingResult,
-                                    ModelAndView modelAndView) {
+                                   BindingResult bindingResult,
+                                   ModelAndView modelAndView,
+                                   Principal principal) {
         LOGGER.info("card from form " + card);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("card", card);
             modelAndView.setViewName("cardCreate");
             return modelAndView;
         }
-        Card savedCard = cardService.save(card);
+
+        String userId = principal.getName();
+        Card savedCard = cardService.save(userId, card);  // userName = id
         LOGGER.info("card saved " + savedCard);
 
         final SetOfCards setOfCards = card.getSetOfCards();
@@ -119,8 +125,11 @@ public class CardController {
         LOGGER.info("List<Card>: " + cards);
         modelAndView.addObject("cards", cards);
 
-        modelAndView.setViewName("setById");
+        modelAndView.setViewName("setById"); // todo redirect
         LOGGER.info("before show setById.html");
+
+//        modelAndView.setViewName("redirect:/profile");
+//        LOGGER.info("before redirect:/profile");
         return modelAndView;
     }
 
@@ -138,7 +147,8 @@ public class CardController {
     public ModelAndView editCard(@PathVariable("id") String id,   // todo save id into cardEditingDto in view
                                  @ModelAttribute Card card,
                                  BindingResult bindingResult,
-                                 ModelAndView modelAndView) {
+                                 ModelAndView modelAndView,
+                                 Principal principal) {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("card", card);
             modelAndView.setViewName("cardEdit");
@@ -146,20 +156,24 @@ public class CardController {
         }
         LOGGER.info("card from form " + card);
 
-        Card savedCard = cardService.save(card);
+        String userId = principal.getName();
+
+        Card savedCard = cardService.save(userId, card);
         LOGGER.info("card saved " + savedCard);
         modelAndView.addObject("card", savedCard);
 
-        final String previousCardId = cardService.getPreviousOrLastCardId(savedCard.getId());
+        final String previousCardId = cardService.getPreviousOrLastCardId(userId, savedCard.getId());
         LOGGER.info("previousCardId " + previousCardId);
         modelAndView.addObject("previousCardId", previousCardId);
 
-        final String nextCardId = cardService.getNextOrFirstCardId(savedCard.getId());
+        final String nextCardId = cardService.getNextOrFirstCardId(userId, savedCard.getId());
         LOGGER.info("nextCardId " + nextCardId);
         modelAndView.addObject("nextCardId", nextCardId);
 
         modelAndView.setViewName("cardById");
         LOGGER.info("before show cardById.html");
+//        modelAndView.setViewName("redirect:/getCardById");
+//        LOGGER.info("before redirect:/getCardById");
         return modelAndView;
     }
 

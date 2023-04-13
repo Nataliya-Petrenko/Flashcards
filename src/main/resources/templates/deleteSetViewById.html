@@ -20,46 +20,34 @@
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
         <div class="set-view">
-            <nav class="set-view__buttons">
-                <p>Are you sure you want to delete the set and all the cards in the set?</p>
-                <form class="set-edit-form" th:action="@{/set/{id}/delete(id=${setOfCards.id})}" th:object="${setOfCards}" th:method="DELETE">
-                    <button class="button bg-dark dark-border" type="submit">Yes, delete set</button>
+            <nav class="navigation set-navigation">
+                <a th:href="@{/folder/{id}/(id=${setOfCards.folder.id})}" class="button bg-dark dark-border auto-margin-right">&#60; Go to folder</a>
+                <form th:action="@{/set/{id}/delete(id=${setOfCards.id})}" th:object="${setOfCards}" th:method="DELETE">
+                    <button class="button bg-dark dark-border auto-margin-left" type="submit">Yes, delete set</button>
                 </form>
                 <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${setOfCards.id})}">No, back to set</a>
-<!--                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${card.setOfCards.id})}">Go to folder</a>-->
-
-                <!--                &lt;!&ndash;                <p th:text="Set name: |${setOfCards.name}|. Set id: |${setOfCards.id}|"></p>&ndash;&gt;-->
-<!--&lt;!&ndash;                <p th:text="|Set name: ${setOfCards.name}|"></p>&ndash;&gt;-->
-<!--                <a href="#" class="button bg-dark dark-border">&#60; Back</a>-->
-<!--                <a href="#" class="button bg-dark dark-border auto-margin-left">Learn</a>-->
-<!--                <a href="#" class="button bg-dark dark-border">Save set to file</a>-->
-<!--                <a th:href="@{/set/{id}/edit(id=${setOfCards.id})}" class="button bg-dark dark-border">Edit set</a>-->
             </nav>
-            <div class="card cards-container">
-                <div class="card__content">
 
-                    <div class="card card-in-set" th:each="card : ${cards}">
-                        <p class="card-in-set__text" th:text="|${card.question}|">
-                            Card question
-                        </p>
-                        <a th:href="@{/card/{id}(id=${card.id})}" class="button bg-dark no-border">Show card</a>
-                    </div>
+            <h2 class="second-title set-title" th:text="|Are you sure you want to delete the set: ${setOfCards.name} from the folder:  *{setOfCards.folder.name}?|"></h2>
 
-                    <a th:href="@{/card/create/{id}(id=${setOfCards.id})}" class="button bg-dark dark-border auto-margin-left">Create new card in this set</a>
-
-                    <!--                    th:href="@{/card/create}"-->
-                    <!--                    <div class="card card-in-set" th:each="card : ${cards}">-->
-                    <!--                        <p class="card-in-set__text" th:text="|${card.question}|">-->
-                    <!--                            Card question-->
-                    <!--                        </p>-->
-                    <!--                        <a href="#" class="button bg-dark no-border">Show card</a>-->
-                    <!--                    </div>-->
-
-                </div>
+            <div class="card set-description">
+                <p class="set-description__text" th:text="|${setOfCards.description}|" title="Set description"></p>
             </div>
 
+            <div class="card cards-container">
+                <div class="card__content set-card-content" th:each="card : ${cards}">
+                    <div class="card card-in-set">
+                        <p class="card-in-set__text" th:text="|${card.question}|" title="Card question"></p>
+<!--                        <div class="card-buttons">-->
+<!--                            <a th:href="@{/card/{id}(id=${card.id})}" class="button bg-dark no-border">Show card</a>-->
+<!--                            <a th:href="@{/card/{id}/delete(id=${card.id})}" class="button bg-dark no-border">Remove from set</a>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
+
 </div>
 </body>
 

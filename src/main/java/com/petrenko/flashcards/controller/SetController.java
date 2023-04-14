@@ -131,8 +131,7 @@ public class SetController {
     }
 
     @PutMapping("/set/{id}/edit")
-    public ModelAndView editSet(@PathVariable("id") String id,   // todo  Do I need id into link?
-                                @ModelAttribute SetEditDto setEditDto,
+    public ModelAndView editSet(@ModelAttribute SetEditDto setEditDto,
                                 Principal principal,
                                 BindingResult bindingResult,
                                 ModelAndView modelAndView) {

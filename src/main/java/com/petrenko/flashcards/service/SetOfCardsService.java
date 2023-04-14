@@ -175,7 +175,7 @@ public class SetOfCardsService {
     }
 
     public SetEditDto getSetEditDto(String setId) {
-        LOGGER.info("invoked");
+        LOGGER.info("invoked with setId {}", setId);
 
         SetEditDto setEditDto = setOfCardsRepository
                 .getSetEditDto(setId).orElseThrow(IllegalArgumentException::new);

@@ -2,6 +2,8 @@ package com.petrenko.flashcards.controller;
 
 import com.petrenko.flashcards.dto.CardByIdDto;
 import com.petrenko.flashcards.dto.CardCreatingDto;
+import com.petrenko.flashcards.dto.CardEditDto;
+import com.petrenko.flashcards.dto.SetEditDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.FolderService;
@@ -99,48 +101,44 @@ public class CardController {
         modelAndView.setViewName("cardById");
         return modelAndView;
     }
-    // todo I stop here
+
     @GetMapping("/card/{id}/edit")
-    public ModelAndView getCardEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        final Card card = cardService.getById(id);
-        LOGGER.info("card getById: " + card);
-        modelAndView.addObject("card", card);
+    public ModelAndView getCardEditForm(@PathVariable("id") String id,
+                                        ModelAndView modelAndView) {
+        LOGGER.info("card id from link: {}", id);
+
+        final CardEditDto cardEditDto = cardService.getCardEditDto(id);
+        LOGGER.info("cardEditDto: {}", cardEditDto);
+        modelAndView.addObject("cardEditDto", cardEditDto);
+
         modelAndView.setViewName("cardEdit");
         LOGGER.info("before show cardEdit.html");
         return modelAndView;
     }
 
-    @PutMapping("/card/{id}/edit")  // after edited card
-    public ModelAndView editCard(@PathVariable("id") String id,   // todo save id into cardEditingDto in view
-                                 @ModelAttribute Card card,
+    @PutMapping("/card/{id}/edit")
+    public ModelAndView editCard(@ModelAttribute CardEditDto cardEditDto,
+                                 Principal principal,
                                  BindingResult bindingResult,
-                                 ModelAndView modelAndView,
-                                 Principal principal) {
+                                 ModelAndView modelAndView) {
+        LOGGER.info("cardEditDto from form: {}", cardEditDto);
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("card", card);
+            LOGGER.info("return with input error {}", cardEditDto);
+            modelAndView.addObject("cardEditDto", cardEditDto);
             modelAndView.setViewName("cardEdit");
             return modelAndView;
         }
-        LOGGER.info("card from form " + card);
 
-        String userId = principal.getName();
+        final String userId = principal.getName();
+        LOGGER.info("userId {}", userId);
 
-        Card savedCard = cardService.save(userId, card);
-        LOGGER.info("card saved " + savedCard);
-        modelAndView.addObject("card", savedCard);
+        Card savedCard = cardService.updateCardByCardEditDto(userId, cardEditDto);
+        LOGGER.info("savedCard: {}", savedCard);
 
-//        final String previousCardId = cardService.getPreviousOrLastCardId(userId, savedCard.getId());
-//        LOGGER.info("previousCardId " + previousCardId);
-//        modelAndView.addObject("previousCardId", previousCardId);
-//
-//        final String nextCardId = cardService.getNextOrFirstCardId(userId, savedCard.getId());
-//        LOGGER.info("nextCardId " + nextCardId);
-//        modelAndView.addObject("nextCardId", nextCardId);
+        String red = "redirect:/card/" + savedCard.getId();
+        modelAndView.setViewName(red);
+        LOGGER.info("before {}", red);
 
-        modelAndView.setViewName("cardById");
-        LOGGER.info("before show cardById.html");
-//        modelAndView.setViewName("redirect:/getCardById");
-//        LOGGER.info("before redirect:/getCardById");
         return modelAndView;
     }
 

@@ -234,4 +234,36 @@ public class CardService {
         return nextOrFirstId;
     }
 
+    public CardEditDto getCardEditDto(String cardId) {
+        LOGGER.info("invoked with cardId {}", cardId);
+
+        CardEditDto cardEditDto = cardRepository.getCardEditDto(cardId)
+                .orElseThrow(IllegalArgumentException::new);
+
+        LOGGER.info("cardEditDto {}", cardEditDto);
+        return cardEditDto;
+    }
+
+    @Transactional
+    public Card updateCardByCardEditDto(String userId, CardEditDto cardEditDto) {
+        LOGGER.info("invoked");
+
+        String folderName = cardEditDto.getFolderName();
+        String setName = cardEditDto.getSetOfCardsName();
+
+        SetOfCards setOfCards = setOfCardsService.getByNameAndFolderNameOrNew(userId, folderName, setName);
+
+        Card card = cardRepository.findById(cardEditDto.getId()).orElse(new Card());
+
+        card.setQuestion(cardEditDto.getQuestion());
+        card.setShortAnswer(cardEditDto.getShortAnswer());
+        card.setLongAnswer(cardEditDto.getLongAnswer());
+        card.setSetOfCards(setOfCards);
+
+        Card savedCard = cardRepository.save(card); // todo delete get folder after checking work
+
+        LOGGER.info("savedCard {}", savedCard);
+
+        return savedCard;
+    }
 }

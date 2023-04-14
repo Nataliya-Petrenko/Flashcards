@@ -1,6 +1,7 @@
 package com.petrenko.flashcards.controller;
 
 import com.petrenko.flashcards.dto.CardIdQuestionDto;
+import com.petrenko.flashcards.dto.SetEditDto;
 import com.petrenko.flashcards.dto.SetFolderNameSetNameDescriptionDto;
 import com.petrenko.flashcards.dto.SetViewByIdDto;
 import com.petrenko.flashcards.model.*;
@@ -99,7 +100,7 @@ public class SetController {
         SetViewByIdDto setViewByIdDto = setOfCardsService.getSetViewByIdDto(id);
 
         LOGGER.info("setViewByIdDto: {}", setViewByIdDto);
-        modelAndView.addObject("setDto", setViewByIdDto);
+        modelAndView.addObject("setViewByIdDto", setViewByIdDto);
 
         List<CardIdQuestionDto> cards = cardService.getBySetId(id);
         LOGGER.info("List<CardIdQuestionDto>: {}", cards);
@@ -112,50 +113,43 @@ public class SetController {
 
 
     @GetMapping("/set/{id}/edit")
-    public ModelAndView getSetEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("@GetMapping(/set/{id}/edit) id: " + id);
+    public ModelAndView getSetEditForm(@PathVariable("id") String id,
+                                       ModelAndView modelAndView) {
+        LOGGER.info("set id from link: {}", id);
 
-        final SetOfCards setOfCards = setOfCardsService.getById(id);
-        LOGGER.info("@GetMapping(/set/{id}/edit) setOfCardsService.getById(id): " + setOfCards);
-        modelAndView.addObject("setOfCards", setOfCards);
+        final SetEditDto setEditDto = setOfCardsService.getSetEditDto(id);
+        LOGGER.info("setEditDto: {}", setEditDto);
+        modelAndView.addObject("setEditDto", setEditDto);
 
-        List<Card> cards = cardService.getBySet(setOfCards);
-        LOGGER.info("@GetMapping(/set/{id}/edit)  List<Card> getBySet: " + cards);
-        modelAndView.addObject("cards", cards);
-
-        modelAndView.setViewName("editSetView");
-        LOGGER.info("@GetMapping(/set/{id}/edit) before show editSetView.html");
+        modelAndView.setViewName("setEdit");
+        LOGGER.info("before show setEdit.html");
         return modelAndView;
     }
 
-    @PutMapping("/set/{id}/edit")  // after edited set
-    public ModelAndView editSet(@PathVariable("id") String id,   // todo save id into Dto in view
-                                @ModelAttribute SetOfCards setOfCards,
-                                BindingResult bindingResult,
+    @PutMapping("/set/{id}/edit")
+    public ModelAndView editSet(@PathVariable("id") String id,   // todo  Do I need id into link?
+                                @ModelAttribute SetEditDto setEditDto,
                                 Principal principal,
+                                BindingResult bindingResult,
                                 ModelAndView modelAndView) {
-        LOGGER.info("@PutMapping(/set/{id}/edit) id: " + id);
+        LOGGER.info("setEditDto from form: {}", setEditDto);
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("setOfCards", setOfCards);
-            modelAndView.setViewName("editSetView");
+            LOGGER.info("return with input error {}", setEditDto);
+            modelAndView.addObject("setEditDto", setEditDto);
+            modelAndView.setViewName("setEdit");
             return modelAndView;
         }
 
-        String userId = principal.getName(); // userName = id
-        SetOfCards savedSetOfCards = setOfCardsService.saveCheckName(userId, setOfCards); // todo fix description don't save
-        LOGGER.info("set saved {}", savedSetOfCards);
-        modelAndView.addObject("setOfCards", savedSetOfCards);
+        final String userId = principal.getName();
+        LOGGER.info("userId {}", userId);
 
-//        SetOfCards savedSetOfCards = setOfCardsService.editSetOfCards(setOfCards);
-//        LOGGER.info("@PutMapping(/set/{id}/edit) setOfCards saved " + savedSetOfCards);
-//        modelAndView.addObject("setOfCards", savedSetOfCards);
+        SetOfCards savedSetOfCards = setOfCardsService.updateSetOfCardsBySetEditDto(userId, setEditDto);
+        LOGGER.info("savedSetOfCards: {}", savedSetOfCards);
 
-        List<Card> cards = cardService.getBySet(setOfCards);
-        LOGGER.info("List<Card> getBySet: {}", cards);
-        modelAndView.addObject("cards", cards);
+        String red = "redirect:/set/" + setEditDto.getId();
+        modelAndView.setViewName(red);
+        LOGGER.info("before {}", red);
 
-        modelAndView.setViewName("setById");
-        LOGGER.info("before show setById.html");
         return modelAndView;
     }
 

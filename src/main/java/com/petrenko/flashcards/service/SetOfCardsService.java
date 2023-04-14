@@ -5,6 +5,7 @@ import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.repository.CardRepository;
+import com.petrenko.flashcards.repository.FolderRepository;
 import com.petrenko.flashcards.repository.SetOfCardsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +25,17 @@ public class SetOfCardsService {
 
     private final FolderService folderService;
 
+    private final FolderRepository folderRepository;
+
     @Autowired
     public SetOfCardsService(final SetOfCardsRepository setOfCardsRepository,
                              final CardRepository cardRepository,
-                             final FolderService folderService) {
+                             final FolderService folderService,
+                             final FolderRepository folderRepository) {
         this.setOfCardsRepository = setOfCardsRepository;
         this.cardRepository = cardRepository;
         this.folderService = folderService;
+        this.folderRepository = folderRepository;
     }
 
     public SetOfCards saveCheckName(String userId, SetOfCards setOfCards) {
@@ -148,29 +153,63 @@ public class SetOfCardsService {
         SetViewByIdDto setViewByIdDto = setOfCardsRepository
                 .getSetViewByIdDto(setId).orElseThrow(IllegalArgumentException::new);
 
-        setViewByIdDto.setPreviousOrLastSetId(getPreviousOrLastSetId(setId));
-        setViewByIdDto.setNextOrFirstSetId(getNextOrFirstSetId(setId));
+        String folderId = setViewByIdDto.getFolderId();
+
+        setViewByIdDto.setPreviousOrLastSetId(getPreviousOrLastSetId(folderId, setId));
+        setViewByIdDto.setNextOrFirstSetId(getNextOrFirstSetId(folderId, setId));
 
         LOGGER.info("setViewByIdDto {}", setViewByIdDto);
         return setViewByIdDto;
     }
 
-    private String getPreviousOrLastSetId(final String setId) {
+    private String getPreviousOrLastSetId(final String folderId, final String setId) {
         LOGGER.info("invoked");
-        String previousOrLastSetId = setOfCardsRepository.getPreviousId(setId)
-                .orElse(setOfCardsRepository.getLastId(setId)
+        String previousOrLastSetId = setOfCardsRepository.getPreviousId(folderId, setId)
+                .orElse(setOfCardsRepository.getLastId(folderId)
                         .orElseThrow(IllegalArgumentException::new));
         LOGGER.info("previousOrLastSetId {}", previousOrLastSetId);
         return previousOrLastSetId;
     }
 
-    private String getNextOrFirstSetId(final String setId) {
+    private String getNextOrFirstSetId(final String folderId, final String setId) {
         LOGGER.info("invoked");
-        String nextOrFirstSetId = setOfCardsRepository.getNextId(setId)
-                .orElse(setOfCardsRepository.getFirstId(setId)
+        String nextOrFirstSetId = setOfCardsRepository.getNextId(folderId, setId)
+                .orElse(setOfCardsRepository.getFirstId(folderId)
                         .orElseThrow(IllegalArgumentException::new));
         LOGGER.info("nextOrFirstFolderId {}", nextOrFirstSetId);
         return nextOrFirstSetId;
     }
 
+    public SetEditDto getSetEditDto(String setId) {
+        LOGGER.info("invoked");
+
+        SetEditDto setEditDto = setOfCardsRepository
+                .getSetEditDto(setId).orElseThrow(IllegalArgumentException::new);
+
+        LOGGER.info("setEditDto {}", setEditDto);
+        return setEditDto;
+    }
+
+    @Transactional
+    public SetOfCards updateSetOfCardsBySetEditDto(String userId, SetEditDto setEditDto) {
+        LOGGER.info("invoked");
+
+        String folderName = setEditDto.getFolderName();
+        String setName = setEditDto.getName();
+
+        SetOfCards setOfCards = getByNameAndFolderNameOrNew(userId, folderName, setName);
+
+        String description = setEditDto.getDescription();
+        setOfCards.setDescription(description);
+
+        String setId = setOfCards.getId();
+
+        setOfCardsRepository.updateDescription(setId, description);
+
+        SetOfCards updatedSetOfCards = setOfCardsRepository.findById(setId)
+                .orElseThrow(IllegalArgumentException::new);      // todo delete get folder after checking work
+
+        LOGGER.info("updatedSetOfCards {}", updatedSetOfCards);
+        return updatedSetOfCards;
+    }
 }

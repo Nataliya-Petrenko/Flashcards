@@ -33,8 +33,8 @@
                   <p class="folder-description__text" th:text="|*{description}|" title="Folder description"></p>
               </div>
               <div class="card folder-card">
-                  <div class="card__content folder-card__content" th:each="set : ${setsIdNameDto}" title="Sets">
-                      <div class="card border-card card-in-set">
+                  <div class="card__content folder-card__content" title="Sets">
+                      <div class="card border-card card-in-set" th:each="set : ${setsIdNameDto}">
                           <p th:text="|${set.name}|" title="Set name"></p>
                           <div class="card-buttons">
                               <a th:href="@{/set/{id}(id=${set.id})}" class="button bg-dark no-border">Show set</a>

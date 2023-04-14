@@ -2,7 +2,6 @@ package com.petrenko.flashcards.controller;
 
 import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.Folder;
-import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.service.FolderService;
 import com.petrenko.flashcards.service.SetOfCardsService;
 import org.slf4j.Logger;
@@ -139,7 +138,7 @@ public class FolderController {
         final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        Folder updatedFolder = folderService.updateFolderIdNameDescriptionDtoToFolder(userId, folderIdNameDescriptionDto); // todo delete get folder after checking work
+        Folder updatedFolder = folderService.updateFolderByFolderIdNameDescriptionDto(userId, folderIdNameDescriptionDto); // todo delete get folder after checking work
         LOGGER.info("updatedFolder {}", updatedFolder);
 
         String red = "redirect:/folder/" + id;

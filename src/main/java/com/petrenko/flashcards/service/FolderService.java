@@ -187,14 +187,14 @@ public class FolderService {
     }
 
     @Transactional
-    public Folder updateFolderIdNameDescriptionDtoToFolder(String userId, FolderIdNameDescriptionDto folderIdNameDescriptionDto) {
+    public Folder updateFolderByFolderIdNameDescriptionDto(String userId, FolderIdNameDescriptionDto folderIdNameDescriptionDto) {
         LOGGER.info("invoked");
 
         String newName = folderIdNameDescriptionDto.getName();
 
         Optional<String> idByUserIdAndName = folderRepository.findIdByUserIdAndName(userId, newName);
         if (idByUserIdAndName.isPresent() && !idByUserIdAndName.get().equals(folderIdNameDescriptionDto.getId())) {
-            throw new IllegalArgumentException("Folder with this newName already exist: " + newName);
+            throw new IllegalArgumentException("Folder with this newName already exist: " + newName); // todo get choose edit old or enter another name
         }
 
         String newDescription = folderIdNameDescriptionDto.getDescription();

@@ -21,14 +21,14 @@
       <main class="main">
           <div class="edit-set-view hidden-scroll">
               <div class="navigation edit-set-navigation">
-                  <a th:href="@{/folder/{id}(id=${setOfCards.folder.id})}" class="button bg-dark dark-border">Go to folder</a>
+                  <a th:href="@{/folder/{id}(id=${setEditDto.folderId})}" class="button bg-dark dark-border">Go to folder</a>
                   <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
                   <button class="button bg-dark dark-border" type="submit" form="set-edit-form">Save</button>
               </div>
-              <form class="set-edit-form" id="set-edit-form" th:action="@{/set/{id}/edit(id=${setOfCards.id})}" th:object="${setOfCards}" th:method="PUT">
+              <form class="set-edit-form" id="set-edit-form" th:action="@{/set/{id}/edit(id=${setEditDto.id})}" th:object="${setEditDto}" th:method="PUT">
                   <div class="card folder-name">
                       <input class="card__content dark-placeholder" type="text" title="Folder name"
-                             th:field="*{folder.name}" placeholder="Enter folder name *" required>
+                             th:field="*{folderName}" placeholder="Enter folder name *" required>
                   </div>
                   <div class="card set-name">
                       <input class="card__content dark-placeholder" type="text" title="Set name"

@@ -3,6 +3,7 @@ package com.petrenko.flashcards.service;
 import com.petrenko.flashcards.controller.CardController;
 import com.petrenko.flashcards.dto.CardCreatingDto;
 import com.petrenko.flashcards.dto.CardEditingDto;
+import com.petrenko.flashcards.dto.CardIdQuestionDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.repository.CardRepository;
 import org.slf4j.Logger;
@@ -152,6 +153,14 @@ public class CardService {
 //    }
 
     public void deleteById(final String id) {
+        LOGGER.info("invoked");
         cardRepository.deleteById(id);
+    }
+
+    public List<CardIdQuestionDto> getBySetId(String setId) {
+        LOGGER.info("invoked");
+        List<CardIdQuestionDto> cardsIdQuestionDto = cardRepository.findBySetOfCardsId(setId);
+        LOGGER.info("List<CardIdQuestionDto> {}", cardsIdQuestionDto);
+        return cardsIdQuestionDto;
     }
 }

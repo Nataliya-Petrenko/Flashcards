@@ -90,9 +90,9 @@ public class FolderController {
     public ModelAndView getFolderById(@PathVariable("id") String id,
                                       Principal principal,
                                       ModelAndView modelAndView) {
-        LOGGER.info("folder id from link: " + id);
+        LOGGER.info("folder id from link: {}", id);
 
-        final String userId = principal.getName();
+        final String userId = principal.getName(); // todo Do I need it if I have id?
         LOGGER.info("userId {}", userId);
 
         FolderByIdDto folderByIdDto = folderService.getFolderByIdDto(userId, id); // todo get all information by single Dto

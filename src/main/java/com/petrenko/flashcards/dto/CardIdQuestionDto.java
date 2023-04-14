@@ -1,6 +1,6 @@
 package com.petrenko.flashcards.dto;
 
-import com.petrenko.flashcards.model.Folder;
+import com.petrenko.flashcards.model.SetOfCards;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,12 +13,13 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @ToString
-public class SetFolderNameSetNameDescriptionDto {
+public class CardIdQuestionDto {
+    private String id;
 
-    private String  folderName;
+    private String question;
 
-    private String name;
-
-    private String description;
-
+    public CardIdQuestionDto(String id, String question) {
+        this.id = id;
+        this.question = question;
+    }
 }

@@ -33,14 +33,6 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
             """)
     List<FolderIdNameDto> getFoldersIdNameDtoByPersonId(String userId);
 
-//    @Query("""
-//        SELECT new com.petrenko.flashcards.dto.FolderByIdDto(f.id, f.name, f.description)
-//        FROM Folder f
-//        LEFT JOIN f.person p
-//        WHERE p.id = :userId AND f.id = :folderId
-//            """)
-//    FolderByIdDto getFolderByIdDto(String userId, String folderId); // todo delete
-
     @Query("""
             SELECT f.id
             FROM Folder f

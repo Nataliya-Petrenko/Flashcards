@@ -21,18 +21,18 @@
     <main class="main">
         <div class="set-view">
             <nav class="navigation set-navigation">
-                <a th:href="@{/folder/{id}/(id=${setOfCards.folder.id})}" class="button bg-dark dark-border">Go to folder</a>
-                <a class="button bg-dark dark-border auto-margin-left" href="#">&#60; Previous (not implemented)</a>
-                <a class="button bg-dark dark-border auto-margin-right" href="#">Next (not implemented) &#62;</a>
+                <a th:href="@{/folder/{id}/(id=${setDto.folderId})}" class="button bg-dark dark-border">Go to folder</a>
+                <a th:href="@{/folder/{id}/(id=${setDto.previousOrLastSetId})}" class="button bg-dark dark-border auto-margin-left">&#60; Previous set in this folder</a>
+                <a th:href="@{/folder/{id}/(id=${setDto.nextOrFirstSetId})}" class="button bg-dark dark-border auto-margin-right">Next set in this folder &#62;</a>
                 <a href="#" class="button bg-dark dark-border">Learn (not implemented)</a>
-                <a th:href="@{/card/create/{id}(id=${setOfCards.id})}" class="button bg-dark dark-border">New card in this set</a>
-                <a th:href="@{/set/{id}/edit(id=${setOfCards.id})}" class="button bg-dark dark-border">Edit</a>
-                <a th:href="@{/set/{id}/delete(id=${setOfCards.id})}" class="button bg-dark dark-border">Delete</a>
+                <a th:href="@{/card/create/{id}(id=${setDto.id})}" class="button bg-dark dark-border">New card in this set (needs check)</a>
+                <a th:href="@{/set/{id}/edit(id=${setDto.id})}" class="button bg-dark dark-border">Edit</a>
+                <a th:href="@{/set/{id}/delete(id=${setDto.id})}" class="button bg-dark dark-border">Delete</a>
             </nav>
-            <h2 class="second-title set-title" th:text="|${setOfCards.folder.name}: ${setOfCards.name}|" title="Folder name: Set name"></h2>
+            <h2 class="second-title set-title" th:text="|${setDto.folderName}: ${setDto.name}|" title="Folder name: Set name"></h2>
 
             <div class="card set-description">
-                <p class="set-description__text" th:text="|${setOfCards.description}|" title="Set description"></p>
+                <p class="set-description__text" th:text="|${setDto.description}|" title="Set description"></p>
             </div>
 
             <div class="card cards-container">

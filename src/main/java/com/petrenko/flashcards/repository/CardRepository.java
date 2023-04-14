@@ -1,6 +1,7 @@
 package com.petrenko.flashcards.repository;
 
 import com.petrenko.flashcards.dto.CardEditingDto;
+import com.petrenko.flashcards.dto.CardIdQuestionDto;
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.SetOfCards;
 import org.springframework.data.jpa.repository.Modifying;
@@ -105,4 +106,13 @@ public interface CardRepository extends CrudRepository<Card, String> {
             """)
     void deleteBySetId(String setId);
 
+    @Query("""
+            SELECT new com.petrenko.flashcards.dto.CardIdQuestionDto(
+            c.id,
+            c.question)
+            FROM Card as c
+            LEFT JOIN c.setOfCards as s
+            WHERE s.id = :setId
+            """)
+    List<CardIdQuestionDto> findBySetOfCardsId(String setId);
 }

@@ -1,7 +1,6 @@
 package com.petrenko.flashcards.service;
 
-import com.petrenko.flashcards.dto.SetFolderNameSetNameDescriptionDto;
-import com.petrenko.flashcards.dto.SetIdNameDto;
+import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
@@ -11,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -139,6 +139,38 @@ public class SetOfCardsService {
 
         LOGGER.info("setOfCards {}", setOfCards);
         return setOfCards;
+    }
+
+    @Transactional
+    public SetViewByIdDto getSetViewByIdDto(String setId) { // todo get by single DTO
+        LOGGER.info("invoked");
+
+        SetViewByIdDto setViewByIdDto = setOfCardsRepository
+                .getSetViewByIdDto(setId).orElseThrow(IllegalArgumentException::new);
+
+        setViewByIdDto.setPreviousOrLastSetId(getPreviousOrLastSetId(setId));
+        setViewByIdDto.setNextOrFirstSetId(getNextOrFirstSetId(setId));
+
+        LOGGER.info("setViewByIdDto {}", setViewByIdDto);
+        return setViewByIdDto;
+    }
+
+    private String getPreviousOrLastSetId(final String setId) {
+        LOGGER.info("invoked");
+        String previousOrLastSetId = setOfCardsRepository.getPreviousId(setId)
+                .orElse(setOfCardsRepository.getLastId(setId)
+                        .orElseThrow(IllegalArgumentException::new));
+        LOGGER.info("previousOrLastSetId {}", previousOrLastSetId);
+        return previousOrLastSetId;
+    }
+
+    private String getNextOrFirstSetId(final String setId) {
+        LOGGER.info("invoked");
+        String nextOrFirstSetId = setOfCardsRepository.getNextId(setId)
+                .orElse(setOfCardsRepository.getFirstId(setId)
+                        .orElseThrow(IllegalArgumentException::new));
+        LOGGER.info("nextOrFirstFolderId {}", nextOrFirstSetId);
+        return nextOrFirstSetId;
     }
 
 }

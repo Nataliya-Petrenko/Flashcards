@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.CardCreatingDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.SetOfCardsService;
@@ -28,28 +29,45 @@ public class CardController {
         this.cardService = cardService;
         this.setOfCardsService = setOfCardsService;
     }
-//    @GetMapping("/test")
-//    public ModelAndView getTest(ModelAndView modelAndView) {
-////        modelAndView.setViewName("admin-view");
-////        modelAndView.setViewName("all-users-info-view");
-//        modelAndView.setViewName("card-view");
-////        modelAndView.setViewName("complaint-view");
-////        modelAndView.setViewName("edit-card-view");
-////        modelAndView.setViewName("edit-folder-view");
-////        modelAndView.setViewName("edit-profile-view");
-////        modelAndView.setViewName("edit-set-view");
-////        modelAndView.setViewName("error-view");
-////        modelAndView.setViewName("folder-view");
-////        modelAndView.setViewName("help-view");
-////        modelAndView.setViewName("index");
-////        modelAndView.setViewName("learning-view");
-////        modelAndView.setViewName("profile-view");
-////        modelAndView.setViewName("set-view");
-////        modelAndView.setViewName("sign-in-view");
-////        modelAndView.setViewName("sign-up-view");
-////        modelAndView.setViewName("statistics-view");
-//        return modelAndView;
-//    }
+
+    @GetMapping("/card/create")
+    public ModelAndView getCreateCardForm(ModelAndView modelAndView) {
+        LOGGER.info("invoked");
+
+        CardCreatingDto cardCreatingDto = new CardCreatingDto();
+        LOGGER.info("new cardCreatingDto() {}", cardCreatingDto);
+        modelAndView.addObject("card", cardCreatingDto);
+
+        modelAndView.setViewName("cardCreate");
+        LOGGER.info("before show cardCreate");
+        return modelAndView;
+    }
+
+    @PostMapping("/card/create")
+    public ModelAndView saveNewCard(@ModelAttribute CardCreatingDto cardCreatingDto,
+                                   BindingResult bindingResult,
+                                   ModelAndView modelAndView,
+                                   Principal principal) {
+        LOGGER.info("cardCreatingDto from form {}", cardCreatingDto);
+        if (bindingResult.hasErrors()) {
+            LOGGER.info("return with input error {}", cardCreatingDto);
+            modelAndView.addObject("card", cardCreatingDto);
+            modelAndView.setViewName("cardCreate");
+            return modelAndView;
+        }
+
+        String userId = principal.getName(); // userName = id
+        LOGGER.info("userId {}", userId);
+
+        Card savedCard = cardService.saveCardCreatingDtoToCard(userId, cardCreatingDto); // todo delete get savedCard after checking work
+        LOGGER.info("card saved {}", savedCard);
+
+        String red = "redirect:/card/" + savedCard.getId();
+        modelAndView.setViewName(red);
+        LOGGER.info("before {}", red);
+
+        return modelAndView;
+    }
 
     @GetMapping("/card/{id}")
     public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView, Principal principal) {
@@ -88,50 +106,50 @@ public class CardController {
         return modelAndView;
     }
 
-    @GetMapping("/card/create")
-    public ModelAndView getCreateCardForm(ModelAndView modelAndView) {
-        LOGGER.info("invoked");
-
-        Card card = new Card();
-        LOGGER.info("new Card() " + card);
-        modelAndView.addObject("card", card);
-
-        modelAndView.setViewName("cardCreate");
-        LOGGER.info("before show cardCreate");
-        return modelAndView;
-    }
-
-    @PostMapping("/card/create")  // after created card
-    public ModelAndView createCard(@ModelAttribute Card card,
-                                   BindingResult bindingResult,
-                                   ModelAndView modelAndView,
-                                   Principal principal) {
-        LOGGER.info("card from form " + card);
-        if (bindingResult.hasErrors()) {
-            modelAndView.addObject("card", card);
-            modelAndView.setViewName("cardCreate");
-            return modelAndView;
-        }
-
-        String userId = principal.getName();
-        Card savedCard = cardService.save(userId, card);  // userName = id
-        LOGGER.info("card saved " + savedCard);
-
-        final SetOfCards setOfCards = card.getSetOfCards();
-        LOGGER.info("setOfCards: " + setOfCards);
-        modelAndView.addObject("setOfCards", setOfCards);
-
-        List<Card> cards = cardService.getBySet(card.getSetOfCards());
-        LOGGER.info("List<Card>: " + cards);
-        modelAndView.addObject("cards", cards);
-
-        modelAndView.setViewName("setById"); // todo redirect
-        LOGGER.info("before show setById.html");
-
-//        modelAndView.setViewName("redirect:/profile");
-//        LOGGER.info("before redirect:/profile");
-        return modelAndView;
-    }
+//    @GetMapping("/card/create")
+//    public ModelAndView getCreateCardForm(ModelAndView modelAndView) {
+//        LOGGER.info("invoked");
+//
+//        Card card = new Card();
+//        LOGGER.info("new Card() " + card);
+//        modelAndView.addObject("card", card);
+//
+//        modelAndView.setViewName("cardCreate");
+//        LOGGER.info("before show cardCreate");
+//        return modelAndView;
+//    }
+//
+//    @PostMapping("/card/create")  // after created card
+//    public ModelAndView createCard(@ModelAttribute Card card,
+//                                   BindingResult bindingResult,
+//                                   ModelAndView modelAndView,
+//                                   Principal principal) {
+//        LOGGER.info("card from form " + card);
+//        if (bindingResult.hasErrors()) {
+//            modelAndView.addObject("card", card);
+//            modelAndView.setViewName("cardCreate");
+//            return modelAndView;
+//        }
+//
+//        String userId = principal.getName();
+//        Card savedCard = cardService.save(userId, card);  // userName = id
+//        LOGGER.info("card saved " + savedCard);
+//
+//        final SetOfCards setOfCards = card.getSetOfCards();
+//        LOGGER.info("setOfCards: " + setOfCards);
+//        modelAndView.addObject("setOfCards", setOfCards);
+//
+//        List<Card> cards = cardService.getBySet(card.getSetOfCards());
+//        LOGGER.info("List<Card>: " + cards);
+//        modelAndView.addObject("cards", cards);
+//
+//        modelAndView.setViewName("setById"); // todo redirect
+//        LOGGER.info("before show setById.html");
+//
+////        modelAndView.setViewName("redirect:/profile");
+////        LOGGER.info("before redirect:/profile");
+//        return modelAndView;
+//    }
 
     @GetMapping("/card/{id}/edit")
     public ModelAndView getCardEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {

@@ -13,7 +13,7 @@ public class CardCreatingDto {
 
     private String longAnswer;
 
-//    private String setOfCardsId;
+    private String folderName;
 
     private String setOfCardsName;
 }

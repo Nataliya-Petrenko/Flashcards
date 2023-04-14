@@ -107,6 +107,7 @@ public class SetOfCardsService {
         return sets;
     }
 
+    @Transactional
     public SetOfCards saveSetFolderNameSetNameDescriptionDto(String userId, SetFolderNameSetNameDescriptionDto setDto) {
         LOGGER.info("invoked");
 

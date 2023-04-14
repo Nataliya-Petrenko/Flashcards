@@ -39,11 +39,13 @@ public class SetController {
     }
 
     @GetMapping("/set/create")
-    public ModelAndView getSetForm(ModelAndView modelAndView) {
+    public ModelAndView getCreateSetForm(ModelAndView modelAndView) {
         LOGGER.info("invoked");
+
         SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto();
         LOGGER.info("new setFolderNameSetNameDescriptionDto {}", setDto);
         modelAndView.addObject("setDto", setDto);
+
         modelAndView.setViewName("setCreate");
         LOGGER.info("before show setCreate.html");
         return modelAndView;
@@ -63,6 +65,7 @@ public class SetController {
         }
 
         String userId = principal.getName(); // userName = id
+        LOGGER.info("userId {}", userId);
 
         SetOfCards savedSetOfCards = setOfCardsService.saveSetFolderNameSetNameDescriptionDto(userId, setDto); // todo delete get savedSetOfCards after checking work
         LOGGER.info("set saved {}", savedSetOfCards);

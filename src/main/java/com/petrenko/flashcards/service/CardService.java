@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -162,5 +163,30 @@ public class CardService {
         List<CardIdQuestionDto> cardsIdQuestionDto = cardRepository.findBySetOfCardsId(setId);
         LOGGER.info("List<CardIdQuestionDto> {}", cardsIdQuestionDto);
         return cardsIdQuestionDto;
+    }
+
+    @Transactional
+    public Card saveCardCreatingDtoToCard(String userId, CardCreatingDto cardCreatingDto) {
+        LOGGER.info("invoked");
+
+        String folderName = cardCreatingDto.getFolderName();
+        String setName = cardCreatingDto.getSetOfCardsName();
+
+        SetOfCards setOfCards = setOfCardsService.getByNameAndFolderNameOrNew(userId, folderName, setName);
+
+        String question = cardCreatingDto.getQuestion();
+        String shortAnswer = cardCreatingDto.getShortAnswer();
+        String longAnswer = cardCreatingDto.getLongAnswer();
+
+        Card card = new Card();
+        card.setQuestion(question);
+        card.setShortAnswer(shortAnswer);
+        card.setLongAnswer(longAnswer);
+        card.setSetOfCards(setOfCards);
+
+        Card savedCard = cardRepository.save(card);
+
+        LOGGER.info("savedCard {}", savedCard);
+        return savedCard;
     }
 }

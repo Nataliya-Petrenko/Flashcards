@@ -21,17 +21,17 @@
     <main class="main">
         <div class="set-view">
             <nav class="navigation set-navigation">
-                <a th:href="@{/folder/{id}/(id=${setOfCards.folder.id})}" class="button bg-dark dark-border auto-margin-right">&#60; Go to folder</a>
-                <form th:action="@{/set/{id}/delete(id=${setOfCards.id})}" th:object="${setOfCards}" th:method="DELETE">
+                <a th:href="@{/folder/{id}/(id=${setEditDto.folderId})}" class="button bg-dark dark-border auto-margin-right">&#60; Go to folder</a>
+                <form th:action="@{/set/{id}/delete(id=${setEditDto.id})}" th:object="${setEditDto}" th:method="DELETE">
                     <button class="button bg-dark dark-border auto-margin-left" type="submit">Yes, delete set</button>
                 </form>
-                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=${setOfCards.id})}">No, back to set</a>
+                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=*{id})}">No, back to set</a>
             </nav>
 
-            <h2 class="second-title set-title" th:text="|Are you sure you want to delete the set: ${setOfCards.name} from the folder:  *{setOfCards.folder.name}?|"></h2>
+            <h2 class="second-title set-title" th:text="|Are you sure you want to delete the set: *{name} from the folder:  *{folderName}?|"></h2>
 
             <div class="card set-description">
-                <p class="set-description__text" th:text="|${setOfCards.description}|" title="Set description"></p>
+                <p class="set-description__text" th:text="|*{description}|" title="Set description"></p>
             </div>
 
             <div class="card cards-container">

@@ -154,39 +154,33 @@ public class SetController {
     }
 
     @GetMapping("/set/{id}/delete")
-    public ModelAndView getSetDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("id: {}", id);
-        final SetOfCards setOfCards = setOfCardsService.getById(id);
-        LOGGER.info("setOfCards getById: {}", setOfCards);
-        modelAndView.addObject("setOfCards", setOfCards);
-        modelAndView.setViewName("deleteSetViewById");
+    public ModelAndView getSetDeleteForm(@PathVariable("id") String id,
+                                         ModelAndView modelAndView) {
+        LOGGER.info("set id from link: {}", id);
 
-        List<Card> cards = cardService.getBySet(setOfCards);
-        LOGGER.info("List<Card> getBySet: {}", cards);
+        final SetEditDto setEditDto = setOfCardsService.getSetEditDto(id);
+        LOGGER.info("setEditDto: {}", setEditDto);
+        modelAndView.addObject("setEditDto", setEditDto);
+
+        List<CardIdQuestionDto> cards = cardService.getBySetId(id); // todo get only cardQuestion and add it to DTO for delete
+        LOGGER.info("List<CardIdQuestionDto>: {}", cards);
         modelAndView.addObject("cards", cards);
 
-        LOGGER.info("before show deleteSetViewById.html");
+        modelAndView.setViewName("setDeleteById");
+        LOGGER.info("before show setDeleteById.html");
         return modelAndView;
     }
 
-    @DeleteMapping("/set/{id}/delete")  // after delete card
-    public ModelAndView deleteSet(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("id: " + id);
+    @DeleteMapping("/set/{id}/delete")
+    public ModelAndView deleteSet(@PathVariable("id") String id,
+                                  ModelAndView modelAndView) {
+        LOGGER.info("set id from link: {}", id);
 
-        Folder folder = setOfCardsService.getById(id).getFolder();
-        LOGGER.info("folder for setId: {}", folder);
-        modelAndView.addObject("folder", folder);
-
-        setOfCardsService.deleteById(id);
+        setOfCardsService.deleteAllById(id);
         LOGGER.info("setOfCards is deleted");
 
-        List<SetOfCards> setsOfCards = setOfCardsService.getByFolder(folder);
-        LOGGER.info("List<SetOfCards> getByFolder: {}", setsOfCards);
-        modelAndView.addObject("setsOfCards", setsOfCards);
-
-        modelAndView.setViewName("folderById");
-        LOGGER.info("before show folderById.html");
-
+        modelAndView.setViewName("redirect:/folder"); // todo redirect to folder id (where was set)
+        LOGGER.info("before redirect:/folder");
         return modelAndView;
     }
 

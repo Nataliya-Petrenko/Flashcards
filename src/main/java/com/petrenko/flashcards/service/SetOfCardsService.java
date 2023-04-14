@@ -68,12 +68,6 @@ public class SetOfCardsService {
         return setOfCardsRepository.findByName(name);
     }
 
-    public void deleteById(String id) {
-        List<Card> cards = cardRepository.getBySetOfCards(getById(id));
-        cards.forEach(c -> cardRepository.deleteById(c.getId()));
-        setOfCardsRepository.deleteById(id);
-    }
-
     public List<SetOfCards> getByFolder(final Folder folder) {
         List<SetOfCards> byFolder = setOfCardsRepository.getByFolder(folder);
         LOGGER.info("SetOfCards Service: getByFolder: " + byFolder);
@@ -211,5 +205,14 @@ public class SetOfCardsService {
 
         LOGGER.info("updatedSetOfCards {}", updatedSetOfCards);
         return updatedSetOfCards;
+    }
+
+    @Transactional
+    public void deleteAllById(String setId) {
+        LOGGER.info("invoked");
+        cardRepository.deleteBySetId(setId);
+        LOGGER.info("cards from set deleted {}", setId);
+        setOfCardsRepository.deleteById(setId);
+        LOGGER.info("set deleted {}", setId);
     }
 }

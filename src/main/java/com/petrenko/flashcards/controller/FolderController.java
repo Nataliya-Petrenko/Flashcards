@@ -157,7 +157,7 @@ public class FolderController {
         LOGGER.info("folderIdNameDescriptionDto: {}", folderIdNameDescriptionDto);
         modelAndView.addObject("folderIdNameDescriptionDto", folderIdNameDescriptionDto);
 
-        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id); // todo get only setsName?
+        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id); // todo get only setsName
         LOGGER.info("List<setsIdNameDto> getByFolderId: {}", setsIdNameDto);
         modelAndView.addObject("setsIdNameDto", setsIdNameDto);
 

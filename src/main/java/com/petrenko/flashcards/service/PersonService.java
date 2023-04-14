@@ -39,7 +39,7 @@ public class PersonService implements UserDetailsService {
 
     public Person getById(String userId) {
         LOGGER.info("invoked");
-        Person person = personRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
+        Person person = personRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found. User ID: " + userId));
         LOGGER.info("Person findById {}", person);
         return person;
     }
@@ -51,7 +51,7 @@ public class PersonService implements UserDetailsService {
 //        }
         if (personRepository.findPersonByEmail(user.getEmail()).isPresent()) {
             LOGGER.info("User already exists {}", user.getEmail());
-            throw new IllegalArgumentException("User already exists");
+            throw new IllegalArgumentException("User with this email already exists: " + user.getEmail());
         }
         Person person = new Person();
 
@@ -70,7 +70,7 @@ public class PersonService implements UserDetailsService {
     public EditProfileDto getEditProfileDtoByUserId(String userId) {
         LOGGER.info("invoked");
         EditProfileDto editProfileDto = personRepository.getEditProfileDtoByUserId(userId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("User information for editing not found. User ID: " + userId));
         LOGGER.info("editProfileDto {}", editProfileDto);
         return editProfileDto;
     }

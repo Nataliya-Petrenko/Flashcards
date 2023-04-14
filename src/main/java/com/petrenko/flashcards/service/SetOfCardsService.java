@@ -4,7 +4,6 @@ import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.repository.CardRepository;
-import com.petrenko.flashcards.repository.FolderRepository;
 import com.petrenko.flashcards.repository.SetOfCardsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SetOfCardsService {
@@ -94,7 +91,7 @@ public class SetOfCardsService {
         LOGGER.info("invoked");
         String previousOrLastSetId = setOfCardsRepository.getPreviousId(folderId, setId)
                 .orElse(setOfCardsRepository.getLastId(folderId)
-                        .orElseThrow(IllegalArgumentException::new));
+                        .orElseThrow(() -> new IllegalArgumentException("Unable to find any previous or last set for ID: '" + setId + "' in the folder '" + folderId + "'")));
         LOGGER.info("previousOrLastSetId {}", previousOrLastSetId);
         return previousOrLastSetId;
     }
@@ -103,7 +100,7 @@ public class SetOfCardsService {
         LOGGER.info("invoked");
         String nextOrFirstSetId = setOfCardsRepository.getNextId(folderId, setId)
                 .orElse(setOfCardsRepository.getFirstId(folderId)
-                        .orElseThrow(IllegalArgumentException::new));
+                        .orElseThrow(() -> new IllegalArgumentException("Unable to find any next or first set for ID: '" + setId + "' in the folder '" + folderId + "'")));
         LOGGER.info("nextOrFirstFolderId {}", nextOrFirstSetId);
         return nextOrFirstSetId;
     }
@@ -112,7 +109,7 @@ public class SetOfCardsService {
         LOGGER.info("invoked with setId {}", setId);
 
         SetEditDto setEditDto = setOfCardsRepository
-                .getSetEditDto(setId).orElseThrow(IllegalArgumentException::new);
+                .getSetEditDto(setId).orElseThrow(() -> new IllegalArgumentException("Set information for editing not found. Set ID: " + setId));
 
         LOGGER.info("setEditDto {}", setEditDto);
         return setEditDto;

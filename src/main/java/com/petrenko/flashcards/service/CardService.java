@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -81,7 +80,7 @@ public class CardService {
         LOGGER.info("invoked with cardId {}", cardId);
 
         CardByIdDto cardByIdDto = cardRepository.getCardByIdDto(cardId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Card not found for ID: " + cardId));
 
         String setId = cardByIdDto.getSetOfCardsId();
 
@@ -96,7 +95,7 @@ public class CardService {
         LOGGER.info("invoked");
         String previousOrLastId = cardRepository.getPreviousId(setId, cardId)
                 .orElse(cardRepository.getLastId(setId)
-                        .orElseThrow(IllegalArgumentException::new));
+                        .orElseThrow(() -> new IllegalArgumentException("Unable to find any previous or last card for ID: '" + cardId + "' in the set '" + setId + "'")));
         LOGGER.info("previousOrLastId {}", previousOrLastId);
         return previousOrLastId;
     }
@@ -105,7 +104,7 @@ public class CardService {
         LOGGER.info("invoked");
         String nextOrFirstId = cardRepository.getNextId(setId, cardId)
                 .orElse(cardRepository.getFirstId(setId)
-                        .orElseThrow(IllegalArgumentException::new));
+                        .orElseThrow(() -> new IllegalArgumentException("Unable to find any next or first card for ID: '" + cardId + "' in the set '" + setId + "'")));
         LOGGER.info("nextOrFirstId {}", nextOrFirstId);
         return nextOrFirstId;
     }
@@ -114,7 +113,7 @@ public class CardService {
         LOGGER.info("invoked with cardId {}", cardId);
 
         CardEditDto cardEditDto = cardRepository.getCardEditDto(cardId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Card information for editing not found. Card ID: " + cardId));
 
         LOGGER.info("cardEditDto {}", cardEditDto);
         return cardEditDto;

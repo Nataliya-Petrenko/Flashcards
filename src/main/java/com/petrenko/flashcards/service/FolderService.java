@@ -72,7 +72,7 @@ public class FolderService {
         LOGGER.info("invoked");
 
         FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
-                .getFolderIdNameDescriptionDto(folderId).orElseThrow(IllegalArgumentException::new);
+                .getFolderIdNameDescriptionDto(folderId).orElseThrow(() -> new IllegalArgumentException("Folder not found for ID: " + folderId));
 
         FolderByIdDto folderByIdDto = new FolderByIdDto();
 
@@ -90,7 +90,7 @@ public class FolderService {
         LOGGER.info("invoked");
         String previousOrLastFolderId = folderRepository.getPreviousId(userId, folderId)
                 .orElse(folderRepository.getLastId(userId)
-                        .orElseThrow(IllegalArgumentException::new));
+                        .orElseThrow(() -> new IllegalArgumentException("Unable to find any previous or last folder for ID: '" + folderId + "' in the user '" + userId + "'")));
         LOGGER.info("nextOrFirstFolderId {}", previousOrLastFolderId);
         return previousOrLastFolderId;
     }
@@ -99,7 +99,7 @@ public class FolderService {
         LOGGER.info("invoked");
         String nextOrFirstFolderId = folderRepository.getNextId(userId, folderId)
                 .orElse(folderRepository.getFirstId(userId)
-                        .orElseThrow(IllegalArgumentException::new));
+                        .orElseThrow(() -> new IllegalArgumentException("Unable to find any next or first folder for ID: '" + folderId + "' in the user '" + userId + "'")));
         LOGGER.info("nextOrFirstFolderId {}", nextOrFirstFolderId);
         return nextOrFirstFolderId;
     }
@@ -108,7 +108,7 @@ public class FolderService {
         LOGGER.info("invoked");
         FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
                 .getFolderIdNameDescriptionDto(folderId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Folder information not found. Folder ID: " + folderId));
         LOGGER.info("folderIdNameDescriptionDto {}", folderIdNameDescriptionDto);
         return folderIdNameDescriptionDto;
     }
@@ -146,9 +146,9 @@ public class FolderService {
         folderRepository.deleteById(folderId);
     }
 
-    public String getNameById(String id) {
+    public String getNameById(String folderId) {
         LOGGER.info("invoked");
-        String folderName = folderRepository.findNameById(id).orElseThrow(IllegalArgumentException::new);
+        String folderName = folderRepository.findNameById(folderId).orElseThrow(() -> new IllegalArgumentException("Folder name not found. Folder ID: " + folderId));
         LOGGER.info("folderName {}", folderName);
         return folderName;
     }

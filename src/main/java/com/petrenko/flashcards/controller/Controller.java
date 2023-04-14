@@ -17,4 +17,11 @@ public class Controller {
         return modelAndView;
     }
 
+    @GetMapping("/info")
+    public ModelAndView getInfo(ModelAndView modelAndView) {
+        LOGGER.info("invoked");
+        modelAndView.setViewName("info");
+        return modelAndView;
+    }
+
 }

@@ -31,7 +31,7 @@
             </ul>
         </div>
     </div>
-    <a href="#" class="button bg-dark light-border extra-bold-text">?</a>
+    <a th:href="@{/info}" class="button bg-dark light-border extra-bold-text">?</a>
     <a th:href="@{/login}" class="button bg-dark light-border" sec:authorize="!isAuthenticated()">Sign in</a>
     <a th:href="@{/registration}" class="button bg-dark light-border" sec:authorize="!isAuthenticated()">Sign up</a>
     <div class="profile" sec:authorize="isAuthenticated()">

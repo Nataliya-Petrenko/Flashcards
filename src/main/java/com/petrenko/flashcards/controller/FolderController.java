@@ -91,7 +91,7 @@ public class FolderController {
                                       ModelAndView modelAndView) {
         LOGGER.info("folder id from link: {}", id);
 
-        final String userId = principal.getName(); // todo Do I need it if I have id?
+        final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
         FolderByIdDto folderByIdDto = folderService.getFolderByIdDto(userId, id); // todo get all information by single Dto
@@ -122,8 +122,7 @@ public class FolderController {
     }
 
     @PutMapping("/folder/{id}/edit")
-    public ModelAndView editFolder(@PathVariable("id") String id,           // todo Do I need id into link?
-                                @ModelAttribute FolderIdNameDescriptionDto folderIdNameDescriptionDto,
+    public ModelAndView editFolder(@ModelAttribute FolderIdNameDescriptionDto folderIdNameDescriptionDto,
                                 Principal principal,
                                 BindingResult bindingResult,
                                 ModelAndView modelAndView) {
@@ -141,7 +140,7 @@ public class FolderController {
         Folder updatedFolder = folderService.updateFolderByFolderIdNameDescriptionDto(userId, folderIdNameDescriptionDto); // todo delete get folder after checking work
         LOGGER.info("updatedFolder {}", updatedFolder);
 
-        String red = "redirect:/folder/" + id;
+        String red = "redirect:/folder/" + folderIdNameDescriptionDto.getId();
         modelAndView.setViewName(red);
         LOGGER.info("before {}", red);
         return modelAndView;

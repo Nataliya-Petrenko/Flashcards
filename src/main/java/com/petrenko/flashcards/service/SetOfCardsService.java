@@ -24,81 +24,15 @@ public class SetOfCardsService {
 
     private final FolderService folderService;
 
-    private final FolderRepository folderRepository;
-
     @Autowired
     public SetOfCardsService(final SetOfCardsRepository setOfCardsRepository,
                              final CardRepository cardRepository,
-                             final FolderService folderService,
-                             final FolderRepository folderRepository) {
+                             final FolderService folderService) {
         this.setOfCardsRepository = setOfCardsRepository;
         this.cardRepository = cardRepository;
         this.folderService = folderService;
-        this.folderRepository = folderRepository;
     }
 
-    public SetOfCards saveCheckName(String userId, SetOfCards setOfCards) {
-        Folder folder = folderService.saveCheckName(userId, setOfCards.getFolder());
-
-        String setName = setOfCards.getName();
-        final SetOfCards finalSet = setOfCardsRepository.findByName(setOfCards.getName()).orElse(new SetOfCards());
-        finalSet.setName(setName);
-        finalSet.setFolder(folder);
-        finalSet.setTimeOfCreation(LocalDateTime.now());
-
-        SetOfCards savedSet = setOfCardsRepository.save(finalSet);
-
-        LOGGER.info("Set service: save set (check name)" + savedSet);
-        return savedSet;
-    }
-
-    public SetOfCards save(SetOfCards setOfCards) {     //todo if a folder with this name exist then show a massage and suggest the choice to set folder from rep or create a new one with another name
-        LOGGER.info("Set service: save set" + setOfCards);
-        return setOfCardsRepository.save(setOfCards);
-    }
-
-    public SetOfCards getById(String id) {
-        SetOfCards setOfCards = setOfCardsRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        LOGGER.info("Set service: getById: " + setOfCards);
-        return setOfCards;
-    }
-
-    public Optional<SetOfCards> getByName(String name) {
-        return setOfCardsRepository.findByName(name);
-    }
-
-    public List<SetOfCards> getByFolder(final Folder folder) {
-        List<SetOfCards> byFolder = setOfCardsRepository.getByFolder(folder);
-        LOGGER.info("SetOfCards Service: getByFolder: " + byFolder);
-        return byFolder;
-    }
-
-    public SetOfCards editSetOfCards(final SetOfCards setOfCards) {
-        LOGGER.info("{}", setOfCards);
-
-        final String newFolderName = setOfCards.getFolder().getName();
-        LOGGER.info("newFolderName {}", newFolderName);
-
-        folderService.getByName(newFolderName).ifPresentOrElse((setOfCards::setFolder),      //todo if a folder with this name exist then show a massage and suggest the choice to set folder from rep or create a new one with another name
-                () -> {
-                    Folder folder = new Folder();
-                    folder.setName(newFolderName);
-                    folderService.save(folder);
-                    setOfCards.setFolder(folder);
-                });
-
-        SetOfCards savedSetOfCards = save(setOfCards);
-        LOGGER.info("savedSetOfCards {}", savedSetOfCards);
-        return savedSetOfCards;
-    }
-
-//    public Optional<String> getIdFromFolderByName(String name, String folderId) {
-//        Optional<String> idFromFolderByName = getIdFromFolderByName(name, folderId);
-//        LOGGER.info("get SetOfCards FromFolderByName " + idFromFolderByName.get());
-//        return idFromFolderByName;
-//    }
-
-    // new
     public List<SetIdNameDto> getByFolderId(String folderId) {
         LOGGER.info("invoked");
         List<SetIdNameDto> sets = setOfCardsRepository.getByFolderId(folderId);

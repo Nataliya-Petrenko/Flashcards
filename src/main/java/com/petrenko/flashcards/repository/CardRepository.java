@@ -2,31 +2,14 @@ package com.petrenko.flashcards.repository;
 
 import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.Card;
-import com.petrenko.flashcards.model.SetOfCards;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CardRepository extends CrudRepository<Card, String> {
-    List<Card> getBySetOfCards(SetOfCards setOfCards);
-
-    @Query("""
-            SELECT new com.petrenko.flashcards.dto.CardEditingDto(
-            c.id,
-            c.question,
-            c.shortAnswer,
-            c.longAnswer,
-            s.id as setOfCardsId,
-            s.name as setOfCardsName)
-            FROM Card as c
-            LEFT JOIN c.setOfCards as s
-            WHERE c.id = :id
-            """)
-    Optional<CardEditingDto> getCardEditingDto(@Param("id") String id);
 
     @Modifying
     @Query("""

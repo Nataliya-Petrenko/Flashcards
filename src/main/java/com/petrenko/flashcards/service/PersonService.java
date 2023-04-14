@@ -31,51 +31,11 @@ public class PersonService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {  // todo I need it?
         LOGGER.info("invoked");
         return personRepository.findPersonByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
-
-//    public Person save(Person user) {
-//        LOGGER.info("invoked");
-//        if (user.getPassword() == null) {
-//            throw new IllegalArgumentException("Password is incorrect");
-//        }
-//        if (personRepository.findPersonByEmail(user.getEmail()).isPresent()) {
-//            throw new IllegalArgumentException("User already exists");
-//        }
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setRole(user.getEmail().equalsIgnoreCase("admin") ? Role.ADMIN : Role.USER); // todo another approach get role
-//        Person savedPerson = personRepository.save(user);
-//        LOGGER.info("savedPerson {}", savedPerson);
-//        return savedPerson;
-//    }
-
-    //    @Transactional
-//    public Person edit(Person person, String userId) {
-//        LOGGER.info("invoked");
-//        String newEmail = person.getEmail();
-//        String newFirstName = person.getFirstName();
-//        String newLastName = person.getLastName();
-//        personRepository.edit(userId, newEmail, newFirstName, newLastName);
-//        Person editedPerson = getById(userId);
-//        LOGGER.info("editedPerson {}", editedPerson);
-//
-//        if (!person.getPassword().isBlank()) { // todo add another required for password pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-//            personRepository.editPassword(userId, passwordEncoder.encode(person.getPassword()));
-//        }
-//
-//        return editedPerson;
-//    }
-
-
-//    public Person getPersonByName(String name) {
-//        LOGGER.info("invoked");
-//        Person byEmail = personRepository.findByEmail(name);
-//        LOGGER.info("Person byEmail {}", byEmail);
-//        return byEmail;
-//    }
 
     public Person getById(String userId) {
         LOGGER.info("invoked");
@@ -83,8 +43,6 @@ public class PersonService implements UserDetailsService {
         LOGGER.info("Person findById {}", person);
         return person;
     }
-
-// -----------------for new DTO------------
 
     public Person saveRegistrationPersonDtoToPerson(RegistrationPersonDto user) {
         LOGGER.info("invoked");

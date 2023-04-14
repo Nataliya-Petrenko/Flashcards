@@ -18,11 +18,12 @@
 <body>
 <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
-    <main class="main" th:object="${card}">
+    <main class="main" th:object="${cardEditDto}">
         <section class="card-view">
             <div class="navigation card-navigation">
-                <a class="button bg-dark dark-border" th:href="@{/folder/{id}(id=*{setOfCards.folder.id})}">Go to Folder</a>
-                <a class="button bg-dark dark-border auto-margin-right" th:href="@{/set/{id}(id=*{setOfCards.id})}">Go to Set</a>
+                <a class="button bg-dark dark-border" th:href="@{/folder}">Go to all folders</a>
+                <a class="button bg-dark dark-border" th:href="@{/folder/{id}(id=*{folderId})}">Go to Folder</a>
+                <a class="button bg-dark dark-border auto-margin-right" th:href="@{/set/{id}(id=*{setOfCardsId})}">Go to Set</a>
                 <form th:action="@{/card/{id}/delete(id=*{id})}" th:method="DELETE">
                     <button class="button bg-dark dark-border auto-margin-left" type="submit">Yes, delete card</button>
                 </form>
@@ -30,7 +31,7 @@
             </div>
             <div class="card-description">
                 <p class="card-description__text second-title"
-                   th:text="|Are you sure you want to delete the card from: *{setOfCards.folder.name}: *{setOfCards.name}?|">
+                   th:text="|Are you sure you want to delete the card from: *{folderName}: *{setOfCardsName}?|">
                 </p>
             </div>
             <div class="card question-card" title="Question">

@@ -19,14 +19,6 @@ public interface SetOfCardsRepository extends CrudRepository<SetOfCards, String>
     List<SetOfCards> getByFolder(Folder folder);
 
     @Query("""
-            SELECT s.id
-            FROM SetOfCards as s
-            JOIN s.folder as f
-            WHERE s.name = :name AND f.id = :folderId
-            """)
-    Optional<String> getIdFromFolderByName(String name, String folderId);
-
-    @Query("""
             SELECT new com.petrenko.flashcards.dto.SetIdNameDto(s.id, s.name)
             FROM SetOfCards s
             LEFT JOIN s.folder f
@@ -34,102 +26,7 @@ public interface SetOfCardsRepository extends CrudRepository<SetOfCards, String>
             """)
     List<SetIdNameDto> getByFolderId(String folderId);
 
-    @Query("""
-            SELECT s.id
-            FROM SetOfCards as s
-            LEFT JOIN s.folder f
-            LEFT JOIN f.person as p
-            WHERE p.id = :userId AND f.name = :folderName AND s.name = :setName
-            """)
-    Optional<String> getSetIdWithNameInFolder(String userId, String folderName, String setName);
-
     Optional<SetOfCards> findByNameAndFolderId(String setName, String folderId);
-
-//    @Query("""
-//            SELECT s.id
-//            FROM SetOfCards s
-//            JOIN s.folder f
-//            WHERE s.timeOfCreation = (
-//                SELECT MAX(s2.timeOfCreation)
-//                FROM SetOfCards s2
-//                JOIN s2.folder f2
-//                WHERE f2.id = f.id
-//                AND s2.timeOfCreation < (
-//                    SELECT s3.timeOfCreation
-//                    FROM SetOfCards s3
-//                    JOIN s3.folder f3
-//                    WHERE f3.id = (
-//                        SELECT f4.id
-//                        FROM SetOfCards s4
-//                        JOIN s4.folder f4
-//                        WHERE s4.id = :setId
-//                    )
-//                )
-//            )
-//            """)
-//    Optional<String> getPreviousId(String setId); // the oldest get null
-//
-//    @Query("""
-//            SELECT s.id
-//            FROM SetOfCards s
-//            JOIN s.folder f
-//            WHERE s.timeOfCreation = (
-//                SELECT MAX(s2.timeOfCreation)
-//                FROM SetOfCards s2
-//                JOIN s2.folder f2
-//                WHERE f2.id = f.id
-//                )
-//                AND f.id = (
-//                    SELECT f2.id
-//                    FROM SetOfCards s4
-//                    JOIN s4.folder f2
-//                    WHERE s4.id = :setId
-//                )
-//            """)
-//    Optional<String> getLastId(String setId);
-//
-//    @Query("""
-//            SELECT s.id
-//            FROM SetOfCards s
-//            JOIN s.folder f
-//            WHERE s.timeOfCreation = (
-//                SELECT MIN(s2.timeOfCreation)
-//                FROM SetOfCards s2
-//                JOIN s2.folder f2
-//                WHERE f2.id = f.id
-//                AND s2.timeOfCreation > (
-//                    SELECT s3.timeOfCreation
-//                    FROM SetOfCards s3
-//                    JOIN s3.folder f3
-//                    WHERE f3.id = (
-//                        SELECT f4.id
-//                        FROM SetOfCards s4
-//                        JOIN s4.folder f4
-//                        WHERE s4.id = :setId
-//                    )
-//                )
-//            )
-//            """)
-//    Optional<String> getNextId(String setId); // the newest get null
-//
-//    @Query("""
-//            SELECT s.id
-//            FROM SetOfCards s
-//            JOIN s.folder f
-//            WHERE s.timeOfCreation = (
-//                SELECT MIN(s2.timeOfCreation)
-//                FROM SetOfCards s2
-//                JOIN s2.folder f2
-//                WHERE f2.id = f.id
-//                )
-//                AND f.id = (
-//                    SELECT f2.id
-//                    FROM SetOfCards s4
-//                    JOIN s4.folder f2
-//                    WHERE s4.id = :setId
-//                )
-//            """)
-//    Optional<String> getFirstId(String setId);
 
     @Query("""
             SELECT s.id
@@ -186,7 +83,7 @@ public interface SetOfCardsRepository extends CrudRepository<SetOfCards, String>
                 )
                  """)
     Optional<String> getFirstId(String folderId);
-    //
+
     @Query("""
             SELECT new com.petrenko.flashcards.dto.SetViewByIdDto(
             s.id, s.name, s.description, f.id, f.name)

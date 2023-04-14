@@ -13,7 +13,7 @@ public class Controller {
     @GetMapping("/")
     public ModelAndView getSearch(ModelAndView modelAndView) {
         LOGGER.info("invoked");
-        modelAndView.setViewName("search");
+        modelAndView.setViewName("search"); // todo search!
         return modelAndView;
     }
 

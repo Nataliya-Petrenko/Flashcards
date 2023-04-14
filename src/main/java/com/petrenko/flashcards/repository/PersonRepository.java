@@ -12,10 +12,6 @@ public interface PersonRepository extends CrudRepository<Person, String> {
 
     Optional<Person> findPersonByEmail(String email);
 
-    Optional<Person> findByEmail(String userName);
-
-
-
     @Query("""
             SELECT new com.petrenko.flashcards.dto.EditProfileDto(email, firstName, lastName)
             FROM Person
@@ -30,10 +26,4 @@ public interface PersonRepository extends CrudRepository<Person, String> {
             """)
     void update(String userId, String newEmail, String newFirstName, String newLastName);
 
-
-
-
-//    @Modifying
-//    @Query("UPDATE Person p SET p.password = :newPassword WHERE p.id = :userId")
-//    void editPassword(String userId, String newPassword);
 }

@@ -1,9 +1,6 @@
 package com.petrenko.flashcards.controller;
 
-import com.petrenko.flashcards.dto.CardByIdDto;
-import com.petrenko.flashcards.dto.CardCreatingDto;
-import com.petrenko.flashcards.dto.CardEditDto;
-import com.petrenko.flashcards.dto.SetEditDto;
+import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
 import com.petrenko.flashcards.service.FolderService;
@@ -24,16 +21,10 @@ import java.util.List;
 public class CardController {
     private final static Logger LOGGER = LoggerFactory.getLogger(CardController.class);
     private final CardService cardService;
-    private final SetOfCardsService setOfCardsService;
-    private final FolderService folderService;
 
     @Autowired
-    public CardController(final CardService cardService,
-                          final SetOfCardsService setOfCardsService,
-                          final FolderService folderService) {
+    public CardController(final CardService cardService) {
         this.cardService = cardService;
-        this.setOfCardsService = setOfCardsService;
-        this.folderService = folderService;
     }
 
     @GetMapping("/card/create")
@@ -76,7 +67,7 @@ public class CardController {
             return modelAndView;
         }
 
-        String userId = principal.getName(); // userName = id
+        String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
         Card savedCard = cardService.saveCardCreatingDtoToCard(userId, cardCreatingDto); // todo delete get savedCard after checking work
@@ -143,32 +134,30 @@ public class CardController {
     }
 
     @GetMapping("/card/{id}/delete")
-    public ModelAndView getCardDeleteForm(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("id: " + id);
-        final Card card = cardService.getById(id);
-        LOGGER.info("card getById: " + card);
-        modelAndView.addObject("card", card);
+    public ModelAndView getCardDeleteForm(@PathVariable("id") String id,
+                                          ModelAndView modelAndView) {
+        LOGGER.info("card id from link: {}", id);
+
+        final CardEditDto cardEditDto = cardService.getCardEditDto(id);
+        LOGGER.info("cardEditDto: {}", cardEditDto);
+        modelAndView.addObject("cardEditDto", cardEditDto);
+
         modelAndView.setViewName("cardDeleteById");
         LOGGER.info("before show cardDeleteById.html");
         return modelAndView;
     }
 
-    @DeleteMapping("/card/{id}/delete")  // after delete card
-    public ModelAndView deleteCard(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("id: " + id);
+    @DeleteMapping("/card/{id}/delete")
+    public ModelAndView deleteCard(@PathVariable("id") String id,
+                                   ModelAndView modelAndView) {
+        LOGGER.info("card id from link: {}", id);
 
-        final SetOfCards setOfCards = setOfCardsService.getById(cardService.getById(id).getSetOfCards().getId());
-        LOGGER.info("setOfCards getById: " + setOfCards);
-        modelAndView.addObject("setOfCards", setOfCards);
         cardService.deleteById(id);
         LOGGER.info("card is deleted");
 
-        List<Card> cards = cardService.getBySet(setOfCards);
-        LOGGER.info("List<Card>: " + cards);
-        modelAndView.addObject("cards", cards);
+        modelAndView.setViewName("redirect:/folder");
+        LOGGER.info("before redirect:/folder");
 
-        modelAndView.setViewName("setById");  // todo maybe go to editSet (because from here we delete card (and from show card))?
-        LOGGER.info("before show setById.html");
         return modelAndView;
     }
 }

@@ -64,7 +64,7 @@ public class SetController {
             return modelAndView;
         }
 
-        String userId = principal.getName(); // userName = id
+        String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
         SetOfCards savedSetOfCards = setOfCardsService.saveSetFolderNameSetNameDescriptionDto(userId, setDto); // todo delete get savedSetOfCards after checking work
@@ -182,7 +182,7 @@ public class SetController {
         setOfCardsService.deleteAllById(id);
         LOGGER.info("setOfCards is deleted");
 
-        modelAndView.setViewName("redirect:/folder"); // todo redirect to folder id (where was set)
+        modelAndView.setViewName("redirect:/folder");
         LOGGER.info("before redirect:/folder");
         return modelAndView;
     }

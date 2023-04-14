@@ -7,6 +7,7 @@ import com.petrenko.flashcards.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -51,8 +52,8 @@ public class PersonController {
         Person savedPerson = personService.saveRegistrationPersonDtoToPerson(registrationPersonDto);
         LOGGER.info("savedPerson {}", savedPerson);
 
-        modelAndView.setViewName("redirect:/");
-        LOGGER.info("before redirect:/");
+        modelAndView.setViewName("redirect:/folder");
+        LOGGER.info("before redirect:/folder");
         return modelAndView;
     }
 
@@ -95,26 +96,6 @@ public class PersonController {
     }
 
     //todo personInfo for header or link to profile instead of info
-//    @ModelAttribute(name = "personInfo")
-//    private EditProfileDto getPersonInfo() {
-//
-//        return editProfileDto;
-//    }
 
-//    @GetMapping("/signin")
-//    public ModelAndView getSigninForm(ModelAndView modelAndView) {
-//        LOGGER.info("invoked");
-////        modelAndView.addObject("user", new Person());
-//        modelAndView.setViewName("signIn");
-//        return modelAndView;
-//    }
-
-//    @PostMapping("/registration")
-//    public ModelAndView saveNewPerson(@ModelAttribute Person user, ModelAndView modelAndView) {
-//        LOGGER.info("invoked");
-//        personService.save(user);
-//        modelAndView.setViewName("redirect:/card/create");
-//        return modelAndView;
-//    }
 
 }

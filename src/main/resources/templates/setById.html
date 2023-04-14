@@ -36,8 +36,8 @@
             </div>
 
             <div class="card cards-container">
-                <div class="card__content set-card-content" th:each="card : ${cards}">
-                    <div class="card card-in-set">
+                <div class="card__content set-card-content">
+                    <div class="card card-in-set" th:each="card : ${cards}">
                         <p class="card-in-set__text" th:text="|${card.question}|" title="Card question"></p>
                         <div class="card-buttons">
                             <a th:href="@{/card/{id}(id=${card.id})}" class="button bg-dark no-border">Show card</a>

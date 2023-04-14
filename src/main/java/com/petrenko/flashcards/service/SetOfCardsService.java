@@ -142,7 +142,7 @@ public class SetOfCardsService {
 
     @Transactional
     public SetViewByIdDto getSetViewByIdDto(String setId) { // todo get by single DTO
-        LOGGER.info("invoked");
+        LOGGER.info("invoked with setId {}", setId);
 
         SetViewByIdDto setViewByIdDto = setOfCardsRepository
                 .getSetViewByIdDto(setId).orElseThrow(IllegalArgumentException::new);

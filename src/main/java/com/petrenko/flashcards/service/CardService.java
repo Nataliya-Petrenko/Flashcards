@@ -1,9 +1,6 @@
 package com.petrenko.flashcards.service;
 
-import com.petrenko.flashcards.dto.CardCreatingDto;
-import com.petrenko.flashcards.dto.CardEditingDto;
-import com.petrenko.flashcards.dto.CardIdQuestionDto;
-import com.petrenko.flashcards.dto.SetNameFolderNameDto;
+import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.repository.CardRepository;
 import org.slf4j.Logger;
@@ -96,32 +93,32 @@ public class CardService {
 //        return save(card);
 //    }
 
-    public String getNextOrFirstCardId(final String userId, final String cardId) { // todo add dependency on set and folder
-        LOGGER.info("invoked");
-        String nextOrFirstCardId = cardRepository.getNextCardId(cardId)
-                .orElse(cardRepository.getFirstCardId(cardId)
-                        .orElseThrow(IllegalArgumentException::new));
-//        String nextOrFirstCardId = cardRepository.getNextCardId(userId, cardId)
-//                .orElse(cardRepository.getFirstCardId(userId, cardId)
+//    public String getNextOrFirstCardId(final String userId, final String cardId) { // todo add dependency on set and folder
+//        LOGGER.info("invoked");
+//        String nextOrFirstCardId = cardRepository.getNextCardId(cardId)
+//                .orElse(cardRepository.getFirstCardId(cardId)
 //                        .orElseThrow(IllegalArgumentException::new));
-        LOGGER.info("nextOrFirstCardId " + nextOrFirstCardId);
-        return nextOrFirstCardId;
-    }
-
-    public String getPreviousOrLastCardId(final String userId, final String cardId) { // todo add dependency on set and folder
-        LOGGER.info("invoked");
-        String previousOrLastCardId = cardRepository.getPreviousCardId(cardId)
-                .orElse(cardRepository.getLastCardId(cardId)
-                        .orElseThrow(IllegalArgumentException::new));
-//        String previousOrLastCardId = cardRepository.getPreviousCardId(userId, cardId)
-//                .orElse(cardRepository.getLastCardId(userId, cardId)
+////        String nextOrFirstCardId = cardRepository.getNextCardId(userId, cardId)
+////                .orElse(cardRepository.getFirstCardId(userId, cardId)
+////                        .orElseThrow(IllegalArgumentException::new));
+//        LOGGER.info("nextOrFirstCardId " + nextOrFirstCardId);
+//        return nextOrFirstCardId;
+//    }
+//
+//    public String getPreviousOrLastCardId(final String userId, final String cardId) { // todo add dependency on set and folder
+//        LOGGER.info("invoked");
+//        String previousOrLastCardId = cardRepository.getPreviousCardId(cardId)
+//                .orElse(cardRepository.getLastCardId(cardId)
 //                        .orElseThrow(IllegalArgumentException::new));
-        LOGGER.info("previousOrLastCardId {}", previousOrLastCardId);
-
-//        Optional<String> previousCardIdNew = cardRepository.getPreviousCardIdNew(userId, cardId);
-//        LOGGER.info("getPreviousCardIdNew {}", previousCardIdNew.get());
-        return previousOrLastCardId;
-    }
+////        String previousOrLastCardId = cardRepository.getPreviousCardId(userId, cardId)
+////                .orElse(cardRepository.getLastCardId(userId, cardId)
+////                        .orElseThrow(IllegalArgumentException::new));
+//        LOGGER.info("previousOrLastCardId {}", previousOrLastCardId);
+//
+////        Optional<String> previousCardIdNew = cardRepository.getPreviousCardIdNew(userId, cardId);
+////        LOGGER.info("getPreviousCardIdNew {}", previousCardIdNew.get());
+//        return previousOrLastCardId;
+//    }
 
     public CardEditingDto getCardEditingDto(final String id) {
         return cardRepository.getCardEditingDto(id)
@@ -203,4 +200,38 @@ public class CardService {
         LOGGER.info("cardCreatingDto {}", cardCreatingDto);
         return cardCreatingDto;
     }
+
+    public CardByIdDto getCardByIdDto(String cardId) { // todo get by single DTO
+        LOGGER.info("invoked with cardId {}", cardId);
+
+        CardByIdDto cardByIdDto = cardRepository.getCardByIdDto(cardId)
+                .orElseThrow(IllegalArgumentException::new);
+
+        String setId = cardByIdDto.getSetOfCardsId();
+
+        cardByIdDto.setPreviousOrLastCardId(getPreviousOrLastCardId(setId, cardId));
+        cardByIdDto.setNextOrFirstCardId(getNextOrFirstCardId(setId, cardId));
+
+        LOGGER.info("cardByIdDto {}", cardByIdDto);
+        return cardByIdDto;
+    }
+
+    private String getPreviousOrLastCardId(final String setId, final String cardId) {
+        LOGGER.info("invoked");
+        String previousOrLastId = cardRepository.getPreviousId(setId, cardId)
+                .orElse(cardRepository.getLastId(setId)
+                        .orElseThrow(IllegalArgumentException::new));
+        LOGGER.info("previousOrLastId {}", previousOrLastId);
+        return previousOrLastId;
+    }
+
+    private String getNextOrFirstCardId(final String setId, final String cardId) {
+        LOGGER.info("invoked");
+        String nextOrFirstId = cardRepository.getNextId(setId, cardId)
+                .orElse(cardRepository.getFirstId(setId)
+                        .orElseThrow(IllegalArgumentException::new));
+        LOGGER.info("nextOrFirstId {}", nextOrFirstId);
+        return nextOrFirstId;
+    }
+
 }

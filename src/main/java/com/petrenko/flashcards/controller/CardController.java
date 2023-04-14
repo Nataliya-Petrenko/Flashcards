@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.CardByIdDto;
 import com.petrenko.flashcards.dto.CardCreatingDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
@@ -87,87 +88,18 @@ public class CardController {
     }
 
     @GetMapping("/card/{id}")
-    public ModelAndView getCardById(@PathVariable("id") String id, ModelAndView modelAndView, Principal principal) {
-        String userId = principal.getName();
-        final String previousCardId = cardService.getPreviousOrLastCardId(userId, id);
-        LOGGER.info("previousCardId " + previousCardId);
-        modelAndView.addObject("previousCardId", previousCardId);
+    public ModelAndView getCardById(@PathVariable("id") String id,
+                                    ModelAndView modelAndView) {
+        LOGGER.info("card id from link: {}", id);
 
-        final String nextCardId = cardService.getNextOrFirstCardId(userId, id);
-        LOGGER.info("nextCardId " + nextCardId);
-        modelAndView.addObject("nextCardId", nextCardId);
-
-        final Card card = cardService.getById(id);
-        modelAndView.addObject("card", card);  // todo show text from DB with formatting
-        LOGGER.info("Card by id: " + card);
+        CardByIdDto cardByIdDto = cardService.getCardByIdDto(id);
+        modelAndView.addObject("card", cardByIdDto);
+        LOGGER.info("cardByIdDto: {}", cardByIdDto);
 
         modelAndView.setViewName("cardById");
         return modelAndView;
     }
-
-//    @GetMapping("/card/create/{id}")  // with fill set name by setId
-//    public ModelAndView getCreateCardFormWithSet(@PathVariable("id") String id, ModelAndView modelAndView) {
-//        LOGGER.info("invoked");
-//
-//        Card card = new Card();
-//        LOGGER.info("new Card() " + card);
-//
-//        SetOfCards setOfCards = setOfCardsService.getById(id);
-//        LOGGER.info("setOfCards getById" + setOfCards);
-//        card.setSetOfCards(setOfCards);
-//        LOGGER.info("card with name of set " + card);
-//        modelAndView.addObject("card", card);
-//
-//        modelAndView.setViewName("cardCreate");
-//        LOGGER.info("before show cardCreate");
-//        return modelAndView;
-//    }
-
-//    @GetMapping("/card/create")
-//    public ModelAndView getCreateCardForm(ModelAndView modelAndView) {
-//        LOGGER.info("invoked");
-//
-//        Card card = new Card();
-//        LOGGER.info("new Card() " + card);
-//        modelAndView.addObject("card", card);
-//
-//        modelAndView.setViewName("cardCreate");
-//        LOGGER.info("before show cardCreate");
-//        return modelAndView;
-//    }
-//
-//    @PostMapping("/card/create")  // after created card
-//    public ModelAndView createCard(@ModelAttribute Card card,
-//                                   BindingResult bindingResult,
-//                                   ModelAndView modelAndView,
-//                                   Principal principal) {
-//        LOGGER.info("card from form " + card);
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.addObject("card", card);
-//            modelAndView.setViewName("cardCreate");
-//            return modelAndView;
-//        }
-//
-//        String userId = principal.getName();
-//        Card savedCard = cardService.save(userId, card);  // userName = id
-//        LOGGER.info("card saved " + savedCard);
-//
-//        final SetOfCards setOfCards = card.getSetOfCards();
-//        LOGGER.info("setOfCards: " + setOfCards);
-//        modelAndView.addObject("setOfCards", setOfCards);
-//
-//        List<Card> cards = cardService.getBySet(card.getSetOfCards());
-//        LOGGER.info("List<Card>: " + cards);
-//        modelAndView.addObject("cards", cards);
-//
-//        modelAndView.setViewName("setById"); // todo redirect
-//        LOGGER.info("before show setById.html");
-//
-////        modelAndView.setViewName("redirect:/profile");
-////        LOGGER.info("before redirect:/profile");
-//        return modelAndView;
-//    }
-
+    // todo I stop here
     @GetMapping("/card/{id}/edit")
     public ModelAndView getCardEditForm(@PathVariable("id") String id, ModelAndView modelAndView) {
         final Card card = cardService.getById(id);
@@ -197,13 +129,13 @@ public class CardController {
         LOGGER.info("card saved " + savedCard);
         modelAndView.addObject("card", savedCard);
 
-        final String previousCardId = cardService.getPreviousOrLastCardId(userId, savedCard.getId());
-        LOGGER.info("previousCardId " + previousCardId);
-        modelAndView.addObject("previousCardId", previousCardId);
-
-        final String nextCardId = cardService.getNextOrFirstCardId(userId, savedCard.getId());
-        LOGGER.info("nextCardId " + nextCardId);
-        modelAndView.addObject("nextCardId", nextCardId);
+//        final String previousCardId = cardService.getPreviousOrLastCardId(userId, savedCard.getId());
+//        LOGGER.info("previousCardId " + previousCardId);
+//        modelAndView.addObject("previousCardId", previousCardId);
+//
+//        final String nextCardId = cardService.getNextOrFirstCardId(userId, savedCard.getId());
+//        LOGGER.info("nextCardId " + nextCardId);
+//        modelAndView.addObject("nextCardId", nextCardId);
 
         modelAndView.setViewName("cardById");
         LOGGER.info("before show cardById.html");

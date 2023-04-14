@@ -21,15 +21,15 @@
     <main class="main">
         <section class="card-view" th:object="${card}">
             <div class="navigation card-navigation">
-                <a class="button bg-dark dark-border" th:href="@{/folder/{id}(id=*{setOfCards.folder.id})}">Go to folder</a>
-                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=*{setOfCards.id})}">Go to set</a>
-                <a class="button bg-dark dark-border auto-margin-left" th:href="@{/card/{id}(id=${previousCardId})}">&#60; Previous Card</a>
-                <a class="button bg-dark dark-border auto-margin-right" th:href="@{/card/{id}(id=${nextCardId})}">Next Card &#62;</a>
+                <a class="button bg-dark dark-border" th:href="@{/folder/{id}(id=*{folderId})}">Go to folder</a>
+                <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=*{setOfCardsId})}">Go to set</a>
+                <a class="button bg-dark dark-border auto-margin-left" th:href="@{/card/{id}(id=*{previousOrLastCardId})}">&#60; Previous Card</a>
+                <a class="button bg-dark dark-border auto-margin-right" th:href="@{/card/{id}(id=*{nextOrFirstCardId})}">Next Card &#62;</a>
                 <a class="button bg-dark dark-border" th:href="@{/card/{id}/edit(id=*{id})}" title="Edit card">Edit</a>
                 <a class="button bg-dark dark-border" th:href="@{/card/{id}/delete(id=*{id})}">Delete</a>
             </div>
             <div class="card-description">
-                <p class="card-description__text second-title" th:text="|*{setOfCards.folder.name}: *{setOfCards.name}|" title="Folder name: Set name">
+                <p class="card-description__text second-title" th:text="|*{folderName}: *{setOfCardsName}|" title="Folder name: Set name">
                     Folder name: Set name
                 </p>
             </div>

@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.repository;
 
+import com.petrenko.flashcards.dto.SetNameFolderNameDto;
 import com.petrenko.flashcards.dto.SetEditDto;
 import com.petrenko.flashcards.dto.SetIdNameDto;
 import com.petrenko.flashcards.dto.SetViewByIdDto;
@@ -211,4 +212,12 @@ public interface SetOfCardsRepository extends CrudRepository<SetOfCards, String>
             WHERE s.id = :setId
             """)
     void updateDescription(String setId, String newDescription);
+
+    @Query("""
+            SELECT new com.petrenko.flashcards.dto.SetNameFolderNameDto(s.name, f.name)
+            FROM SetOfCards s
+            LEFT JOIN s.folder f
+            WHERE s.id = :setId
+                """)
+    SetNameFolderNameDto getSetNameFolderNameDtoBySetId(String setId);
 }

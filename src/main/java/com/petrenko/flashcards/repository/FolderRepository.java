@@ -125,4 +125,5 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
             WHERE id = :folderId
             """)
     Optional<String> findNameById(String folderId);
+
 }

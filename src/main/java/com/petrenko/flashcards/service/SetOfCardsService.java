@@ -1,7 +1,6 @@
 package com.petrenko.flashcards.service;
 
 import com.petrenko.flashcards.dto.*;
-import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
 import com.petrenko.flashcards.repository.CardRepository;
@@ -215,5 +214,12 @@ public class SetOfCardsService {
         LOGGER.info("cards from set deleted {}", setId);
         setOfCardsRepository.deleteById(setId);
         LOGGER.info("set deleted {}", setId);
+    }
+
+    public SetNameFolderNameDto getSetNameFolderNameDtoBySetId(String setId) {
+        LOGGER.info("invoked with setId {}", setId);
+        SetNameFolderNameDto setNameFolderNameDto = setOfCardsRepository.getSetNameFolderNameDtoBySetId(setId);
+        LOGGER.info("setNameFolderNameDto {}", setNameFolderNameDto);
+        return setNameFolderNameDto;
     }
 }

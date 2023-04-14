@@ -16,4 +16,5 @@ public class CardCreatingDto {
     private String folderName;
 
     private String setOfCardsName;
+
 }

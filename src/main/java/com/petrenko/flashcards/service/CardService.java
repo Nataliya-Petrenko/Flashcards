@@ -1,9 +1,9 @@
 package com.petrenko.flashcards.service;
 
-import com.petrenko.flashcards.controller.CardController;
 import com.petrenko.flashcards.dto.CardCreatingDto;
 import com.petrenko.flashcards.dto.CardEditingDto;
 import com.petrenko.flashcards.dto.CardIdQuestionDto;
+import com.petrenko.flashcards.dto.SetNameFolderNameDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.repository.CardRepository;
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CardService {
@@ -188,5 +187,20 @@ public class CardService {
 
         LOGGER.info("savedCard {}", savedCard);
         return savedCard;
+    }
+
+    public CardCreatingDto getCardCreatingDtoBySetId(String setId) {
+        LOGGER.info("invoked with setId {}", setId);
+
+        SetNameFolderNameDto setNameFolderNameDto = setOfCardsService.getSetNameFolderNameDtoBySetId(setId);
+        LOGGER.info("setNameFolderNameDto {}", setNameFolderNameDto);
+
+        CardCreatingDto cardCreatingDto = new CardCreatingDto();
+
+        cardCreatingDto.setSetOfCardsName(setNameFolderNameDto.getSetName());
+        cardCreatingDto.setFolderName(setNameFolderNameDto.getFolderName());
+
+        LOGGER.info("cardCreatingDto {}", cardCreatingDto);
+        return cardCreatingDto;
     }
 }

@@ -3,8 +3,8 @@ package com.petrenko.flashcards.controller;
 import com.petrenko.flashcards.dto.CardCreatingDto;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
+import com.petrenko.flashcards.service.FolderService;
 import com.petrenko.flashcards.service.SetOfCardsService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,15 @@ public class CardController {
     private final static Logger LOGGER = LoggerFactory.getLogger(CardController.class);
     private final CardService cardService;
     private final SetOfCardsService setOfCardsService;
+    private final FolderService folderService;
 
     @Autowired
     public CardController(final CardService cardService,
-                          final SetOfCardsService setOfCardsService) {
+                          final SetOfCardsService setOfCardsService,
+                          final FolderService folderService) {
         this.cardService = cardService;
         this.setOfCardsService = setOfCardsService;
+        this.folderService = folderService;
     }
 
     @GetMapping("/card/create")
@@ -36,6 +39,20 @@ public class CardController {
 
         CardCreatingDto cardCreatingDto = new CardCreatingDto();
         LOGGER.info("new cardCreatingDto() {}", cardCreatingDto);
+        modelAndView.addObject("card", cardCreatingDto);
+
+        modelAndView.setViewName("cardCreate");
+        LOGGER.info("before show cardCreate");
+        return modelAndView;
+    }
+
+    @GetMapping("/card/create/{id}")  // with fill set name and folder name
+    public ModelAndView getCreateCardFormWithSet(@PathVariable("id") String id,
+                                                 ModelAndView modelAndView) {
+        LOGGER.info("set id {}", id);
+
+        CardCreatingDto cardCreatingDto = cardService.getCardCreatingDtoBySetId(id);
+        LOGGER.info("getCardCreatingDtoBySetId() {}", cardCreatingDto);
         modelAndView.addObject("card", cardCreatingDto);
 
         modelAndView.setViewName("cardCreate");
@@ -88,23 +105,23 @@ public class CardController {
         return modelAndView;
     }
 
-    @GetMapping("/card/create/{id}")  // with fill set name by setId
-    public ModelAndView getCreateCardFormWithSet(@PathVariable("id") String id, ModelAndView modelAndView) {
-        LOGGER.info("invoked");
-
-        Card card = new Card();
-        LOGGER.info("new Card() " + card);
-
-        SetOfCards setOfCards = setOfCardsService.getById(id);
-        LOGGER.info("setOfCards getById" + setOfCards);
-        card.setSetOfCards(setOfCards);
-        LOGGER.info("card with name of set " + card);
-        modelAndView.addObject("card", card);
-
-        modelAndView.setViewName("cardCreate");
-        LOGGER.info("before show cardCreate");
-        return modelAndView;
-    }
+//    @GetMapping("/card/create/{id}")  // with fill set name by setId
+//    public ModelAndView getCreateCardFormWithSet(@PathVariable("id") String id, ModelAndView modelAndView) {
+//        LOGGER.info("invoked");
+//
+//        Card card = new Card();
+//        LOGGER.info("new Card() " + card);
+//
+//        SetOfCards setOfCards = setOfCardsService.getById(id);
+//        LOGGER.info("setOfCards getById" + setOfCards);
+//        card.setSetOfCards(setOfCards);
+//        LOGGER.info("card with name of set " + card);
+//        modelAndView.addObject("card", card);
+//
+//        modelAndView.setViewName("cardCreate");
+//        LOGGER.info("before show cardCreate");
+//        return modelAndView;
+//    }
 
 //    @GetMapping("/card/create")
 //    public ModelAndView getCreateCardForm(ModelAndView modelAndView) {

@@ -1,5 +1,6 @@
 package com.petrenko.flashcards.repository;
 
+import com.petrenko.flashcards.dto.CardCreatingDto;
 import com.petrenko.flashcards.dto.CardEditingDto;
 import com.petrenko.flashcards.dto.CardIdQuestionDto;
 import com.petrenko.flashcards.model.Card;
@@ -115,4 +116,5 @@ public interface CardRepository extends CrudRepository<Card, String> {
             WHERE s.id = :setId
             """)
     List<CardIdQuestionDto> findBySetOfCardsId(String setId);
+
 }

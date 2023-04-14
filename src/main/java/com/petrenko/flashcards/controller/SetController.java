@@ -77,10 +77,11 @@ public class SetController {
     }
 
     @GetMapping("/set/create/{id}")  // with fill folder name by setId
-    public ModelAndView getSetForm(@PathVariable("id") String id, ModelAndView modelAndView) {
+    public ModelAndView getSetForm(@PathVariable("id") String id,
+                                   ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
-        SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto();
+        SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto(); // todo get DTO like in Card
         LOGGER.info("new SetFolderNameSetNameDescriptionDto {}", setDto);
 
         String folderName = folderService.getNameById(id);

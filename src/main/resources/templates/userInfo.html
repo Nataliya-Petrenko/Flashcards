@@ -1,6 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="en">
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
   <meta charset="UTF-8">
@@ -21,13 +22,30 @@
     <main class="main">
       <div class="edit-profile-view hidden-scroll">
         <div class="navigation edit-profile-navigation">
-          <a th:href="@{/user}" class="button bg-dark dark-border">Back to users</a>
+          <a th:href="@{/user}" class="button bg-dark dark-border auto-margin-right">Back to users</a>
 
-          <div th:if="${user.enable} == false">
-            <a th:href="@{/block}" class="button bg-dark no-border">Unblock</a>
-          </div>
+<!--        make if role   -->
+<!--          <div if >-->
+<!--            <form class="block-user" th:action="@{/user/{id}/admin(id=${user.id})}" th:method="PUT">-->
+<!--              <button class="button bg-dark dark-border auto-margin-left" type="submit">Make Admin</button>-->
+<!--            </form>-->
+<!--          </div>-->
+<!--          <div if >-->
+<!--            <form class="block-user" th:action="@{/user/{id}/admin(id=${user.id})}" th:method="PUT">-->
+<!--              <button class="button bg-dark dark-border auto-margin-left" type="submit">Make User</button>-->
+<!--            </form>-->
+<!--          </div>-->
+
+<!--          -->
           <div th:if="${user.enable} == true">
-            <a th:href="@{/block}" class="button bg-dark no-border">Block</a>
+          <form class="block-user" th:action="@{/user/{id}/block(id=${user.id})}" th:method="PUT">
+            <button class="button decline-button no-border" type="submit">Block user</button>
+          </form>
+          </div>
+          <div th:if="${user.enable} == false">
+          <form class="block-user" th:action="@{/user/{id}/block(id=${user.id})}" th:method="PUT">
+            <button class="button accept-button no-border" type="submit">Unblock user</button>
+          </form>
           </div>
 
         </div>

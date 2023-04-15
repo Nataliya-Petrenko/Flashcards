@@ -1,6 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="en">
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
   <meta charset="UTF-8">
@@ -20,8 +21,8 @@
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
       <div class="admin-view hidden-scroll">
-        <form class="card search-form" action="">
-          <input class="search-form__input" type="text" placeholder="Search user">
+        <form class="card search-form" th:action="@{/user}" th:method="PUT">
+          <input class="search-form__input" type="text" id="search" name="search" placeholder="Search user">
           <button class="button bg-dark no-border" type="submit">Search</button>
         </form>
         <div class="card users-card">
@@ -34,11 +35,14 @@
               </div>
               <p class="auto-margin" th:text="|${user.email}|">UserEmail@gmail.com</p>
 
-<!--              not show -->
-              <div th:if="${user.role} == 'ADMIN'">
-                <p class="button complaint">Admin</p>
-              </div>
-<!--              -->
+<!--              not work -->
+<!--              <div make if role >-->
+<!--                  <p class="button bg-dark dark-border">Admin</p>-->
+<!--              </div>-->
+<!--              <div make if role >-->
+<!--                  <p class="button bg-dark dark-border">User</p>-->
+<!--              </div>-->
+
 
               <div th:if="${user.enable} == false">
                 <p class="button complaint">blocked</p>

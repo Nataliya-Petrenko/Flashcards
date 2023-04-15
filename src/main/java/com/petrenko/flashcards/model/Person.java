@@ -72,6 +72,7 @@ public class Person implements UserDetails {
         return enable;
     }
 
+
     @PrePersist
     protected void prePersist() {
         enable = true;

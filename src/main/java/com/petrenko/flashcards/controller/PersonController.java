@@ -1,13 +1,17 @@
 package com.petrenko.flashcards.controller;
 
+import com.petrenko.flashcards.dto.CardEditDto;
 import com.petrenko.flashcards.dto.EditProfileDto;
 import com.petrenko.flashcards.dto.RegistrationPersonDto;
 import com.petrenko.flashcards.dto.UsersInfoDto;
+import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Person;
 import com.petrenko.flashcards.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -103,7 +107,9 @@ public class PersonController {
 
     //todo personInfo for header or link to profile instead of info
 
-    @GetMapping("/user")     // todo information about role is not showed
+
+//    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/user")     // todo information about role is not showed ("if role" not available in thymeleaf)
     public ModelAndView getAllUsers(ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
@@ -117,7 +123,7 @@ public class PersonController {
         return modelAndView;
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/{id}")  // todo can't change role ("if role" not available in thymeleaf)
     public ModelAndView getUser(@PathVariable("id") String id,
                                 ModelAndView modelAndView) {
         LOGGER.info("invoked");
@@ -132,22 +138,36 @@ public class PersonController {
         return modelAndView;
     }
 
-//        @GetMapping("/card/{id}")
-//    public ModelAndView getCardById(@PathVariable("id") String id,
-//                                    ModelAndView modelAndView) {
-//        LOGGER.info("card id from link: {}", id);
-//
-//        CardByIdDto cardByIdDto = cardService.getCardByIdDto(id);
-//        modelAndView.addObject("card", cardByIdDto);
-//        LOGGER.info("cardByIdDto: {}", cardByIdDto);
-//
-//        modelAndView.setViewName("cardById");
-//        return modelAndView;
-//    }
+    @PutMapping("/user/{id}/block")
+    public ModelAndView editCard(@PathVariable("id") String id,
+                                 ModelAndView modelAndView) {
+        LOGGER.info("invoked with id: {}", id);
+
+        personService.turnBlockingUser(id);
+        LOGGER.info("user blocked/unblocked");
+
+        String red = "redirect:/user/" + id;
+        modelAndView.setViewName(red);
+        LOGGER.info("before {}", red);
+
+        return modelAndView;
+    }
 
     // todo search userById
-    // todo add button for admin (show users) if role ADMIN
+    @PutMapping("/user")
+    public ModelAndView searchUser(@RequestParam("search") String search,
+                                 ModelAndView modelAndView) {
+        LOGGER.info("invoked");
 
+        List<UsersInfoDto> users = personService.getBySearch(search);
+
+        LOGGER.info("users {}", users);
+        modelAndView.addObject("users", users);
+
+        modelAndView.setViewName("users");
+        LOGGER.info("before show users.html");
+        return modelAndView;
+    }
 
     // todo custom sign-in
 

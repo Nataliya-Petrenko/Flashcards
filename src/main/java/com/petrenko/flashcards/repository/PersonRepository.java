@@ -6,6 +6,7 @@ import com.petrenko.flashcards.model.Person;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,4 +47,25 @@ public interface PersonRepository extends CrudRepository<Person, String> {
             FROM Person p
             """)
     long count();
+
+    @Query("""
+            SELECT p.enable
+            FROM Person p
+            WHERE id = :userId
+            """)
+    boolean getEnable(String userId);
+
+    @Modifying
+    @Query("""
+            UPDATE Person SET enable = :isEnable
+            WHERE id = :userId
+            """)
+    void blockUser(String userId, boolean isEnable);
+
+    @Query("""
+            SELECT new com.petrenko.flashcards.dto.UsersInfoDto(id, email, firstName, lastName, enable, role)
+            FROM Person
+            WHERE firstName LIKE %:search% OR lastName LIKE %:search%
+            """)
+    List<UsersInfoDto> getBySearch(@Param("search") String search);
 }

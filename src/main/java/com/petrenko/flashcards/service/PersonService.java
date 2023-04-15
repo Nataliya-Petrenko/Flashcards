@@ -111,9 +111,7 @@ public class PersonService implements UserDetailsService {
     public List<UsersInfoDto> getAll() {
         LOGGER.info("invoked");
         List<UsersInfoDto> users = personRepository.getUsersInfoDto();
-
         LOGGER.info("users {}", users);
-
         return users;
     }
 
@@ -126,5 +124,31 @@ public class PersonService implements UserDetailsService {
         return user;
     }
 
-    // todo admin can block user (enable=false)
+    @Transactional
+    public void turnBlockingUser(String userId) {
+        LOGGER.info("invoked");
+        boolean enable = personRepository.getEnable(userId);
+        if (enable) {
+            blockUser(userId);
+        } else {
+            unblockUser(userId);
+        }
+    }
+
+    private void blockUser(String userId) {
+        LOGGER.info("invoked");
+        personRepository.blockUser(userId, false);
+    }
+
+    private void unblockUser(String userId) {
+        LOGGER.info("invoked");
+        personRepository.blockUser(userId, true);
+    }
+
+    public List<UsersInfoDto> getBySearch(String search) {
+        LOGGER.info("invoked");
+        List<UsersInfoDto> users = personRepository.getBySearch(search);
+        LOGGER.info("users {}", users);
+        return users;
+    }
 }

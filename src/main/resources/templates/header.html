@@ -63,7 +63,7 @@
             </ul>
         </div>
     </div>
-    <a th:href="@{/user}" class="button bg-dark light-border" sec:authorize="isAuthenticated()">Admin info</a>
+    <a th:href="@{/user}" class="button bg-dark light-border"  sec:authorize="hasAuthority('ADMIN')">Admin info</a>
 
 
 </div>

@@ -1,0 +1,111 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/normalize.css}">
+  <link rel="stylesheet" th:href="@{/css/variables.css}">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/shared.css}">
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/all-users-info-view.css}">
+  <title>NataCardsProject</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+    <main class="main">
+      <div class="all-users-view hidden-scroll">
+        <div class="navigation all-users-navigation">
+          <a th:href="@{/user}" class="button bg-dark no-border">Back to users</a>
+          <form class="block-user" action="./admin-view.html" method="post">
+            <button class="button decline-button no-border" type="submit">Block user</button>
+            <button class="button accept-button no-border" type="submit">Unblock user</button>
+          </form>
+        </div>
+        <div class="card user-info-card" th:object="${user}">
+          <div class="photo-wrapper">
+            <img class="user-photo" src="./img/user-image.png" alt="user photo">
+          </div>
+          <div class="user-info-card__info-block">
+            <h2 class="user-info-card__title">
+              Personal information:
+            </h2>
+            <ul class="user-info-card__info-list">
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">First name:</span>
+                <span class="bold-text" th:text="|*{firstName}|">John</span>
+              </li>
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">Last name:</span>
+                <span class="bold-text">Doe</span>
+              </li>
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">Email:</span>
+                <span class="bold-text">John.Doe@gmail.com</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+<!--        <div class="card">-->
+<!--          <div class="card__content complained-cards-content">-->
+<!--            <div class="card border-card complained-card">-->
+<!--              <div class="complained-card__link-to-card">-->
+<!--                <p class="caption-text">Has complaints about:</p>-->
+<!--                <a href="" class=" button complained-card__link" title="Visit complaint card page">Card</a>-->
+<!--              </div>-->
+<!--              <div class=" complained-card__link-to-user">-->
+<!--                <p class="caption-text">From:</p>-->
+<!--                <a href="" class="button complained-card__link" title="Visit user page">UserName</a>-->
+<!--              </div>-->
+<!--              <div class="complained-card-comment">-->
+<!--                <h2 class="caption-text">Comment:</h2>-->
+<!--                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.-->
+<!--                  Commodi itaque necessitatibus odio voluptates ex ad voluptatibus quia officiis, minus odit, aut natus?-->
+<!--                  Itaque sit, voluptas incidunt sapiente magnam alias ea!</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="card border-card complained-card">-->
+<!--              <div class="complained-card__link-to-card">-->
+<!--                <p class="caption-text">Has complaints about:</p>-->
+<!--                <a href="" class=" button complained-card__link" title="Visit complaint card page">Card</a>-->
+<!--              </div>-->
+<!--              <div class=" complained-card__link-to-user">-->
+<!--                <p class="caption-text">From:</p>-->
+<!--                <a href="" class="button complained-card__link" title="Visit user page">UserName</a>-->
+<!--              </div>-->
+<!--              <div class="complained-card-comment">-->
+<!--                <h2 class="caption-text">Comment:</h2>-->
+<!--                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.-->
+<!--                  Commodi itaque necessitatibus odio voluptates ex ad voluptatibus quia officiis, minus odit, aut natus?-->
+<!--                  Itaque sit, voluptas incidunt sapiente magnam alias ea!</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="card border-card complained-card">-->
+<!--              <div class="complained-card__link-to-card">-->
+<!--                <p class="caption-text">Has complaints about:</p>-->
+<!--                <a href="" class=" button complained-card__link" title="Visit complaint card page">Card</a>-->
+<!--              </div>-->
+<!--              <div class=" complained-card__link-to-user">-->
+<!--                <p class="caption-text">From:</p>-->
+<!--                <a href="" class="button complained-card__link" title="Visit user page">UserName</a>-->
+<!--              </div>-->
+<!--              <div class="complained-card-comment">-->
+<!--                <h2 class="caption-text">Comment:</h2>-->
+<!--                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.-->
+<!--                  Commodi itaque necessitatibus odio voluptates ex ad voluptatibus quia officiis, minus odit, aut natus?-->
+<!--                  Itaque sit, voluptas incidunt sapiente magnam alias ea!</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

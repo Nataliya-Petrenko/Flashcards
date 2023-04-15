@@ -165,7 +165,7 @@ public class SetController {
         LOGGER.info("setEditDto: {}", setEditDto);
         modelAndView.addObject("setEditDto", setEditDto);
 
-        List<CardIdQuestionDto> cards = cardService.getBySetId(id); // todo get only cardQuestion and add it to DTO for delete
+        List<CardIdQuestionDto> cards = cardService.getBySetId(id); // todo get only cardQuestion (or no) and add it to DTO for delete
         LOGGER.info("List<CardIdQuestionDto>: {}", cards);
         modelAndView.addObject("cards", cards);
 
@@ -187,5 +187,6 @@ public class SetController {
         return modelAndView;
     }
 
+    // todo learning set
 
 }

@@ -2,6 +2,7 @@ package com.petrenko.flashcards.service;
 
 import com.petrenko.flashcards.dto.EditProfileDto;
 import com.petrenko.flashcards.dto.RegistrationPersonDto;
+import com.petrenko.flashcards.dto.UsersInfoDto;
 import com.petrenko.flashcards.model.Person;
 import com.petrenko.flashcards.model.Role;
 import com.petrenko.flashcards.repository.PersonRepository;
@@ -14,6 +15,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -46,9 +50,10 @@ public class PersonService implements UserDetailsService {
 
     public Person saveRegistrationPersonDtoToPerson(RegistrationPersonDto user) {
         LOGGER.info("invoked");
-//        if (user.getPassword() == null) {               //todo Do I need it if I have validation?
-//            throw new IllegalArgumentException("Password is incorrect");
-//        }
+        if (user.getPassword() == null) {               //todo Do I need it if I have validation?
+            throw new IllegalArgumentException("Password is incorrect");
+        }
+
         if (personRepository.findPersonByEmail(user.getEmail()).isPresent()) {
             LOGGER.info("User already exists {}", user.getEmail());
             throw new IllegalArgumentException("User with this email already exists: " + user.getEmail());
@@ -57,10 +62,17 @@ public class PersonService implements UserDetailsService {
 
         person.setPassword(passwordEncoder.encode(user.getPassword()));
         person.setEmail(user.getEmail());
-        person.setFirstName(user.getFirstName());
-        person.setLastName(user.getLastName());
-        person.setRole(Role.USER);
-//        person.setRole(user.getEmail().equalsIgnoreCase("admin") ? Role.ADMIN : Role.USER); // todo another approach get role
+        person.setFirstName(user.getFirstName());      // todo FirstName from form registration don't save
+        person.setLastName(user.getLastName());        // todo LastName from form registration don't save
+
+        long countOfPerson = personRepository.count();
+        LOGGER.info("countOfPerson {}", countOfPerson);
+        if (countOfPerson == 0) {
+            LOGGER.info("first user");
+            person.setRole(Role.ADMIN);
+        } else {
+            person.setRole(Role.USER);
+        }
 
         Person savedPerson = personRepository.save(person);
         LOGGER.info("savedPerson {}", savedPerson);
@@ -82,17 +94,36 @@ public class PersonService implements UserDetailsService {
         String newEmail = editProfileDto.getEmail();
         String newFirstName = editProfileDto.getFirstName();
         String newLastName = editProfileDto.getLastName();
+        String newAvatar = editProfileDto.getAvatar();
 
 //        if (!editProfileDto.getPassword().isBlank()) { // todo own page for password to add required for password pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" in form
 //            String newPassword = editProfileDto.getPassword();
 //            personRepository.updatePersonFromEditProfileDto(userId, newEmail, newFirstName, newLastName, newPassword);
 //        }
-        personRepository.update(userId, newEmail, newFirstName, newLastName);
+        personRepository.update(userId, newEmail, newFirstName, newLastName, newAvatar);
 
         Person editedPerson = getById(userId);
         LOGGER.info("editedPerson {}", editedPerson);
 
         return editedPerson;
+    }
+
+    public List<UsersInfoDto> getAll() {
+        LOGGER.info("invoked");
+        List<UsersInfoDto> users = personRepository.getUsersInfoDto();
+
+        LOGGER.info("users {}", users);
+
+        return users;
+    }
+
+    public UsersInfoDto getUsersInfoDto(String userId) {
+        LOGGER.info("invoked");
+        UsersInfoDto user = personRepository.getUserInfoDto(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User information not found. User ID: " + userId));
+
+        LOGGER.info("user {}", user);
+        return user;
     }
 
     // todo admin can block user (enable=false)

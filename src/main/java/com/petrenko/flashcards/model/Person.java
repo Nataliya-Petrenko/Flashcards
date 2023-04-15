@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,7 +28,7 @@ public class Person implements UserDetails {
 //    @NotBlank(message = "Field is mandatory")
     private String password;
 
-//    @NotBlank(message = "Field is mandatory") // todo Do I need it if I have checking in DTO?
+//    @NotBlank(message = "Field is mandatory")
     private String email;
 
     private String firstName;
@@ -40,6 +39,8 @@ public class Person implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private String avatar;  // todo or not todo?
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

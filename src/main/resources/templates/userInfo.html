@@ -52,12 +52,8 @@
         <div class="card edit-profile-form user-info-card" th:object="${user}">
 
 
-<!--          <label class="photo-wrapper tooltip" for="avatar">-->
-<!--            <img class="user-photo" th:href="@{/images/user-image.png}" alt="user photo">-->
-<!--            <span class="tooltip-text">Select new profile photo</span>-->
-<!--          </label>-->
-<!--          <input class="download-photo-input" type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"-->
-<!--            title="Select photo">-->
+          <img class="user-photo" src="../../../images/user-image.png" alt="user photo">
+          <span class="tooltip-text"></span>
 
           <div class="user-info-card__info-block">
             <h2 class="user-info-card__title bold-text">
@@ -66,28 +62,24 @@
             <ul class="user-info-card__info-list">
               <li class="user-info-card__info-list-item">
                 <span class="caption-text">First name:</span>
-                <textarea class="" th:text="*{firstName}"></textarea>
+                <p th:text="*{firstName}"></p>
               </li>
               <li class="user-info-card__info-list-item">
                 <span class="caption-text">Last name:</span>
-                <textarea class="" th:text="*{lastName}"></textarea>
+                <p th:text="*{lastName}"></p>
               </li>
               <li class="user-info-card__info-list-item">
                 <span class="caption-text">Email:</span>
-                <textarea class="" th:text="*{email}"></textarea>
+                <p th:text="*{email}"></p>
               </li>
               <li class="user-info-card__info-list-item">
                 <span class="caption-text">Role:</span>
-                <textarea class="" th:text="*{role}"></textarea>
+                <p th:text="*{role}"></p>
               </li>
               <li class="user-info-card__info-list-item">
                 <span class="caption-text">Enable:</span>
-                <textarea class="" th:text="*{enable}"></textarea>
+                <p th:text="*{enable}"></p>
               </li>
-<!--              <li class="user-info-card__info-list-item">-->
-<!--                <span class="caption-text">New photo (link):</span>-->
-<!--                <input class="" type="text" th:field="*{avatar}">-->
-<!--              </li>-->
             </ul>
           </div>
         </div>

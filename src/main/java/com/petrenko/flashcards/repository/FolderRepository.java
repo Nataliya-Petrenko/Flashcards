@@ -53,9 +53,9 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
             SELECT f.id
             FROM Folder f
             WHERE f.timeOfCreation = (
-                SELECT MAX(f.timeOfCreation)
-                From Folder f
-                LEFT JOIN f.person p
+                SELECT MAX(f1.timeOfCreation)
+                From Folder f1
+                LEFT JOIN f1.person p
                 WHERE p.id = :userId
                 )
                  """)
@@ -81,9 +81,9 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
             SELECT f.id
             FROM Folder f
             WHERE f.timeOfCreation = (
-                SELECT MIN(f.timeOfCreation)
-                From Folder f
-                LEFT JOIN f.person p
+                SELECT MIN(f1.timeOfCreation)
+                From Folder f1
+                LEFT JOIN f1.person p
                 WHERE p.id = :userId
                 )
                  """)

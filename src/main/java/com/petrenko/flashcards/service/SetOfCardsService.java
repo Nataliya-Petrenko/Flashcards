@@ -80,8 +80,8 @@ public class SetOfCardsService {
 
         String folderId = setViewByIdDto.getFolderId();
 
-        setViewByIdDto.setPreviousOrLastSetId(getPreviousOrLastSetId(folderId, setId));
-        setViewByIdDto.setNextOrFirstSetId(getNextOrFirstSetId(folderId, setId));
+        setViewByIdDto.setPreviousOrLastSetId(getPreviousOrLastSetId(folderId, setId));// todo fix
+        setViewByIdDto.setNextOrFirstSetId(getNextOrFirstSetId(folderId, setId));// todo fix
 
         LOGGER.info("setViewByIdDto {}", setViewByIdDto);
         return setViewByIdDto;

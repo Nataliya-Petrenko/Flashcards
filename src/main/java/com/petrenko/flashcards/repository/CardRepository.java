@@ -5,6 +5,7 @@ import com.petrenko.flashcards.model.Card;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -118,4 +119,21 @@ public interface CardRepository extends CrudRepository<Card, String> {
             WHERE c.id = :cardId
             """)
     Optional<CardEditDto> getCardEditDto(String cardId);
+
+    @Query("""
+            SELECT new com.petrenko.flashcards.dto.CardIdQuestionDto(
+            id,
+            question)
+            FROM Card
+            """)
+    List<CardIdQuestionDto> getAll();
+
+    @Query("""
+            SELECT new com.petrenko.flashcards.dto.CardIdQuestionDto(
+            id,
+            question)
+            FROM Card
+            WHERE question LIKE %:search%
+            """)
+    List<CardIdQuestionDto> getBySearch(@Param("search") String search);
 }

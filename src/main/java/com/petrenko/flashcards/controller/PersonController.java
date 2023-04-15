@@ -1,17 +1,14 @@
 package com.petrenko.flashcards.controller;
 
-import com.petrenko.flashcards.dto.CardEditDto;
 import com.petrenko.flashcards.dto.EditProfileDto;
 import com.petrenko.flashcards.dto.RegistrationPersonDto;
 import com.petrenko.flashcards.dto.UsersInfoDto;
-import com.petrenko.flashcards.model.Card;
 import com.petrenko.flashcards.model.Person;
 import com.petrenko.flashcards.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -108,7 +105,7 @@ public class PersonController {
     //todo personInfo for header or link to profile instead of info
 
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user")     // todo information about role is not showed ("if role" not available in thymeleaf)
     public ModelAndView getAllUsers(ModelAndView modelAndView) {
         LOGGER.info("invoked");
@@ -123,6 +120,7 @@ public class PersonController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user/{id}")  // todo can't change role ("if role" not available in thymeleaf)
     public ModelAndView getUser(@PathVariable("id") String id,
                                 ModelAndView modelAndView) {
@@ -138,6 +136,7 @@ public class PersonController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/user/{id}/block")
     public ModelAndView editCard(@PathVariable("id") String id,
                                  ModelAndView modelAndView) {
@@ -153,7 +152,7 @@ public class PersonController {
         return modelAndView;
     }
 
-    // todo search userById
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/user")
     public ModelAndView searchUser(@RequestParam("search") String search,
                                  ModelAndView modelAndView) {

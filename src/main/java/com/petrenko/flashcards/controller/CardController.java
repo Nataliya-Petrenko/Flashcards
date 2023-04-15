@@ -27,6 +27,35 @@ public class CardController {
         this.cardService = cardService;
     }
 
+    @GetMapping("/")
+    public ModelAndView getAllUsers(ModelAndView modelAndView) {
+        LOGGER.info("invoked");
+
+        List<CardIdQuestionDto> cards = cardService.getAll();
+
+        LOGGER.info("cards {}", cards);
+        modelAndView.addObject("cards", cards);
+
+        modelAndView.setViewName("search");
+        LOGGER.info("before show search.html");
+        return modelAndView;
+    }
+
+    @PutMapping("/")
+    public ModelAndView searchUser(@RequestParam("search") String search,
+                                   ModelAndView modelAndView) {
+        LOGGER.info("invoked");
+
+        List<CardIdQuestionDto> cards = cardService.getBySearch(search);
+
+        LOGGER.info("cards {}", cards);
+        modelAndView.addObject("cards", cards);
+
+        modelAndView.setViewName("search");
+        LOGGER.info("before show search.html");
+        return modelAndView;
+    }
+
     @GetMapping("/card/create")
     public ModelAndView getCreateCardForm(ModelAndView modelAndView) {
         LOGGER.info("invoked");

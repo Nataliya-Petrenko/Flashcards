@@ -145,7 +145,7 @@ public class PersonService implements UserDetailsService {
         personRepository.blockUser(userId, true);
     }
 
-    public List<UsersInfoDto> getBySearch(String search) {
+    public List<UsersInfoDto> getBySearch(String search) { // todo: not dependents from case
         LOGGER.info("invoked");
         List<UsersInfoDto> users = personRepository.getBySearch(search);
         LOGGER.info("users {}", users);

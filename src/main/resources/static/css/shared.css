@@ -38,7 +38,6 @@ a {
 .input:hover,
 .input:focus {
   border: 1px solid var(--border-hover-color);
-  transition: all 0.3s linear;
 }
 
 /* Button */
@@ -222,32 +221,26 @@ a {
 
 .no-border {
   border: 1px solid transparent;
-  transition: all 0.3s linear;
 }
 
 .no-border:hover {
   border: 1px solid var(--border-hover-color);
-  transition: all 0.3s linear;
 }
 
 .light-border {
   border: 1px solid var(--border-color);
-  transition: all 0.3s linear;
 }
 
 .light-border:hover {
   border: 1px solid var(--border-hover-color);
-  transition: all 0.3s linear;
 }
 
 .dark-border {
   border: 1px solid transparent;
-  transition: all 0.3s linear;
 }
 
 .dark-border:hover {
   border: 1px solid var(--border-color);
-  transition: all 0.3s linear;
 }
 
 .extra-bold-text {

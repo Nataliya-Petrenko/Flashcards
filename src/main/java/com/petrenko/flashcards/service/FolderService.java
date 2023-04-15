@@ -69,7 +69,7 @@ public class FolderService {
 
     @Transactional
     public FolderByIdDto getFolderByIdDto(String userId, String folderId) { // todo get by single DTO
-        LOGGER.info("invoked");
+        LOGGER.info("invoked"); // todo fix: previous button get first and repeat
 
         FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
                 .getFolderIdNameDescriptionDto(folderId).orElseThrow(() -> new IllegalArgumentException("Folder not found for ID: " + folderId));

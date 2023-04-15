@@ -84,8 +84,8 @@ public class CardService {
 
         String setId = cardByIdDto.getSetOfCardsId();
 
-        cardByIdDto.setPreviousOrLastCardId(getPreviousOrLastCardId(setId, cardId));
-        cardByIdDto.setNextOrFirstCardId(getNextOrFirstCardId(setId, cardId));
+        cardByIdDto.setPreviousOrLastCardId(getPreviousOrLastCardId(setId, cardId));// todo fix
+        cardByIdDto.setNextOrFirstCardId(getNextOrFirstCardId(setId, cardId));// todo fix
 
         LOGGER.info("cardByIdDto {}", cardByIdDto);
         return cardByIdDto;
@@ -140,5 +140,19 @@ public class CardService {
         LOGGER.info("savedCard {}", savedCard);
 
         return savedCard;
+    }
+
+    public List<CardIdQuestionDto> getAll() {
+        LOGGER.info("invoked");
+        List<CardIdQuestionDto> cards = cardRepository.getAll();
+        LOGGER.info("cards {}", cards);
+        return cards;
+    }
+
+    public List<CardIdQuestionDto> getBySearch(String search) { // todo: not dependents from case
+        LOGGER.info("invoked");
+        List<CardIdQuestionDto> cards = cardRepository.getBySearch(search);
+        LOGGER.info("cards {}", cards);
+        return cards;
     }
 }

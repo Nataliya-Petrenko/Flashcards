@@ -35,7 +35,7 @@ public class PersonService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {  // todo I need it?
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LOGGER.info("invoked");
         return personRepository.findPersonByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -96,10 +96,6 @@ public class PersonService implements UserDetailsService {
         String newLastName = editProfileDto.getLastName();
         String newAvatar = editProfileDto.getAvatar();
 
-//        if (!editProfileDto.getPassword().isBlank()) { // todo own page for password to add required for password pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" in form
-//            String newPassword = editProfileDto.getPassword();
-//            personRepository.updatePersonFromEditProfileDto(userId, newEmail, newFirstName, newLastName, newPassword);
-//        }
         personRepository.update(userId, newEmail, newFirstName, newLastName, newAvatar);
 
         Person editedPerson = getById(userId);

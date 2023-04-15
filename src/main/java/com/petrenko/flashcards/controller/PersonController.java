@@ -90,7 +90,7 @@ public class PersonController {
         }
 
 //        if (!editProfileDto.getAvatar().isEmpty()) {
-//            //   todo Save the file to disk or process the file in some other way
+//            //   todo Save the photo
 //        }
 
         String userId = principal.getName();
@@ -101,9 +101,6 @@ public class PersonController {
         LOGGER.info("before redirect:/");
         return modelAndView;
     }
-
-    //  todo personInfo for header or link to profile instead of info
-
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user")       //   todo information about role is not showed ("if role" not available in thymeleaf)

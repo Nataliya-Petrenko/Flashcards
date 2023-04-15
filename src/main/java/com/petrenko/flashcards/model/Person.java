@@ -25,10 +25,10 @@ public class Person implements UserDetails {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-//    @NotBlank(message = "Field is mandatory")
+    @NotBlank(message = "Field is mandatory")
     private String password;
 
-//    @NotBlank(message = "Field is mandatory")
+    @NotBlank(message = "Field is mandatory")
     private String email;
 
     private String firstName;

@@ -25,8 +25,8 @@
                   <a th:href="@{/folder/{id}(id=*{previousOrLastFolderId})}" class="button bg-dark dark-border auto-margin-left">&#60; Previous folder</a>
                   <a th:href="@{/folder/{id}(id=*{nextOrFirstFolderId})}" class="button bg-dark dark-border auto-margin-right">Next folder &#62;</a>
                   <a th:href="@{/set/create/{id}(id=*{id})}" class="button bg-dark dark-border">New set in this folder</a>
-                  <a th:href="@{/folder/{id}/edit(id=*{id})}" class="button bg-dark dark-border">Edit</a>
-                  <a th:href="@{/folder/{id}/delete(id=*{id})}" class="button bg-dark dark-border">Delete</a>
+                  <a th:href="@{/folder/{id}/edit(id=*{id})}" class="button bg-dark dark-border">Edit folder</a>
+                  <a th:href="@{/folder/{id}/delete(id=*{id})}" class="button bg-dark dark-border">Delete folder</a>
               </div>
               <h2 class="second-title folder-title" th:text="|*{name}|" title="Folder name"></h2>
               <div class="card folder-description">
@@ -38,7 +38,7 @@
                           <p th:text="|${set.name}|" title="Set name"></p>
                           <div class="card-buttons">
                               <a th:href="@{/set/{id}(id=${set.id})}" class="button bg-dark no-border">Show set</a>
-                              <a th:href="@{/set/{id}/delete(id=${set.id})}" class="button bg-dark no-border">Delete</a>
+                              <a th:href="@{/set/{id}/delete(id=${set.id})}" class="button bg-dark no-border">Delete set</a>
                           </div>
                       </div>
                   </div>

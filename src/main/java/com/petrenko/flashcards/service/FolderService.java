@@ -121,7 +121,7 @@ public class FolderService {
 
         Optional<String> idByUserIdAndName = folderRepository.findIdByUserIdAndName(userId, newName);
         if (idByUserIdAndName.isPresent() && !idByUserIdAndName.get().equals(folderIdNameDescriptionDto.getId())) {
-            throw new IllegalArgumentException("Folder with this newName already exist: " + newName); // todo get choose edit old or enter another name
+            throw new IllegalArgumentException("Folder with this newName already exist: " + newName);
         }
 
         String newDescription = folderIdNameDescriptionDto.getDescription();

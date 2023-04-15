@@ -34,36 +34,42 @@
     <a th:href="@{/info}" class="button bg-dark light-border extra-bold-text">?</a>
     <a th:href="@{/login}" class="button bg-dark light-border" sec:authorize="!isAuthenticated()">Sign in</a>
     <a th:href="@{/registration}" class="button bg-dark light-border" sec:authorize="!isAuthenticated()">Sign up</a>
-    <div class="profile" sec:authorize="isAuthenticated()">
-        <div class="profile-short-info">
-            <div class="profile__logo">
-                <img class="user-photo" src="../images/user-image.png" alt="user photo">
-            </div>
-            <p class="profile__text">User Name</p>
-        </div>
-        <div class="dropdown-content">
-            <ul class="dropdown-list">
-                <li class="profile-full-name info-text">
-                    <!--                    <p th:text="|${person.firstName}|">FirstName</p>-->
-                    <p>FirstName</p>
-                    <p>LastName</p>
-                </li>
-                <li class="info-text">
-                    <p>SomeEmail@gmail.com</p>
-                </li>
-                <li class="dropdown-list__item">
-                    <a th:href="@{/folder}">Go to all folders</a>
-                </li>
-                <li class="dropdown-list__item">
-                    <a th:href="@{/profile}">Edit profile</a>
-                </li>
-                <li class="profile-log-out">
-                    <a th:href="@{/logout}">Log out</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <a th:href="@{/user}" class="button bg-dark light-border"  sec:authorize="hasAuthority('ADMIN')">Admin info</a>
+<!--    <div sec:authorize="isAuthenticated()">-->
+
+            <a th:href="@{/folder}" class="button bg-dark light-border" sec:authorize="isAuthenticated()">Go to all folders</a>
+            <a th:href="@{/profile}" class="button bg-dark light-border" sec:authorize="isAuthenticated()">Edit profile</a>
+
+
+        <!--        <div class="profile-short-info">-->
+        <!--            <div class="profile__logo">-->
+        <!--                <img class="user-photo" src="../images/user-image.png" alt="user photo">-->
+        <!--            </div>-->
+        <!--            <p class="profile__text">User Name</p>-->
+        <!--        </div>-->
+        <!--        <div class="dropdown-content">-->
+        <!--            <ul class="dropdown-list">-->
+        <!--                <li class="profile-full-name info-text">-->
+        <!--                    &lt;!&ndash;                    <p th:text="|${person.firstName}|">FirstName</p>&ndash;&gt;-->
+        <!--                    <p>FirstName</p>-->
+        <!--                    <p>LastName</p>-->
+        <!--                </li>-->
+        <!--                <li class="info-text">-->
+        <!--                    <p>SomeEmail@gmail.com</p>-->
+        <!--                </li>-->
+        <!--                <li class="dropdown-list__item">-->
+        <!--                    <a th:href="@{/folder}">Go to all folders</a>-->
+        <!--                </li>-->
+        <!--                <li class="dropdown-list__item">-->
+        <!--                    <a th:href="@{/profile}">Edit profile</a>-->
+        <!--                </li>-->
+        <!--                <li class="profile-log-out">-->
+        <!--                    <a th:href="@{/logout}">Log out</a>-->
+        <!--                </li>-->
+        <!--            </ul>-->
+        <!--        </div>-->
+<!--    </div>-->
+    <a th:href="@{/user}" class="button bg-dark light-border" sec:authorize="hasAuthority('ADMIN')">Admin info</a>
+    <a th:href="@{/logout}" class="button bg-dark light-border profile-log-out" sec:authorize="isAuthenticated()">Log out</a>
 
 
 </div>

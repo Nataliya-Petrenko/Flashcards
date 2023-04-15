@@ -26,8 +26,8 @@
                 <a th:href="@{/set/{id}/(id=${setViewByIdDto.nextOrFirstSetId})}" class="button bg-dark dark-border auto-margin-right">Next set in this folder &#62;</a>
 <!--                <a href="#" class="button bg-dark dark-border">Learn (not implemented)</a>-->
                 <a th:href="@{/card/create/{id}(id=${setViewByIdDto.id})}" class="button bg-dark dark-border">New card in this set</a>
-                <a th:href="@{/set/{id}/edit(id=${setViewByIdDto.id})}" class="button bg-dark dark-border">Edit</a>
-                <a th:href="@{/set/{id}/delete(id=${setViewByIdDto.id})}" class="button bg-dark dark-border">Delete</a>
+                <a th:href="@{/set/{id}/edit(id=${setViewByIdDto.id})}" class="button bg-dark dark-border">Edit set</a>
+                <a th:href="@{/set/{id}/delete(id=${setViewByIdDto.id})}" class="button bg-dark dark-border">Delete set</a>
             </nav>
             <h2 class="second-title set-title" th:text="|${setViewByIdDto.folderName}: ${setViewByIdDto.name}|" title="Folder name: Set name"></h2>
 
@@ -41,7 +41,7 @@
                         <p class="card-in-set__text" th:text="|${card.question}|" title="Card question"></p>
                         <div class="card-buttons">
                             <a th:href="@{/card/{id}(id=${card.id})}" class="button bg-dark no-border">Show card</a>
-                            <a th:href="@{/card/{id}/delete(id=${card.id})}" class="button bg-dark no-border">Remove from set</a>
+                            <a th:href="@{/card/{id}/delete(id=${card.id})}" class="button bg-dark no-border">Delete card</a>
                         </div>
                     </div>
                 </div>

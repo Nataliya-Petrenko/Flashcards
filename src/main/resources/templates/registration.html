@@ -22,8 +22,8 @@
       <div class="sign-in">
         <h2 class="sign-in__title">Sign up</h2>
         <form class="sing-in-form" th:action="@{/registration}" th:object="${registrationPersonDto}" th:method="POST">
-          <input class="input bg-light no-border dark-placeholder" type="input" th:field="*{firstName}" placeholder="First name">
-          <input class="input bg-light no-border dark-placeholder" type="input" th:field="*{lastName}" placeholder="Last name">
+          <input class="input bg-light no-border dark-placeholder" type="text" th:field="*{firstName}" placeholder="First name">
+          <input class="input bg-light no-border dark-placeholder" type="text" th:field="*{lastName}" placeholder="Last name">
           <input class="input bg-light no-border dark-placeholder" type="email" th:field="*{email}"
                  pattern="^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$"
           placeholder="Email *" required autofocus>

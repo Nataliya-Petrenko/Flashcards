@@ -62,8 +62,8 @@ public class PersonService implements UserDetailsService {
 
         person.setPassword(passwordEncoder.encode(user.getPassword()));
         person.setEmail(user.getEmail());
-        person.setFirstName(user.getFirstName());      // todo FirstName from form registration don't save
-        person.setLastName(user.getLastName());        // todo LastName from form registration don't save
+        person.setFirstName(user.getFirstName());
+        person.setLastName(user.getLastName());
 
         long countOfPerson = personRepository.count();
         LOGGER.info("countOfPerson {}", countOfPerson);

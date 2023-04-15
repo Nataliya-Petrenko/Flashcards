@@ -90,7 +90,7 @@ public class PersonController {
         }
 
 //        if (!editProfileDto.getAvatar().isEmpty()) {
-//            // todo Save the file to disk or process the file in some other way
+//            //   todo Save the file to disk or process the file in some other way
 //        }
 
         String userId = principal.getName();
@@ -102,11 +102,11 @@ public class PersonController {
         return modelAndView;
     }
 
-    //todo personInfo for header or link to profile instead of info
+    //  todo personInfo for header or link to profile instead of info
 
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/user")     // todo information about role is not showed ("if role" not available in thymeleaf)
+    @GetMapping("/user")       //   todo information about role is not showed ("if role" not available in thymeleaf)
     public ModelAndView getAllUsers(ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
@@ -121,7 +121,7 @@ public class PersonController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/user/{id}")  // todo can't change role ("if role" not available in thymeleaf)
+    @GetMapping("/user/{id}")                  //  todo can't change role ("if role" not available in thymeleaf)
     public ModelAndView getUser(@PathVariable("id") String id,
                                 ModelAndView modelAndView) {
         LOGGER.info("invoked");

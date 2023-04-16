@@ -3,11 +3,11 @@ package com.petrenko.flashcards.service;
 import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
-import com.petrenko.flashcards.repository.CardRepository;
 import com.petrenko.flashcards.repository.SetOfCardsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,15 +17,15 @@ import java.util.List;
 public class SetOfCardsService {
     private final static Logger LOGGER = LoggerFactory.getLogger(SetOfCardsService.class);
     private final SetOfCardsRepository setOfCardsRepository;
-    private final CardRepository cardRepository;
     private final FolderService folderService;
+    private final CardService cardService;
 
     @Autowired
     public SetOfCardsService(final SetOfCardsRepository setOfCardsRepository,
-                             final CardRepository cardRepository,
-                             final FolderService folderService) {
+                             @Lazy final FolderService folderService,
+                             @Lazy final CardService cardService) {
         this.setOfCardsRepository = setOfCardsRepository;
-        this.cardRepository = cardRepository;
+        this.cardService = cardService;
         this.folderService = folderService;
     }
 
@@ -83,7 +83,7 @@ public class SetOfCardsService {
         setViewByIdDto.setPreviousOrLastSetId(getPreviousOrLastSetId(folderId, setId));
         setViewByIdDto.setNextOrFirstSetId(getNextOrFirstSetId(folderId, setId));
 
-        setViewByIdDto.setFirstCardId(cardRepository.getFirstId(setId).orElse(""));
+        setViewByIdDto.setFirstCardId(cardService.getFirstId(setId).orElse(""));
         LOGGER.info("setViewByIdDto {}", setViewByIdDto);
         return setViewByIdDto;
     }
@@ -145,7 +145,7 @@ public class SetOfCardsService {
     @Transactional
     public void deleteAllById(final String setId) {
         LOGGER.info("invoked");
-        cardRepository.deleteBySetId(setId);
+        cardService.deleteBySetId(setId);
         LOGGER.info("cards from set deleted {}", setId);
         setOfCardsRepository.deleteById(setId);
         LOGGER.info("set deleted {}", setId);
@@ -159,10 +159,8 @@ public class SetOfCardsService {
         return setNameFolderNameDto;
     }
 
-    public List<String> getSetsNameByFolderId(final String folderId) {
-        LOGGER.info("invoked with folderId {}", folderId);
-        final List<String> setsName = setOfCardsRepository.getSetsNameByFolderId(folderId);
-        LOGGER.info("setsName {}", setsName);
-        return setsName;
+    public void deleteById(String s) {
+        LOGGER.info("invoked");
+        setOfCardsRepository.deleteById(s);
     }
 }

@@ -2,9 +2,7 @@ package com.petrenko.flashcards.service;
 
 import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.Folder;
-import com.petrenko.flashcards.repository.CardRepository;
 import com.petrenko.flashcards.repository.FolderRepository;
-import com.petrenko.flashcards.repository.SetOfCardsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +16,18 @@ import java.util.Optional;
 public class FolderService {
     private final static Logger LOGGER = LoggerFactory.getLogger(FolderService.class);
     private final FolderRepository folderRepository;
-    private final SetOfCardsRepository setOfCardsRepository;
-    private final CardRepository cardRepository;
+    private final SetOfCardsService setOfCardsService;
+    private final CardService cardService;
     private final PersonService personService;
 
     @Autowired
     public FolderService(final FolderRepository folderRepository,
-                         final SetOfCardsRepository setOfCardsRepository,
-                         final CardRepository cardRepository,
-                         PersonService personService) {
+                         final SetOfCardsService setOfCardsService,
+                         final CardService cardService,
+                         final PersonService personService) {
         this.folderRepository = folderRepository;
-        this.setOfCardsRepository = setOfCardsRepository;
-        this.cardRepository = cardRepository;
+        this.setOfCardsService = setOfCardsService;
+        this.cardService = cardService;
         this.personService = personService;
     }
 
@@ -147,8 +145,8 @@ public class FolderService {
         LOGGER.info("invoked");
         final List<String> setsId = folderRepository.getSetsIdByFolderId(folderId);
         setsId.forEach(s -> {
-            cardRepository.deleteBySetId(s);
-            setOfCardsRepository.deleteById(s);
+            cardService.deleteBySetId(s);
+            setOfCardsService.deleteById(s);
         });
         folderRepository.deleteById(folderId);
         LOGGER.info("done");

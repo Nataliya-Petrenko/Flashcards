@@ -26,26 +26,17 @@
         </div>
         <form id="edit-profile-form" class="card edit-profile-form user-info-card" th:action="@{/profile/edit}" th:object="${editProfileDto}" th:method="PUT">
 
-<!---->
-
           <img class="user-photo" src="../../../images/user-image.png" alt="user photo">
           <span class="tooltip-text"></span>
 
-<!--          <label class="photo-wrapper tooltip" for="avatar">-->
-<!--            <img class="user-photo" src="../../../images/user-image.png" alt="user photo">-->
-<!--            <span class="tooltip-text">Select new profile photo</span>-->
-<!--          </label>-->
-<!--          <input class="download-photo-input" type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"-->
-<!--                 title="Select photo">-->
-<!---->
           <div class="user-info-card__info-block">
             <h2 class="user-info-card__title">
-              Personal information:
+              You can edit your personal information:
             </h2>
             <ul class="user-info-card__info-list">
               <li class="user-info-card__info-list-item">
                 <span class="caption-text">First name:</span>
-                <input type="text" th:field="*{firstName}">
+                <input type="text" th:field="*{firstName}" autofocus>
               </li>
               <li class="user-info-card__info-list-item">
                 <span class="caption-text">Last name:</span>

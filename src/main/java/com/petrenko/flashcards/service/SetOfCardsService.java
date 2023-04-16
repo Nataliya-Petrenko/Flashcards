@@ -41,14 +41,14 @@ public class SetOfCardsService {
                                                              final SetFolderNameSetNameDescriptionDto setDto) {
         LOGGER.info("invoked");
 
-        String newFolderName = setDto.getFolderName();
-        String newSetName = setDto.getName();
+        final String newFolderName = setDto.getFolderName();
+        final String newSetName = setDto.getName();
 
-        SetOfCards setOfCards = getByNameAndFolderNameOrNew(userId, newFolderName, newSetName);
+        final SetOfCards setOfCards = getByNameAndFolderNameOrNew(userId, newFolderName, newSetName);
 
         setOfCards.setDescription(setDto.getDescription());
 
-        SetOfCards savedSet = setOfCardsRepository.save(setOfCards);
+        final SetOfCards savedSet = setOfCardsRepository.save(setOfCards);
 
         LOGGER.info("savedSet {}", savedSet);
         return savedSet;
@@ -57,7 +57,7 @@ public class SetOfCardsService {
     public SetOfCards getByNameAndFolderNameOrNew(final String userId, final String folderName, final String setName) {
         LOGGER.info("invoked");
 
-        Folder folder = folderService.getFolderWithNameOrNew(userId, folderName);
+        final Folder folder = folderService.getFolderWithNameOrNew(userId, folderName);
 
         final SetOfCards setOfCards = setOfCardsRepository.findByNameAndFolderId(setName, folder.getId())
                 .orElseGet(() -> {
@@ -75,13 +75,13 @@ public class SetOfCardsService {
     public SetViewByIdDto getSetViewByIdDto(final String setId) {
         LOGGER.info("invoked with setId {}", setId);
 
-        SetViewByIdDto setViewByIdDto = setOfCardsRepository
+        final SetViewByIdDto setViewByIdDto = setOfCardsRepository
                 .getSetViewByIdDto(setId).orElseThrow(IllegalArgumentException::new);
 
-        String folderId = setViewByIdDto.getFolderId();
+        final String folderId = setViewByIdDto.getFolderId();
 
-        setViewByIdDto.setPreviousOrLastSetId(getPreviousOrLastSetId(folderId, setId));// todo fix
-        setViewByIdDto.setNextOrFirstSetId(getNextOrFirstSetId(folderId, setId));// todo fix
+        setViewByIdDto.setPreviousOrLastSetId(getPreviousOrLastSetId(folderId, setId));
+        setViewByIdDto.setNextOrFirstSetId(getNextOrFirstSetId(folderId, setId));
 
         setViewByIdDto.setFirstCardId(cardRepository.getFirstId(setId).orElse(""));
         LOGGER.info("setViewByIdDto {}", setViewByIdDto);
@@ -90,18 +90,20 @@ public class SetOfCardsService {
 
     private String getPreviousOrLastSetId(final String folderId, final String setId) {
         LOGGER.info("invoked");
-        String previousOrLastSetId = setOfCardsRepository.getPreviousId(folderId, setId)
+        final String previousOrLastSetId = setOfCardsRepository.getPreviousId(folderId, setId)
                 .orElse(setOfCardsRepository.getLastId(folderId)
-                        .orElseThrow(() -> new IllegalArgumentException("Unable to find any previous or last set for ID: '" + setId + "' in the folder '" + folderId + "'")));
+                        .orElseThrow(() -> new IllegalArgumentException("Unable to find any previous or last set " +
+                                "for ID: '" + setId + "' in the folder '" + folderId + "'")));
         LOGGER.info("previousOrLastSetId {}", previousOrLastSetId);
         return previousOrLastSetId;
     }
 
     private String getNextOrFirstSetId(final String folderId, final String setId) {
         LOGGER.info("invoked");
-        String nextOrFirstSetId = setOfCardsRepository.getNextId(folderId, setId)
+        final String nextOrFirstSetId = setOfCardsRepository.getNextId(folderId, setId)
                 .orElse(setOfCardsRepository.getFirstId(folderId)
-                        .orElseThrow(() -> new IllegalArgumentException("Unable to find any next or first set for ID: '" + setId + "' in the folder '" + folderId + "'")));
+                        .orElseThrow(() -> new IllegalArgumentException("Unable to find any next or first set " +
+                                "for ID: '" + setId + "' in the folder '" + folderId + "'")));
         LOGGER.info("nextOrFirstFolderId {}", nextOrFirstSetId);
         return nextOrFirstSetId;
     }
@@ -109,8 +111,9 @@ public class SetOfCardsService {
     public SetEditDto getSetEditDto(final String setId) {
         LOGGER.info("invoked with setId {}", setId);
 
-        SetEditDto setEditDto = setOfCardsRepository
-                .getSetEditDto(setId).orElseThrow(() -> new IllegalArgumentException("Set information for editing not found. Set ID: " + setId));
+        final SetEditDto setEditDto = setOfCardsRepository
+                .getSetEditDto(setId).orElseThrow(() -> new IllegalArgumentException("Set information " +
+                        "for editing not found. Set ID: " + setId));
 
         LOGGER.info("setEditDto {}", setEditDto);
         return setEditDto;
@@ -120,19 +123,19 @@ public class SetOfCardsService {
     public SetOfCards updateSetOfCardsBySetEditDto(final String userId, final SetEditDto setEditDto) {
         LOGGER.info("invoked");
 
-        String folderName = setEditDto.getFolderName();
-        String setName = setEditDto.getName();
+        final String folderName = setEditDto.getFolderName();
+        final String setName = setEditDto.getName();
 
-        SetOfCards setOfCards = getByNameAndFolderNameOrNew(userId, folderName, setName);
+        final SetOfCards setOfCards = getByNameAndFolderNameOrNew(userId, folderName, setName);
 
-        String description = setEditDto.getDescription();
+        final String description = setEditDto.getDescription();
         setOfCards.setDescription(description);
 
-        String setId = setOfCards.getId();
+        final String setId = setOfCards.getId();
 
         setOfCardsRepository.updateDescription(setId, description);
 
-        SetOfCards updatedSetOfCards = setOfCardsRepository.findById(setId)
+        final SetOfCards updatedSetOfCards = setOfCardsRepository.findById(setId)
                 .orElseThrow(IllegalArgumentException::new);
 
         LOGGER.info("updatedSetOfCards {}", updatedSetOfCards);
@@ -146,18 +149,19 @@ public class SetOfCardsService {
         LOGGER.info("cards from set deleted {}", setId);
         setOfCardsRepository.deleteById(setId);
         LOGGER.info("set deleted {}", setId);
+        LOGGER.info("done");
     }
 
     public SetNameFolderNameDto getSetNameFolderNameDtoBySetId(final String setId) {
         LOGGER.info("invoked with setId {}", setId);
-        SetNameFolderNameDto setNameFolderNameDto = setOfCardsRepository.getSetNameFolderNameDtoBySetId(setId);
+        final SetNameFolderNameDto setNameFolderNameDto = setOfCardsRepository.getSetNameFolderNameDtoBySetId(setId);
         LOGGER.info("setNameFolderNameDto {}", setNameFolderNameDto);
         return setNameFolderNameDto;
     }
 
     public List<String> getSetsNameByFolderId(final String folderId) {
         LOGGER.info("invoked with folderId {}", folderId);
-        List<String> setsName = setOfCardsRepository.getSetsNameByFolderId(folderId);
+        final List<String> setsName = setOfCardsRepository.getSetsNameByFolderId(folderId);
         LOGGER.info("setsName {}", setsName);
         return setsName;
     }

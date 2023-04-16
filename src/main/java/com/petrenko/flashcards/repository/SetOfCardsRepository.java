@@ -4,7 +4,6 @@ import com.petrenko.flashcards.dto.SetNameFolderNameDto;
 import com.petrenko.flashcards.dto.SetEditDto;
 import com.petrenko.flashcards.dto.SetIdNameDto;
 import com.petrenko.flashcards.dto.SetViewByIdDto;
-import com.petrenko.flashcards.model.Folder;
 import com.petrenko.flashcards.model.SetOfCards;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,9 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SetOfCardsRepository extends CrudRepository<SetOfCards, String> {
-    Optional<SetOfCards> findByName(String name);
-
-    List<SetOfCards> getByFolder(Folder folder);
 
     @Query("""
             SELECT new com.petrenko.flashcards.dto.SetIdNameDto(s.id, s.name)

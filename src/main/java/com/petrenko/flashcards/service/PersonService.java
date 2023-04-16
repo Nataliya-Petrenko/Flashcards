@@ -40,7 +40,7 @@ public class PersonService implements UserDetailsService {
 
     public Person getById(final String userId) {
         LOGGER.info("invoked");
-        Person person = personRepository.findById(userId).orElseThrow(() ->
+        final Person person = personRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("User not found. User ID: " + userId));
         LOGGER.info("Person findById {}", person);
         return person;
@@ -56,14 +56,14 @@ public class PersonService implements UserDetailsService {
             LOGGER.info("User already exists {}", user.getEmail());
             throw new IllegalArgumentException("User with this email already exists: " + user.getEmail());
         }
-        Person person = new Person();
+        final Person person = new Person();
 
         person.setPassword(passwordEncoder.encode(user.getPassword()));
         person.setEmail(user.getEmail());
         person.setFirstName(user.getFirstName());
         person.setLastName(user.getLastName());
 
-        long countOfPerson = personRepository.count();
+        final long countOfPerson = personRepository.count();
         LOGGER.info("countOfPerson {}", countOfPerson);
         if (countOfPerson == 0) {
             LOGGER.info("first user");
@@ -72,14 +72,14 @@ public class PersonService implements UserDetailsService {
             person.setRole(Role.USER);
         }
 
-        Person savedPerson = personRepository.save(person);
+        final Person savedPerson = personRepository.save(person);
         LOGGER.info("savedPerson {}", savedPerson);
         return savedPerson;
     }
 
     public EditProfileDto getEditProfileDtoByUserId(final String userId) {
         LOGGER.info("invoked");
-        EditProfileDto editProfileDto = personRepository.getEditProfileDtoByUserId(userId)
+        final EditProfileDto editProfileDto = personRepository.getEditProfileDtoByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User information for editing not found. User ID: " + userId));
         LOGGER.info("editProfileDto {}", editProfileDto);
         return editProfileDto;
@@ -89,13 +89,13 @@ public class PersonService implements UserDetailsService {
     public Person updatePersonFromEditProfileDto(final String userId, final EditProfileDto editProfileDto) {
         LOGGER.info("invoked");
 
-        String newEmail = editProfileDto.getEmail();
-        String newFirstName = editProfileDto.getFirstName();
-        String newLastName = editProfileDto.getLastName();
+        final String newEmail = editProfileDto.getEmail();
+        final String newFirstName = editProfileDto.getFirstName();
+        final String newLastName = editProfileDto.getLastName();
 
         personRepository.update(userId, newEmail, newFirstName, newLastName);
 
-        Person editedPerson = getById(userId);
+        final Person editedPerson = getById(userId);
         LOGGER.info("editedPerson {}", editedPerson);
 
         return editedPerson;
@@ -103,14 +103,14 @@ public class PersonService implements UserDetailsService {
 
     public List<UsersInfoDto> getAll() {
         LOGGER.info("invoked");
-        List<UsersInfoDto> users = personRepository.getUsersInfoDto();
+        final List<UsersInfoDto> users = personRepository.getUsersInfoDto();
         LOGGER.info("users {}", users);
         return users;
     }
 
     public UsersInfoDto getUsersInfoDto(final String userId) {
         LOGGER.info("invoked");
-        UsersInfoDto user = personRepository.getUserInfoDto(userId)
+        final UsersInfoDto user = personRepository.getUserInfoDto(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User information not found. User ID: " + userId));
 
         LOGGER.info("user {}", user);
@@ -120,7 +120,7 @@ public class PersonService implements UserDetailsService {
     @Transactional
     public void turnBlockingUser(final String userId) {
         LOGGER.info("invoked");
-        boolean enable = personRepository.getEnable(userId);
+        final boolean enable = personRepository.getEnable(userId);
         if (enable) {
             blockUser(userId);
         } else {
@@ -140,7 +140,7 @@ public class PersonService implements UserDetailsService {
 
     public List<UsersInfoDto> getBySearch(final String search) { // todo: not dependents from case
         LOGGER.info("invoked");
-        List<UsersInfoDto> users = personRepository.getBySearch(search);
+        final List<UsersInfoDto> users = personRepository.getBySearch(search);
         LOGGER.info("users {}", users);
         return users;
     }

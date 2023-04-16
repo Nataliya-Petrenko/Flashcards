@@ -34,10 +34,10 @@ public class FolderController {
                                       ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
-        String userId = principal.getName();
+        final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        List<FolderIdNameDto> foldersIdNameDto = folderService.getFoldersIdNameDtoByPersonId(userId);
+        final List<FolderIdNameDto> foldersIdNameDto = folderService.getFoldersIdNameDtoByPersonId(userId);
         LOGGER.info("List<FolderIdNameDto> ByPersonId {}", foldersIdNameDto);
         modelAndView.addObject("foldersIdNameDto", foldersIdNameDto);
 
@@ -51,7 +51,7 @@ public class FolderController {
     public ModelAndView getFolderForm(ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
-        FolderCreateDto folderCreateDto = new FolderCreateDto();
+        final FolderCreateDto folderCreateDto = new FolderCreateDto();
         LOGGER.info("new folderCreateDto {}", folderCreateDto);
         modelAndView.addObject("folderCreateDto", folderCreateDto);
 
@@ -73,10 +73,10 @@ public class FolderController {
             return modelAndView;
         }
 
-        String userId = principal.getName();
+        final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        Folder savedFolder = folderService.saveFolderCreateDtoToFolder(userId, folderCreateDto);
+        final Folder savedFolder = folderService.saveFolderCreateDtoToFolder(userId, folderCreateDto);
         LOGGER.info("savedFolder {}", savedFolder);
 
         modelAndView.setViewName("redirect:/folder");
@@ -94,11 +94,11 @@ public class FolderController {
         final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        FolderByIdDto folderByIdDto = folderService.getFolderByIdDto(userId, id);
+        final FolderByIdDto folderByIdDto = folderService.getFolderByIdDto(userId, id);
         LOGGER.info("folderByIdDto: {}", folderByIdDto);
         modelAndView.addObject("folderByIdDto", folderByIdDto);
 
-        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id);
+        final List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id);
         LOGGER.info("List<setsIdNameDto> getByFolderId: {}", setsIdNameDto);
         modelAndView.addObject("setsIdNameDto", setsIdNameDto);
 
@@ -137,7 +137,7 @@ public class FolderController {
         final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        Folder updatedFolder = folderService.updateFolderByFolderIdNameDescriptionDto(userId, folderIdNameDescriptionDto);
+        final Folder updatedFolder = folderService.updateFolderByFolderIdNameDescriptionDto(userId, folderIdNameDescriptionDto);
         LOGGER.info("updatedFolder {}", updatedFolder);
 
         String red = "redirect:/folder/" + folderIdNameDescriptionDto.getId();
@@ -152,11 +152,11 @@ public class FolderController {
 
         LOGGER.info("folder id from link: " + id);
 
-        FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderService.getFolderIdNameDescriptionDto(id);
+        final FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderService.getFolderIdNameDescriptionDto(id);
         LOGGER.info("folderIdNameDescriptionDto: {}", folderIdNameDescriptionDto);
         modelAndView.addObject("folderIdNameDescriptionDto", folderIdNameDescriptionDto);
 
-        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id);
+        final List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id);
         LOGGER.info("List<setsIdNameDto> getByFolderId: {}", setsIdNameDto);
         modelAndView.addObject("setsIdNameDto", setsIdNameDto);
 

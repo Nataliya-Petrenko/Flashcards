@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FolderRepository extends CrudRepository<Folder, String> {
-    Optional<Folder> findByName(String name);
 
     @Query("""
             SELECT new com.petrenko.flashcards.model.Folder(
@@ -22,8 +21,6 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
             WHERE f.name = :newName AND p.id = :userId
             """)
     Optional<Folder> findByUserIdAndName(String userId, String newName);
-
-    List<Folder> findByPersonId(String userId);
 
     @Query("""
             SELECT new com.petrenko.flashcards.dto.FolderIdNameDto(f.id, f.name)
@@ -43,7 +40,7 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
                 SELECT f3.timeOfCreation
                 FROM Folder f3
                 LEFT JOIN f3.person p
-                WHERE p.id = :userId AND f3.id = :folderId 
+                WHERE p.id = :userId AND f3.id = :folderId
               )
             )
             """)
@@ -106,7 +103,7 @@ public interface FolderRepository extends CrudRepository<Folder, String> {
 
     @Modifying
     @Query("""
-            UPDATE Folder f SET f.name = :newName, f.description = :newDescription 
+            UPDATE Folder f SET f.name = :newName, f.description = :newDescription
             WHERE f.person.id = :userId
             """)
     void update(String userId, String newName, String newDescription);

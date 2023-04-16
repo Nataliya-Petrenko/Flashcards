@@ -19,7 +19,6 @@ public class SetOfCards {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    //    @NotBlank(message = "Field is mandatory")
     @Type(type = "text")
     private String name;
 

@@ -42,7 +42,7 @@ public class SetController {
     public ModelAndView getCreateSetForm(ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
-        SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto();
+        final SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto();
         LOGGER.info("new setFolderNameSetNameDescriptionDto {}", setDto);
         modelAndView.addObject("setDto", setDto);
 
@@ -64,10 +64,10 @@ public class SetController {
             return modelAndView;
         }
 
-        String userId = principal.getName();
+        final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        SetOfCards savedSetOfCards = setOfCardsService.saveSetFolderNameSetNameDescriptionDto(userId, setDto);
+        final SetOfCards savedSetOfCards = setOfCardsService.saveSetFolderNameSetNameDescriptionDto(userId, setDto);
         LOGGER.info("set saved {}", savedSetOfCards);
 
         String red = "redirect:/set/" + savedSetOfCards.getId();
@@ -81,10 +81,10 @@ public class SetController {
                                    ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
-        SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto(); // todo get DTO like in Card
+        final SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto();
         LOGGER.info("new SetFolderNameSetNameDescriptionDto {}", setDto);
 
-        String folderName = folderService.getNameById(id);
+        final String folderName = folderService.getNameById(id);
         LOGGER.info("folderName getNameById {}", folderName);
 
         setDto.setFolderName(folderName);
@@ -101,12 +101,12 @@ public class SetController {
                                    ModelAndView modelAndView) {
         LOGGER.info("set id from link: {}", id);
 
-        SetViewByIdDto setViewByIdDto = setOfCardsService.getSetViewByIdDto(id);
+        final SetViewByIdDto setViewByIdDto = setOfCardsService.getSetViewByIdDto(id);
 
         LOGGER.info("setViewByIdDto: {}", setViewByIdDto);
         modelAndView.addObject("setViewByIdDto", setViewByIdDto);
 
-        List<CardIdQuestionDto> cards = cardService.getBySetId(id);
+        final List<CardIdQuestionDto> cards = cardService.getBySetId(id);
         LOGGER.info("List<CardIdQuestionDto>: {}", cards);
         modelAndView.addObject("cards", cards);
 
@@ -146,7 +146,7 @@ public class SetController {
         final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        SetOfCards savedSetOfCards = setOfCardsService.updateSetOfCardsBySetEditDto(userId, setEditDto);
+        final SetOfCards savedSetOfCards = setOfCardsService.updateSetOfCardsBySetEditDto(userId, setEditDto);
         LOGGER.info("savedSetOfCards: {}", savedSetOfCards);
 
         String red = "redirect:/set/" + setEditDto.getId();
@@ -165,7 +165,7 @@ public class SetController {
         LOGGER.info("setEditDto: {}", setEditDto);
         modelAndView.addObject("setEditDto", setEditDto);
 
-        List<CardIdQuestionDto> cards = cardService.getBySetId(id); // todo get only cardQuestion (or no) and add it to DTO for delete
+        final List<CardIdQuestionDto> cards = cardService.getBySetId(id);
         LOGGER.info("List<CardIdQuestionDto>: {}", cards);
         modelAndView.addObject("cards", cards);
 
@@ -186,7 +186,5 @@ public class SetController {
         LOGGER.info("before redirect:/folder");
         return modelAndView;
     }
-
-    // todo learning set
 
 }

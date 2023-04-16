@@ -3,8 +3,6 @@ package com.petrenko.flashcards.controller;
 import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.*;
 import com.petrenko.flashcards.service.CardService;
-import com.petrenko.flashcards.service.FolderService;
-import com.petrenko.flashcards.service.SetOfCardsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,7 @@ public class CardController {
     public ModelAndView getAllUsers(ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
-        List<CardIdQuestionDto> cards = cardService.getAll();
+        final List<CardIdQuestionDto> cards = cardService.getAll();
 
         LOGGER.info("cards {}", cards);
         modelAndView.addObject("cards", cards);
@@ -46,7 +44,7 @@ public class CardController {
                                    ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
-        List<CardIdQuestionDto> cards = cardService.getBySearch(search);
+        final List<CardIdQuestionDto> cards = cardService.getBySearch(search);
 
         LOGGER.info("cards {}", cards);
         modelAndView.addObject("cards", cards);
@@ -74,7 +72,7 @@ public class CardController {
                                                  ModelAndView modelAndView) {
         LOGGER.info("set id {}", id);
 
-        CardCreatingDto cardCreatingDto = cardService.getCardCreatingDtoBySetId(id);
+        final CardCreatingDto cardCreatingDto = cardService.getCardCreatingDtoBySetId(id);
         LOGGER.info("getCardCreatingDtoBySetId() {}", cardCreatingDto);
         modelAndView.addObject("card", cardCreatingDto);
 
@@ -96,10 +94,10 @@ public class CardController {
             return modelAndView;
         }
 
-        String userId = principal.getName();
+        final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        Card savedCard = cardService.saveCardCreatingDtoToCard(userId, cardCreatingDto);
+        final Card savedCard = cardService.saveCardCreatingDtoToCard(userId, cardCreatingDto);
         LOGGER.info("card saved {}", savedCard);
 
         String red = "redirect:/card/" + savedCard.getId();
@@ -114,7 +112,7 @@ public class CardController {
                                     ModelAndView modelAndView) {
         LOGGER.info("card id from link: {}", id);
 
-        CardByIdDto cardByIdDto = cardService.getCardByIdDto(id);
+        final CardByIdDto cardByIdDto = cardService.getCardByIdDto(id);
         modelAndView.addObject("card", cardByIdDto);
         LOGGER.info("cardByIdDto: {}", cardByIdDto);
 
@@ -128,7 +126,7 @@ public class CardController {
                                     ModelAndView modelAndView) {
         LOGGER.info("card id from link: {}", id);
 
-        CardByIdDto cardByIdDto = cardService.getCardByIdDto(id);
+        final CardByIdDto cardByIdDto = cardService.getCardByIdDto(id);
         modelAndView.addObject("card", cardByIdDto);
         LOGGER.info("cardByIdDto: {}", cardByIdDto);
 
@@ -167,7 +165,7 @@ public class CardController {
         final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        Card savedCard = cardService.updateCardByCardEditDto(userId, cardEditDto);
+        final Card savedCard = cardService.updateCardByCardEditDto(userId, cardEditDto);
         LOGGER.info("savedCard: {}", savedCard);
 
         String red = "redirect:/card/" + savedCard.getId();

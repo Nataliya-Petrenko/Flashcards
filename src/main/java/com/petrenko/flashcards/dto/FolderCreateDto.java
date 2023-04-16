@@ -10,7 +10,6 @@ import org.hibernate.annotations.Type;
 @ToString
 public class FolderCreateDto {
 
-    //    @NotBlank(message = "Field is mandatory")
     @Type(type = "text")
     private String name;
 

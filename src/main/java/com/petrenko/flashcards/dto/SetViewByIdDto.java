@@ -28,10 +28,13 @@ public class SetViewByIdDto {
 
     private String nextOrFirstSetId;
 
+    private String firstCardId;
+
     public SetViewByIdDto() {
     }
 
-    public SetViewByIdDto(String id, String name, String description, String folderId, String folderName) {
+    public SetViewByIdDto(String id, String name, String description, String folderId,
+                          String folderName) {
         this.id = id;
         this.name = name;
         this.description = description;

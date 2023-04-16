@@ -2,7 +2,9 @@ package com.petrenko.flashcards.config;
 
 import com.petrenko.flashcards.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,14 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/registration", "/info", "/", "/*/*.css").permitAll()
+                .antMatchers("/registration", "/info", "/error", "/", "/*/*.css").permitAll()
                 .anyRequest().authenticated()
                 .and()
-//                .loginPage("/signIn.html")
-//                .formLogin(f -> f
-//                        .loginPage("/signIn.html")
-//                        .permitAll())
                 .formLogin().permitAll()
+
+//                .formLogin(f -> f
+//                        .loginPage("/login")
+//                        .permitAll())
                 .and()
                 .rememberMe()
                 .and()
@@ -44,10 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable();
 
-//                        .formLogin(f -> f
-//                        .loginPage("/signin")
-//                        .permitAll()
-//                )
     }
 
     @Override
@@ -55,5 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(personService)
                 .passwordEncoder(passwordEncoder);
     }
+
+//    @Bean
+//    public AuthenticationManager authenticationManager() throws Exception {
+//        return super.authenticationManager();
+//    }
 
 }

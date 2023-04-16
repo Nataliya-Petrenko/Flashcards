@@ -29,7 +29,7 @@ public class CardService {
         cardRepository.deleteById(id);
     }
 
-    public List<CardIdQuestionDto> getBySetId(String setId) {
+    public List<CardIdQuestionDto> getBySetId(final String setId) {
         LOGGER.info("invoked");
         List<CardIdQuestionDto> cardsIdQuestionDto = cardRepository.findBySetOfCardsId(setId);
         LOGGER.info("List<CardIdQuestionDto> {}", cardsIdQuestionDto);
@@ -37,7 +37,7 @@ public class CardService {
     }
 
     @Transactional
-    public Card saveCardCreatingDtoToCard(String userId, CardCreatingDto cardCreatingDto) {
+    public Card saveCardCreatingDtoToCard(final String userId, final CardCreatingDto cardCreatingDto) {
         LOGGER.info("invoked");
 
         String folderName = cardCreatingDto.getFolderName();
@@ -61,7 +61,7 @@ public class CardService {
         return savedCard;
     }
 
-    public CardCreatingDto getCardCreatingDtoBySetId(String setId) {
+    public CardCreatingDto getCardCreatingDtoBySetId(final String setId) {
         LOGGER.info("invoked with setId {}", setId);
 
         SetNameFolderNameDto setNameFolderNameDto = setOfCardsService.getSetNameFolderNameDtoBySetId(setId);
@@ -76,11 +76,11 @@ public class CardService {
         return cardCreatingDto;
     }
 
-    public CardByIdDto getCardByIdDto(String cardId) { // todo get by single DTO
+    public CardByIdDto getCardByIdDto(final String cardId) {
         LOGGER.info("invoked with cardId {}", cardId);
 
         CardByIdDto cardByIdDto = cardRepository.getCardByIdDto(cardId)
-                .orElseThrow(() -> new IllegalArgumentException("Card not found for ID: " + cardId));
+                .orElseThrow(() -> new IllegalArgumentException("Card not found for ID: " + cardId)); // todo error if empty set
 
         String setId = cardByIdDto.getSetOfCardsId();
 
@@ -109,7 +109,7 @@ public class CardService {
         return nextOrFirstId;
     }
 
-    public CardEditDto getCardEditDto(String cardId) {
+    public CardEditDto getCardEditDto(final String cardId) {
         LOGGER.info("invoked with cardId {}", cardId);
 
         CardEditDto cardEditDto = cardRepository.getCardEditDto(cardId)
@@ -120,7 +120,7 @@ public class CardService {
     }
 
     @Transactional
-    public Card updateCardByCardEditDto(String userId, CardEditDto cardEditDto) {
+    public Card updateCardByCardEditDto(final String userId, final CardEditDto cardEditDto) {
         LOGGER.info("invoked");
 
         String folderName = cardEditDto.getFolderName();
@@ -135,7 +135,7 @@ public class CardService {
         card.setLongAnswer(cardEditDto.getLongAnswer());
         card.setSetOfCards(setOfCards);
 
-        Card savedCard = cardRepository.save(card); // todo delete get folder after checking work
+        Card savedCard = cardRepository.save(card);
 
         LOGGER.info("savedCard {}", savedCard);
 
@@ -149,7 +149,7 @@ public class CardService {
         return cards;
     }
 
-    public List<CardIdQuestionDto> getBySearch(String search) { // todo: not dependents from case
+    public List<CardIdQuestionDto> getBySearch(final String search) { // todo: not dependents from case
         LOGGER.info("invoked");
         List<CardIdQuestionDto> cards = cardRepository.getBySearch(search);
         LOGGER.info("cards {}", cards);

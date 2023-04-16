@@ -33,14 +33,14 @@ public class FolderService {
         this.personService = personService;
     }
 
-    public List<FolderIdNameDto> getFoldersIdNameDtoByPersonId(String userId) {
+    public List<FolderIdNameDto> getFoldersIdNameDtoByPersonId(final String userId) {
         LOGGER.info("invoked");
         List<FolderIdNameDto> folderIdNameDto = folderRepository.getFoldersIdNameDtoByPersonId(userId);
         LOGGER.info("folderNameIdDto {}", folderIdNameDto);
         return folderIdNameDto;
     }
 
-    public Folder saveFolderCreateDtoToFolder(String userId, FolderCreateDto folderCreateDto) {
+    public Folder saveFolderCreateDtoToFolder(final String userId, final FolderCreateDto folderCreateDto) {
         LOGGER.info("invoked");
 
         final Folder folder = getFolderWithNameOrNew(userId, folderCreateDto.getName());
@@ -54,7 +54,7 @@ public class FolderService {
         return savedFolder;
     }
 
-    public Folder getFolderWithNameOrNew(String userId, String folderName) {
+    public Folder getFolderWithNameOrNew(final String userId, final String folderName) {
         LOGGER.info("invoked");
         final Folder folder = folderRepository.findByUserIdAndName(userId, folderName)
                 .orElseGet(() -> {
@@ -68,7 +68,7 @@ public class FolderService {
     }
 
     @Transactional
-    public FolderByIdDto getFolderByIdDto(String userId, String folderId) { // todo get by single DTO
+    public FolderByIdDto getFolderByIdDto(final String userId, final String folderId) {
         LOGGER.info("invoked"); // todo fix: previous button get first and repeat
 
         FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
@@ -104,7 +104,7 @@ public class FolderService {
         return nextOrFirstFolderId;
     }
 
-    public FolderIdNameDescriptionDto getFolderIdNameDescriptionDto(String folderId) {
+    public FolderIdNameDescriptionDto getFolderIdNameDescriptionDto(final String folderId) {
         LOGGER.info("invoked");
         FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
                 .getFolderIdNameDescriptionDto(folderId)
@@ -114,7 +114,7 @@ public class FolderService {
     }
 
     @Transactional
-    public Folder updateFolderByFolderIdNameDescriptionDto(String userId, FolderIdNameDescriptionDto folderIdNameDescriptionDto) {
+    public Folder updateFolderByFolderIdNameDescriptionDto(final String userId, final FolderIdNameDescriptionDto folderIdNameDescriptionDto) {
         LOGGER.info("invoked");
 
         String newName = folderIdNameDescriptionDto.getName();
@@ -128,7 +128,7 @@ public class FolderService {
 
         folderRepository.update(userId, newName, newDescription);
 
-        Folder updatedFolder = folderRepository.findById(folderIdNameDescriptionDto.getId()) // todo delete get folder after checking work
+        Folder updatedFolder = folderRepository.findById(folderIdNameDescriptionDto.getId())
                 .orElseThrow(IllegalArgumentException::new);
 
         LOGGER.info("updatedFolder {}", updatedFolder);
@@ -136,7 +136,7 @@ public class FolderService {
     }
 
     @Transactional
-    public void deleteAllByFolderId(String folderId) {
+    public void deleteAllByFolderId(final String folderId) {
         LOGGER.info("invoked");
         List<String> setsId = folderRepository.getSetsIdByFolderId(folderId);
         setsId.forEach(s -> {
@@ -146,7 +146,7 @@ public class FolderService {
         folderRepository.deleteById(folderId);
     }
 
-    public String getNameById(String folderId) {
+    public String getNameById(final String folderId) {
         LOGGER.info("invoked");
         String folderName = folderRepository.findNameById(folderId).orElseThrow(() -> new IllegalArgumentException("Folder name not found. Folder ID: " + folderId));
         LOGGER.info("folderName {}", folderName);

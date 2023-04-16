@@ -30,20 +30,19 @@
             </div>
             <div class="card-description">
                 <p class="card-description__text second-title" th:text="|*{folderName}: *{setOfCardsName}|" title="Folder name: Set name">
-                    Folder name: Set name
                 </p>
             </div>
 <!--            into set:-->
 <!--            <h2 class="second-title set-title" th:text="|${setOfCards.folder.name}: ${setOfCards.name}|" title="Folder name: Set name">Folder name: Set name</h2>-->
 
             <div class="card question-card" title="Question">
-                    <textarea class="card__content"  th:text="|*{question}|">Question</textarea>
+                    <textarea readonly class="card__content"  th:text="|*{question}|">Question</textarea>
             </div>
             <div class="card short-answer-card" title="Short answer">
-                    <textarea class="card__content" th:text="|*{shortAnswer}|">Short answer does not exist</textarea>
+                    <textarea readonly class="card__content" th:text="|*{shortAnswer}|">Short answer does not exist</textarea>
             </div>
             <div class="card extended-answer-card" title="Extended answer">
-                    <textarea class="card__content" th:text="|*{longAnswer}|">Extended answer does not exist</textarea>
+                    <textarea readonly class="card__content" th:text="|*{longAnswer}|">Extended answer does not exist</textarea>
             </div>
         </section>
     </main>

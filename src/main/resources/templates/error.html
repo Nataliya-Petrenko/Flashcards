@@ -20,7 +20,8 @@
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
       <div class="error-view hidden-scroll">
-        <h2 class="error-title">☹</h2>
+        <h2 class="error-title-smile">☹</h2>
+        <h2 class="error-title">Something went wrong</h2>
         <div class="card error-message" th:text="|${errorMessage}|"></div>
         <a th:href="@{/folder}" class="button bg-dark no-border error-button">Back to Home</a>
       </div>

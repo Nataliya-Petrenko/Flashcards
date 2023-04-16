@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(Exception ex) {
-        LOGGER.info("invoked {}", ex.getMessage());
+        LOGGER.info("invoked {}", ex.getStackTrace());
         ModelAndView modelAndView = new ModelAndView();
 
         String message;

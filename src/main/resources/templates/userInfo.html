@@ -25,12 +25,12 @@
           <a th:href="@{/user}" class="button bg-dark dark-border auto-margin-right">Back to users</a>
 
 <!--        make if role   -->
-<!--          <div if >-->
+<!--          <div th:if="${user.role} == 'USER'">-->
 <!--            <form class="block-user" th:action="@{/user/{id}/admin(id=${user.id})}" th:method="PUT">-->
 <!--              <button class="button bg-dark dark-border auto-margin-left" type="submit">Make Admin</button>-->
 <!--            </form>-->
 <!--          </div>-->
-<!--          <div if >-->
+<!--          <div th:if="${user.role} == 'ADMIN'">-->
 <!--            <form class="block-user" th:action="@{/user/{id}/admin(id=${user.id})}" th:method="PUT">-->
 <!--              <button class="button bg-dark dark-border auto-margin-left" type="submit">Make User</button>-->
 <!--            </form>-->

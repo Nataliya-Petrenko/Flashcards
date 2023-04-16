@@ -24,7 +24,7 @@
                 <a th:href="@{/folder/{id}/(id=${setViewByIdDto.folderId})}" class="button bg-dark dark-border">Go to folder</a>
                 <a th:href="@{/set/{id}/(id=${setViewByIdDto.previousOrLastSetId})}" class="button bg-dark dark-border auto-margin-left">&#60; Previous set in this folder</a>
                 <a th:href="@{/set/{id}/(id=${setViewByIdDto.nextOrFirstSetId})}" class="button bg-dark dark-border auto-margin-right">Next set in this folder &#62;</a>
-<!--                <a href="#" class="button bg-dark dark-border">Learn (not implemented)</a>-->
+                <a th:href="@{/card/{id}/learning(id=${setViewByIdDto.firstCardId})}" class="button bg-dark dark-border">Learn</a>
                 <a th:href="@{/card/create/{id}(id=${setViewByIdDto.id})}" class="button bg-dark dark-border">New card in this set</a>
                 <a th:href="@{/set/{id}/edit(id=${setViewByIdDto.id})}" class="button bg-dark dark-border">Edit set</a>
                 <a th:href="@{/set/{id}/delete(id=${setViewByIdDto.id})}" class="button bg-dark dark-border">Delete set</a>

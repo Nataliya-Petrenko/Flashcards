@@ -99,7 +99,7 @@ public class CardController {
         String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        Card savedCard = cardService.saveCardCreatingDtoToCard(userId, cardCreatingDto); // todo delete get savedCard after checking work
+        Card savedCard = cardService.saveCardCreatingDtoToCard(userId, cardCreatingDto);
         LOGGER.info("card saved {}", savedCard);
 
         String red = "redirect:/card/" + savedCard.getId();
@@ -119,6 +119,21 @@ public class CardController {
         LOGGER.info("cardByIdDto: {}", cardByIdDto);
 
         modelAndView.setViewName("cardById");
+        LOGGER.info("before cardById.html");
+        return modelAndView;
+    }
+
+    @GetMapping("/card/{id}/learning")
+    public ModelAndView getCardByIdLearning(@PathVariable("id") String id,
+                                    ModelAndView modelAndView) {
+        LOGGER.info("card id from link: {}", id);
+
+        CardByIdDto cardByIdDto = cardService.getCardByIdDto(id);
+        modelAndView.addObject("card", cardByIdDto);
+        LOGGER.info("cardByIdDto: {}", cardByIdDto);
+
+        modelAndView.setViewName("cardLearning");
+        LOGGER.info("before cardLearning.html");
         return modelAndView;
     }
 

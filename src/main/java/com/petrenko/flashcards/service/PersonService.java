@@ -17,40 +17,38 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class PersonService implements UserDetailsService {
     private final static Logger LOGGER = LoggerFactory.getLogger(PersonService.class);
-
     private final PersonRepository personRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
+    public PersonService(final PersonRepository personRepository,
+                         final PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         LOGGER.info("invoked");
         return personRepository.findPersonByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public Person getById(String userId) {
+    public Person getById(final String userId) {
         LOGGER.info("invoked");
-        Person person = personRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found. User ID: " + userId));
+        Person person = personRepository.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("User not found. User ID: " + userId));
         LOGGER.info("Person findById {}", person);
         return person;
     }
 
-    public Person saveRegistrationPersonDtoToPerson(RegistrationPersonDto user) {
+    public Person saveRegistrationPersonDtoToPerson(final RegistrationPersonDto user) {
         LOGGER.info("invoked");
-        if (user.getPassword() == null) {               //todo Do I need it if I have validation?
+        if (user.getPassword() == null) {
             throw new IllegalArgumentException("Password is incorrect");
         }
 
@@ -79,7 +77,7 @@ public class PersonService implements UserDetailsService {
         return savedPerson;
     }
 
-    public EditProfileDto getEditProfileDtoByUserId(String userId) {
+    public EditProfileDto getEditProfileDtoByUserId(final String userId) {
         LOGGER.info("invoked");
         EditProfileDto editProfileDto = personRepository.getEditProfileDtoByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User information for editing not found. User ID: " + userId));
@@ -88,15 +86,14 @@ public class PersonService implements UserDetailsService {
     }
 
     @Transactional
-    public Person updatePersonFromEditProfileDto(String userId, EditProfileDto editProfileDto) {
+    public Person updatePersonFromEditProfileDto(final String userId, final EditProfileDto editProfileDto) {
         LOGGER.info("invoked");
 
         String newEmail = editProfileDto.getEmail();
         String newFirstName = editProfileDto.getFirstName();
         String newLastName = editProfileDto.getLastName();
-        String newAvatar = editProfileDto.getAvatar();
 
-        personRepository.update(userId, newEmail, newFirstName, newLastName, newAvatar);
+        personRepository.update(userId, newEmail, newFirstName, newLastName);
 
         Person editedPerson = getById(userId);
         LOGGER.info("editedPerson {}", editedPerson);
@@ -111,7 +108,7 @@ public class PersonService implements UserDetailsService {
         return users;
     }
 
-    public UsersInfoDto getUsersInfoDto(String userId) {
+    public UsersInfoDto getUsersInfoDto(final String userId) {
         LOGGER.info("invoked");
         UsersInfoDto user = personRepository.getUserInfoDto(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User information not found. User ID: " + userId));
@@ -121,7 +118,7 @@ public class PersonService implements UserDetailsService {
     }
 
     @Transactional
-    public void turnBlockingUser(String userId) {
+    public void turnBlockingUser(final String userId) {
         LOGGER.info("invoked");
         boolean enable = personRepository.getEnable(userId);
         if (enable) {
@@ -131,17 +128,17 @@ public class PersonService implements UserDetailsService {
         }
     }
 
-    private void blockUser(String userId) {
+    private void blockUser(final String userId) {
         LOGGER.info("invoked");
         personRepository.blockUser(userId, false);
     }
 
-    private void unblockUser(String userId) {
+    private void unblockUser(final String userId) {
         LOGGER.info("invoked");
         personRepository.blockUser(userId, true);
     }
 
-    public List<UsersInfoDto> getBySearch(String search) { // todo: not dependents from case
+    public List<UsersInfoDto> getBySearch(final String search) { // todo: not dependents from case
         LOGGER.info("invoked");
         List<UsersInfoDto> users = personRepository.getBySearch(search);
         LOGGER.info("users {}", users);

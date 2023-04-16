@@ -18,7 +18,6 @@ public class SetOfCardsService {
     private final static Logger LOGGER = LoggerFactory.getLogger(SetOfCardsService.class);
     private final SetOfCardsRepository setOfCardsRepository;
     private final CardRepository cardRepository;
-
     private final FolderService folderService;
 
     @Autowired
@@ -30,7 +29,7 @@ public class SetOfCardsService {
         this.folderService = folderService;
     }
 
-    public List<SetIdNameDto> getByFolderId(String folderId) {
+    public List<SetIdNameDto> getByFolderId(final String folderId) {
         LOGGER.info("invoked");
         List<SetIdNameDto> sets = setOfCardsRepository.getByFolderId(folderId);
         LOGGER.info("SetOfCards getByFolderId: {}", sets);
@@ -38,7 +37,8 @@ public class SetOfCardsService {
     }
 
     @Transactional
-    public SetOfCards saveSetFolderNameSetNameDescriptionDto(String userId, SetFolderNameSetNameDescriptionDto setDto) {
+    public SetOfCards saveSetFolderNameSetNameDescriptionDto(final String userId,
+                                                             final SetFolderNameSetNameDescriptionDto setDto) {
         LOGGER.info("invoked");
 
         String newFolderName = setDto.getFolderName();
@@ -54,7 +54,7 @@ public class SetOfCardsService {
         return savedSet;
     }
 
-    public SetOfCards getByNameAndFolderNameOrNew(String userId, String folderName, String setName) {
+    public SetOfCards getByNameAndFolderNameOrNew(final String userId, final String folderName, final String setName) {
         LOGGER.info("invoked");
 
         Folder folder = folderService.getFolderWithNameOrNew(userId, folderName);
@@ -72,7 +72,7 @@ public class SetOfCardsService {
     }
 
     @Transactional
-    public SetViewByIdDto getSetViewByIdDto(String setId) { // todo get by single DTO
+    public SetViewByIdDto getSetViewByIdDto(final String setId) {
         LOGGER.info("invoked with setId {}", setId);
 
         SetViewByIdDto setViewByIdDto = setOfCardsRepository
@@ -83,6 +83,7 @@ public class SetOfCardsService {
         setViewByIdDto.setPreviousOrLastSetId(getPreviousOrLastSetId(folderId, setId));// todo fix
         setViewByIdDto.setNextOrFirstSetId(getNextOrFirstSetId(folderId, setId));// todo fix
 
+        setViewByIdDto.setFirstCardId(cardRepository.getFirstId(setId).orElse(""));
         LOGGER.info("setViewByIdDto {}", setViewByIdDto);
         return setViewByIdDto;
     }
@@ -105,7 +106,7 @@ public class SetOfCardsService {
         return nextOrFirstSetId;
     }
 
-    public SetEditDto getSetEditDto(String setId) {
+    public SetEditDto getSetEditDto(final String setId) {
         LOGGER.info("invoked with setId {}", setId);
 
         SetEditDto setEditDto = setOfCardsRepository
@@ -116,7 +117,7 @@ public class SetOfCardsService {
     }
 
     @Transactional
-    public SetOfCards updateSetOfCardsBySetEditDto(String userId, SetEditDto setEditDto) {
+    public SetOfCards updateSetOfCardsBySetEditDto(final String userId, final SetEditDto setEditDto) {
         LOGGER.info("invoked");
 
         String folderName = setEditDto.getFolderName();
@@ -132,14 +133,14 @@ public class SetOfCardsService {
         setOfCardsRepository.updateDescription(setId, description);
 
         SetOfCards updatedSetOfCards = setOfCardsRepository.findById(setId)
-                .orElseThrow(IllegalArgumentException::new);      // todo delete get folder after checking work
+                .orElseThrow(IllegalArgumentException::new);
 
         LOGGER.info("updatedSetOfCards {}", updatedSetOfCards);
         return updatedSetOfCards;
     }
 
     @Transactional
-    public void deleteAllById(String setId) {
+    public void deleteAllById(final String setId) {
         LOGGER.info("invoked");
         cardRepository.deleteBySetId(setId);
         LOGGER.info("cards from set deleted {}", setId);
@@ -147,10 +148,17 @@ public class SetOfCardsService {
         LOGGER.info("set deleted {}", setId);
     }
 
-    public SetNameFolderNameDto getSetNameFolderNameDtoBySetId(String setId) {
+    public SetNameFolderNameDto getSetNameFolderNameDtoBySetId(final String setId) {
         LOGGER.info("invoked with setId {}", setId);
         SetNameFolderNameDto setNameFolderNameDto = setOfCardsRepository.getSetNameFolderNameDtoBySetId(setId);
         LOGGER.info("setNameFolderNameDto {}", setNameFolderNameDto);
         return setNameFolderNameDto;
+    }
+
+    public List<String> getSetsNameByFolderId(final String folderId) {
+        LOGGER.info("invoked with folderId {}", folderId);
+        List<String> setsName = setOfCardsRepository.getSetsNameByFolderId(folderId);
+        LOGGER.info("setsName {}", setsName);
+        return setsName;
     }
 }

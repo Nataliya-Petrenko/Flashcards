@@ -117,4 +117,12 @@ public interface SetOfCardsRepository extends CrudRepository<SetOfCards, String>
             WHERE s.id = :setId
                 """)
     SetNameFolderNameDto getSetNameFolderNameDtoBySetId(String setId);
+
+    @Query("""
+            SELECT s.name
+            FROM SetOfCards s
+            LEFT JOIN s.folder f
+            WHERE f.id = :folderId
+                """)
+    List<String> getSetsNameByFolderId(String folderId);
 }

@@ -94,7 +94,7 @@ public class FolderController {
         final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        FolderByIdDto folderByIdDto = folderService.getFolderByIdDto(userId, id); // todo get all information by single Dto
+        FolderByIdDto folderByIdDto = folderService.getFolderByIdDto(userId, id);
         LOGGER.info("folderByIdDto: {}", folderByIdDto);
         modelAndView.addObject("folderByIdDto", folderByIdDto);
 
@@ -137,7 +137,7 @@ public class FolderController {
         final String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        Folder updatedFolder = folderService.updateFolderByFolderIdNameDescriptionDto(userId, folderIdNameDescriptionDto); // todo delete get folder after checking work
+        Folder updatedFolder = folderService.updateFolderByFolderIdNameDescriptionDto(userId, folderIdNameDescriptionDto);
         LOGGER.info("updatedFolder {}", updatedFolder);
 
         String red = "redirect:/folder/" + folderIdNameDescriptionDto.getId();
@@ -156,11 +156,7 @@ public class FolderController {
         LOGGER.info("folderIdNameDescriptionDto: {}", folderIdNameDescriptionDto);
         modelAndView.addObject("folderIdNameDescriptionDto", folderIdNameDescriptionDto);
 
-//        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id); // todo get only setsName
-//        LOGGER.info("List<setsIdNameDto> getByFolderId: {}", setsIdNameDto);
-//        modelAndView.addObject("setsIdNameDto", setsIdNameDto);
-
-        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id); // todo get only setsName
+        List<SetIdNameDto> setsIdNameDto = setOfCardsService.getByFolderId(id);
         LOGGER.info("List<setsIdNameDto> getByFolderId: {}", setsIdNameDto);
         modelAndView.addObject("setsIdNameDto", setsIdNameDto);
 

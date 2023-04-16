@@ -9,11 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -39,8 +36,6 @@ public class Person implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    private String avatar;  // todo or not todo?
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -67,7 +67,7 @@ public class SetController {
         String userId = principal.getName();
         LOGGER.info("userId {}", userId);
 
-        SetOfCards savedSetOfCards = setOfCardsService.saveSetFolderNameSetNameDescriptionDto(userId, setDto); // todo delete get savedSetOfCards after checking work
+        SetOfCards savedSetOfCards = setOfCardsService.saveSetFolderNameSetNameDescriptionDto(userId, setDto);
         LOGGER.info("set saved {}", savedSetOfCards);
 
         String red = "redirect:/set/" + savedSetOfCards.getId();

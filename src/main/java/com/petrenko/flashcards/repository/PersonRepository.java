@@ -16,7 +16,7 @@ public interface PersonRepository extends CrudRepository<Person, String> {
     Optional<Person> findPersonByEmail(String email);
 
     @Query("""
-            SELECT new com.petrenko.flashcards.dto.EditProfileDto(email, firstName, lastName, avatar)
+            SELECT new com.petrenko.flashcards.dto.EditProfileDto(email, firstName, lastName)
             FROM Person
             WHERE id = :userId
             """)
@@ -24,10 +24,10 @@ public interface PersonRepository extends CrudRepository<Person, String> {
 
     @Modifying
     @Query("""
-            UPDATE Person p SET p.email = :newEmail, p.firstName = :newFirstName, p.lastName = :newLastName, p.avatar = :newAvatar
+            UPDATE Person p SET p.email = :newEmail, p.firstName = :newFirstName, p.lastName = :newLastName
             WHERE p.id = :userId
             """)
-    void update(String userId, String newEmail, String newFirstName, String newLastName, String newAvatar);
+    void update(String userId, String newEmail, String newFirstName, String newLastName);
 
     @Query("""
             SELECT new com.petrenko.flashcards.dto.UsersInfoDto(id, email, firstName, lastName, enable, role)

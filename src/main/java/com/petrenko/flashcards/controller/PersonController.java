@@ -1,6 +1,7 @@
 package com.petrenko.flashcards.controller;
 
 import com.petrenko.flashcards.dto.EditProfileDto;
+import com.petrenko.flashcards.dto.LoginPersonDto;
 import com.petrenko.flashcards.dto.RegistrationPersonDto;
 import com.petrenko.flashcards.dto.UsersInfoDto;
 import com.petrenko.flashcards.model.Person;
@@ -9,6 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +28,7 @@ import java.util.List;
 public class PersonController {
     private final static Logger LOGGER = LoggerFactory.getLogger(PersonController.class);
     private final PersonService personService;
+//    private final AuthenticationManager authenticationManager;
 
     @Autowired
     public PersonController(PersonService personService) {
@@ -59,6 +65,39 @@ public class PersonController {
         return modelAndView;
     }
 
+//    @GetMapping("/login")     // todo custom sign-in
+//    public ModelAndView getLoginForm(ModelAndView modelAndView) {
+//        LOGGER.info("invoked");
+//        LoginPersonDto loginPersonDto = new LoginPersonDto();
+//        modelAndView.addObject("loginPersonDto", loginPersonDto);
+//        LOGGER.info("new loginPersonDto() {}", loginPersonDto);
+//        modelAndView.setViewName("login");
+//        LOGGER.info("before show login_not_work.html");
+//        return modelAndView;
+//    }
+//
+//    @PostMapping("/login")
+//    public ModelAndView authenticate(@ModelAttribute("user") LoginPersonDto loginPersonDto,
+//                                     BindingResult bindingResult,
+//                                     ModelAndView modelAndView) {
+//        LOGGER.info("invoked {}", loginPersonDto);
+////        if (bindingResult.hasErrors()) {
+////            LOGGER.info("return with input error {}", loginPersonDto);
+////            modelAndView.addObject("loginPersonDto", loginPersonDto);
+////            modelAndView.setViewName("login");
+////            return modelAndView;
+////        }
+//
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(loginPersonDto.getEmail(), loginPersonDto.getPassword()));
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        modelAndView.setViewName("redirect:/folder");
+//        LOGGER.info("before redirect:/folder");
+//        return modelAndView;
+//    }
+
     @GetMapping("/profile")
     public ModelAndView getProfileForm(ModelAndView modelAndView,
                                        Principal principal) {
@@ -77,7 +116,6 @@ public class PersonController {
 
     @PutMapping("/profile/edit")
     public ModelAndView editProfile(@ModelAttribute EditProfileDto editProfileDto,
-//                                    @RequestParam("avatar") MultipartFile avatarFile,
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView,
                                     Principal principal) {
@@ -88,10 +126,6 @@ public class PersonController {
             modelAndView.setViewName("profileEdit");
             return modelAndView;
         }
-
-//        if (!editProfileDto.getAvatar().isEmpty()) {
-//            //   todo Save the photo
-//        }
 
         String userId = principal.getName();
         Person savedPerson = personService.updatePersonFromEditProfileDto(userId, editProfileDto);
@@ -152,7 +186,7 @@ public class PersonController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/user")
     public ModelAndView searchUser(@RequestParam("search") String search,
-                                 ModelAndView modelAndView) {
+                                   ModelAndView modelAndView) {
         LOGGER.info("invoked");
 
         List<UsersInfoDto> users = personService.getBySearch(search);
@@ -165,6 +199,6 @@ public class PersonController {
         return modelAndView;
     }
 
-    // todo custom sign-in
+
 
 }

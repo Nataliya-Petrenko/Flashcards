@@ -21,12 +21,9 @@
     <main class="main">
       <div class="sign-in">
         <h2 class="sign-in__title">Sign in</h2>
-        <form class="sing-in-form" th:action="@{/#}" th:object="${user}" th:method="POST">
-          <input class="input bg-light no-border dark-placeholder" type="email" th:field="*{email}" title="email" placeholder="Email" autofocus required>
-          <input class="input bg-light no-border dark-placeholder" type="password" th:field="*{password}"
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-            placeholder="Password" required>
+        <form class="sing-in-form" th:action="@{/login}" th:object="${loginPersonDto}" th:method="POST">
+          <input class="input bg-light no-border dark-placeholder" type="text" th:field="*{email}" title="email" placeholder="Email*" autofocus required>
+          <input class="input bg-light no-border dark-placeholder" type="text" th:field="*{password}" placeholder="Password*" required>
           <button class="button bg-dark dark-border" type="submit">Sign in</button>
         </form>
       </div>

@@ -18,6 +18,10 @@ public class Controller {
         return modelAndView;
     }
 
+    // todo check final
+    // check cyclic reps
+    // checking null in controller
+    // checking logic in services
 
 
 }

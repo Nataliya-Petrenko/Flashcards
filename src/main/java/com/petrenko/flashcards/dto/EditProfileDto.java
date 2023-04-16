@@ -15,12 +15,9 @@ public class EditProfileDto {
 
     private String lastName;
 
-    private String avatar;
-
-    public EditProfileDto(String email, String firstName, String lastName, String avatar) {
+    public EditProfileDto(String email, String firstName, String lastName) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.avatar = avatar;
     }
 }

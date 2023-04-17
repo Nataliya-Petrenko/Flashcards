@@ -3,6 +3,7 @@ package com.petrenko.flashcards.repository;
 import com.petrenko.flashcards.dto.EditProfileDto;
 import com.petrenko.flashcards.dto.UsersInfoDto;
 import com.petrenko.flashcards.model.Person;
+import com.petrenko.flashcards.model.Role;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -68,4 +69,18 @@ public interface PersonRepository extends CrudRepository<Person, String> {
             WHERE firstName LIKE %:search% OR lastName LIKE %:search%
             """)
     List<UsersInfoDto> getBySearch(@Param("search") String search);
+
+    @Modifying
+    @Query("""
+            UPDATE Person SET role = :newRole
+            WHERE id = :userId
+            """)
+    void updateRole(String userId, Role newRole);
+
+    @Query("""
+            SELECT role
+            FROM Person
+            WHERE id = :userId
+            """)
+    String getRole(String userId);
 }

@@ -24,19 +24,10 @@
         <div class="navigation edit-profile-navigation">
           <a th:href="@{/user}" class="button bg-dark dark-border auto-margin-right">Back to users</a>
 
-<!--        make if role   -->
-<!--          <div th:if="${user.role} == 'USER'">-->
-<!--            <form class="block-user" th:action="@{/user/{id}/admin(id=${user.id})}" th:method="PUT">-->
-<!--              <button class="button bg-dark dark-border auto-margin-left" type="submit">Make Admin</button>-->
-<!--            </form>-->
-<!--          </div>-->
-<!--          <div th:if="${user.role} == 'ADMIN'">-->
-<!--            <form class="block-user" th:action="@{/user/{id}/admin(id=${user.id})}" th:method="PUT">-->
-<!--              <button class="button bg-dark dark-border auto-margin-left" type="submit">Make User</button>-->
-<!--            </form>-->
-<!--          </div>-->
+            <form class="block-user" th:action="@{/user/{id}/role(id=${user.id})}" th:method="PUT">
+              <button class="button bg-dark dark-border auto-margin-left" type="submit">Change role (Admin/User)</button>
+            </form>
 
-<!--          -->
           <div th:if="${user.enable} == true">
           <form class="block-user" th:action="@{/user/{id}/block(id=${user.id})}" th:method="PUT">
             <button class="button decline-button no-border" type="submit">Block user</button>

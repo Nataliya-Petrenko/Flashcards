@@ -138,10 +138,33 @@ public class PersonService implements UserDetailsService {
         personRepository.blockUser(userId, true);
     }
 
-    public List<UsersInfoDto> getBySearch(final String search) { // todo: not dependents from case
+    @Transactional
+    public void changeRoleUser(final String userId) {
+        LOGGER.info("invoked");
+        String role = personRepository.getRole(userId);
+        if (role.equals("USER")) {
+            makeAdmin(userId);
+        } else {
+            makeUser(userId);
+        }
+    }
+
+    public void makeAdmin(String userId) {
+        LOGGER.info("invoked");
+        personRepository.updateRole(userId, Role.ADMIN);
+    }
+
+    public void makeUser(String userId) {
+        LOGGER.info("invoked");
+        personRepository.updateRole(userId, Role.USER);
+    }
+
+    public List<UsersInfoDto> getBySearch(final String search) {
         LOGGER.info("invoked");
         final List<UsersInfoDto> users = personRepository.getBySearch(search);
         LOGGER.info("users {}", users);
         return users;
     }
+
+
 }

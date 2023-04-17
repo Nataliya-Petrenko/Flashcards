@@ -130,12 +130,28 @@ public class PersonController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/user/{id}/block")
-    public ModelAndView editCard(@PathVariable("id") String id,
+    public ModelAndView makeBlock(@PathVariable("id") String id,
                                  ModelAndView modelAndView) {
         LOGGER.info("invoked with id: {}", id);
 
         personService.turnBlockingUser(id);
         LOGGER.info("user blocked/unblocked");
+
+        String red = "redirect:/user/" + id;
+        modelAndView.setViewName(red);
+        LOGGER.info("before {}", red);
+
+        return modelAndView;
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/user/{id}/role")
+    public ModelAndView makeAdmin(@PathVariable("id") String id,
+                                  ModelAndView modelAndView) {
+        LOGGER.info("invoked with id: {}", id);
+
+        personService.changeRoleUser(id);
+        LOGGER.info("user role is turned (user/admin)");
 
         String red = "redirect:/user/" + id;
         modelAndView.setViewName(red);

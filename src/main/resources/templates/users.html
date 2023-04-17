@@ -34,16 +34,6 @@
                 <p th:text="|${user.lastName}|"></p>
               </div>
               <p class="auto-margin" th:text="|${user.email}|">UserEmail@gmail.com</p>
-
-<!--              not work -->
-<!--              <div th:if="${user.role} == 'USER'">-->
-<!--                  <p class="button bg-dark dark-border">Admin</p>-->
-<!--              </div>-->
-<!--              <div th:if="${user.role} == 'ADMIN'>-->
-<!--                  <p class="button bg-dark dark-border">User</p>-->
-<!--              </div>-->
-
-
               <div th:if="${user.enable} == false">
                 <p class="button complaint">blocked</p>
               </div>

@@ -1,6 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="en">
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
   <meta charset="UTF-8">
@@ -21,14 +22,17 @@
     <main class="main">
       <div class="sign-in">
         <h2 class="sign-in__title">Sign in</h2>
-        <form class="sing-in-form" th:action="@{/login}" th:object="${loginPersonDto}" th:method="POST">
-          <input class="input bg-light no-border dark-placeholder" type="text" th:field="*{email}" title="email" placeholder="Email*" autofocus required>
-          <input class="input bg-light no-border dark-placeholder" type="text" th:field="*{password}" placeholder="Password*" required>
-          <button class="button bg-dark dark-border" type="submit">Sign in</button>
-        </form>
+          <form class="sing-in-form" method="post" action="/login">
+              <p>
+              <input type="text" id="username" name="username" class="input bg-light no-border dark-placeholder" placeholder="Username" required="" autofocus="">
+            </p>
+            <p>
+              <input type="password" id="password" name="password" class="input bg-light no-border dark-placeholder" placeholder="Password" required="">
+            </p>
+              <button class="button bg-dark dark-border" type="submit">Sign in</button>
+          </form>
       </div>
     </main>
   </div>
 </body>
-
 </html>

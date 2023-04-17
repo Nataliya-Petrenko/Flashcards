@@ -59,6 +59,13 @@ public class PersonController {
         return modelAndView;
     }
 
+    @GetMapping("/login")
+    public ModelAndView loginPage(ModelAndView modelAndView) {
+        LOGGER.info("invoked");
+        modelAndView.setViewName("login");
+        return modelAndView;
+    }
+
     @GetMapping("/profile")
     public ModelAndView getProfileForm(ModelAndView modelAndView,
                                        Principal principal) {

@@ -1,0 +1,82 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/normalize.css}">
+  <link rel="stylesheet" th:href="@{/css/variables.css}">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/shared.css}">
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/edit-profile-view.css}">
+  <title>Flashcards</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+    <main class="main">
+      <div class="edit-profile-view hidden-scroll">
+        <div class="navigation edit-profile-navigation">
+          <a th:href="@{/user}" class="button bg-dark dark-border auto-margin-right">Back to users</a>
+
+            <form class="block-user" th:action="@{/user/{id}/role(id=${user.id})}" th:method="PUT">
+              <button class="button bg-dark dark-border auto-margin-left" type="submit">Change role (Admin/User)</button>
+            </form>
+
+          <div th:if="${user.enable} == true">
+          <form class="block-user" th:action="@{/user/{id}/block(id=${user.id})}" th:method="PUT">
+            <button class="button decline-button no-border" type="submit">Block user</button>
+          </form>
+          </div>
+          <div th:if="${user.enable} == false">
+          <form class="block-user" th:action="@{/user/{id}/block(id=${user.id})}" th:method="PUT">
+            <button class="button accept-button no-border" type="submit">Unblock user</button>
+          </form>
+          </div>
+
+        </div>
+        <div class="card edit-profile-form user-info-card" th:object="${user}">
+
+
+          <img class="user-photo" src="../../../images/user-image.png" alt="user photo">
+          <span class="tooltip-text"></span>
+
+          <div class="user-info-card__info-block">
+            <h2 class="user-info-card__title bold-text">
+              Personal information:
+            </h2>
+            <ul class="user-info-card__info-list">
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">First name:</span>
+                <p th:text="*{firstName}"></p>
+              </li>
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">Last name:</span>
+                <p th:text="*{lastName}"></p>
+              </li>
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">Email:</span>
+                <p th:text="*{email}"></p>
+              </li>
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">Role:</span>
+                <p th:text="*{role}"></p>
+              </li>
+              <li class="user-info-card__info-list-item">
+                <span class="caption-text">Enable:</span>
+                <p th:text="*{enable}"></p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

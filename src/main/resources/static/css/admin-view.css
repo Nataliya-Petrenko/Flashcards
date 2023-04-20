@@ -1,0 +1,55 @@
+.admin-view {
+  align-self: start;
+  width: 100%;
+  max-width: var(--content-width);
+  max-height: 100%;
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  gap: var(--g-20);
+  grid-template-areas:
+    "search-form"
+    "users-card";
+  overflow-y: auto;
+}
+
+.search-form {
+  grid-area: search-form;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--g-20);
+}
+
+.search-form__input {
+  height: 100%;
+  flex-grow: 1;
+  padding: 0 0.5rem;
+}
+
+.users-card {
+  grid-area: users-card;
+}
+
+.users-card-content {
+  display: grid;
+  gap: var(--g-20);
+  grid-auto-rows: max-content;
+}
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--g-20);
+}
+
+.user-name {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.complaint {
+  color: var(--decline-button-color);
+  font-weight: 900;
+  border: 1px solid var(--decline-button-color);
+}

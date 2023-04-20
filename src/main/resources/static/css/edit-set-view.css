@@ -1,0 +1,38 @@
+.edit-set-view {
+  width: 100%;
+  max-width: 900px;
+  height: 100%;
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  gap: var(--g-20);
+  grid-template-areas:
+    "edit-set-navigation"
+    "set-edit-form";
+}
+
+.edit-set-navigation {
+  grid-area: edit-set-navigation;
+}
+
+.set-edit-form {
+  grid-area: set-edit-form;
+  display: grid;
+  grid-template-rows: repeat(2, max-content) 1fr;
+  gap: var(--g-20);
+  grid-template-areas:
+    "folder-name"
+    "set-name"
+    "set-description";
+}
+
+.set-name {
+  grid-area: set-name;
+}
+
+.folder-name {
+  grid-area: folder-name;
+}
+
+.set-description {
+  grid-area: set-description;
+}

@@ -1,0 +1,34 @@
+.complaint-view {
+  align-self: start;
+  width: 100%;
+  max-width: 900px;
+  max-height: 100%;
+  display: grid;
+  grid-template-rows: var(--navigation-height) max-content;
+  gap: var(--g-20);
+  grid-template-areas:
+    "complaint-navigation"
+    "complaint-form";
+  overflow-y: auto;
+}
+
+.complaint-navigation {
+  grid-area: complaint-navigation;
+}
+
+.complaint-form {
+  grid-area: complaint-form;
+  display: grid;
+  gap: var(--g-20);
+  grid-auto-rows: max-content;
+}
+
+.complaint-for-card {
+  display: flex;
+  align-items: center;
+  gap: var(--g-20);
+}
+
+.complaint-text {
+  resize: vertical;
+}

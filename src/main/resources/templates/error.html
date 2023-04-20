@@ -1,0 +1,32 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/normalize.css}">
+  <link rel="stylesheet" th:href="@{/css/variables.css}">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/shared.css}">
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/error-view.css}">
+  <title>Flashcards</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+    <main class="main">
+      <div class="error-view hidden-scroll">
+        <h2 class="error-title-smile">☹</h2>
+        <h2 class="error-title">Something went wrong</h2>
+        <div class="card error-message" th:text="|${errorMessage}|"></div>
+        <a th:href="@{/folder}" class="button bg-dark no-border error-button">Back to Home</a>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

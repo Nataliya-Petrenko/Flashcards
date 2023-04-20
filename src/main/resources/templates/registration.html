@@ -1,0 +1,41 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/normalize.css}">
+  <link rel="stylesheet" th:href="@{/css/variables.css}">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/shared.css}">
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/sign-in-view.css}">
+  <title>Flashcards</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+    <main class="main">
+      <div class="sign-in">
+        <h2 class="sign-in__title">Sign up</h2>
+        <form class="sing-in-form" th:action="@{/registration}" th:object="${registrationPersonDto}" th:method="POST">
+          <input class="input bg-light no-border dark-placeholder" type="text" th:field="*{firstName}" placeholder="First name">
+          <input class="input bg-light no-border dark-placeholder" type="text" th:field="*{lastName}" placeholder="Last name">
+          <input class="input bg-light no-border dark-placeholder" type="email" th:field="*{email}"
+                 pattern="^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$"
+          placeholder="Email *" required autofocus>
+          <input class="input bg-light no-border dark-placeholder" type="password" th:field="*{password}"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                 placeholder="Password *" required>
+          <button class="button bg-dark dark-border" type="submit">Sign up</button>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

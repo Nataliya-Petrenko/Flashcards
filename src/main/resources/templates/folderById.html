@@ -1,0 +1,51 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/variables.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/shared.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/folder-view.css}">
+  <title>Flashcards</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+      <main class="main">
+          <div class="folder-view" th:object="${folderByIdDto}">
+              <div class="navigation folder-navigation">
+                  <a th:href="@{/folder}" class="button bg-dark dark-border">Go to all folders</a>
+                  <a th:href="@{/folder/{id}(id=*{previousOrLastFolderId})}" class="button bg-dark dark-border auto-margin-left">&#60; Previous folder</a>
+                  <a th:href="@{/folder/{id}(id=*{nextOrFirstFolderId})}" class="button bg-dark dark-border auto-margin-right">Next folder &#62;</a>
+                  <a th:href="@{/set/create/{id}(id=*{id})}" class="button bg-dark dark-border">New set in this folder</a>
+                  <a th:href="@{/folder/{id}/edit(id=*{id})}" class="button bg-dark dark-border">Edit folder</a>
+                  <a th:href="@{/folder/{id}/delete(id=*{id})}" class="button bg-dark dark-border">Delete folder</a>
+              </div>
+              <h2 class="second-title folder-title" th:text="|*{name}|" title="Folder name"></h2>
+              <div class="card folder-description">
+                  <p class="folder-description__text" th:text="|*{description}|" title="Folder description"></p>
+              </div>
+              <div class="card folder-card">
+                  <div class="card__content folder-card__content" title="Sets">
+                      <div class="card border-card card-in-set" th:each="set : ${setsIdNameDto}">
+                          <p th:text="|${set.name}|" title="Set name"></p>
+                          <div class="card-buttons">
+                              <a th:href="@{/set/{id}(id=${set.id})}" class="button bg-dark no-border">Show set</a>
+                              <a th:href="@{/set/{id}/delete(id=${set.id})}" class="button bg-dark no-border">Delete set</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </main>
+  </div>
+</body>
+
+</html>

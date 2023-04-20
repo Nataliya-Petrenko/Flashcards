@@ -1,0 +1,37 @@
+.error-view {
+  width: 100%;
+  max-width: 500px;
+  max-height: 100%;
+  display: grid;
+  grid-template-rows: max-content 1fr max-content;
+  gap: var(--g-20);
+  grid-template-areas:
+    "error-title-smile"
+    "error-title"
+    "error-message"
+    "error-button";
+  overflow-y: auto;
+}
+
+.error-title-smile {
+  grid-area: error-title-smile;
+  justify-self: center;
+  font-size: 8rem;
+  color: var(--decline-button-color);
+}
+
+.error-title {
+  grid-area: error-title;
+  justify-self: center;
+  font-size: 2rem;
+  color: var(--decline-button-color);
+}
+
+.error-message {
+  grid-area: error-message;
+}
+
+.error-button {
+  grid-area: error-button;
+  justify-self: center;
+}

@@ -1,0 +1,77 @@
+.card-edit-view {
+  overflow: hidden;
+  width: 100%;
+  max-width: var(--content-width);
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, max-content) repeat(5, 1fr);
+  gap: var(--g-20);
+  grid-template-areas:
+    "card-edit-navigation card-edit-navigation"
+    "folder-card extended-answer-card"
+    "set-card extended-answer-card"
+    "question-card extended-answer-card"
+    "question-card extended-answer-card"
+    "short-answer-card extended-answer-card"
+    "short-answer-card extended-answer-card"
+    "short-answer-card extended-answer-card";
+}
+
+.card-edit-navigation {
+  grid-area: card-edit-navigation;
+}
+
+.folder-card {
+  grid-area: folder-card;
+}
+
+.set-card {
+  grid-area: set-card;
+}
+
+.folder-card,
+.folder-card::placeholder,
+.set-card,
+.set-card::placeholder {
+  line-height: normal;
+  display: flex;
+  align-items: center;
+}
+
+.question-card {
+  grid-area: question-card;
+}
+
+.short-answer-card {
+  grid-area: short-answer-card;
+}
+
+.keywords-card {
+  grid-area: keywords-card;
+}
+
+.extended-answer-card {
+  grid-area: extended-answer-card;
+}
+
+.priority-card {
+  grid-area: priority-card;
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-10);
+}
+
+.knowledge-level-card {
+  grid-area: knowledge-level-card;
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-10);
+}
+
+.priority-card__list,
+.knowledge-level__list {
+  display: flex;
+  gap: var(--g-20);
+  flex-wrap: wrap;
+}

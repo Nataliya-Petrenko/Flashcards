@@ -1,0 +1,29 @@
+.all-folders-view {
+  align-self: start;
+  width: 100%;
+  max-width: var(--content-width);
+  max-height: 100%;
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  gap: var(--g-20);
+  grid-template-areas:
+    "all-folders-navigation"
+    "all-folders-card";
+}
+
+.all-folders-navigation {
+  grid-area: all-folders-navigation;
+}
+
+.all-folders-card {
+  grid-area: all-folders-card;
+}
+
+.all-folders-card__content {
+  height: 100%;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: max-content;
+  gap: var(--g-20);
+}

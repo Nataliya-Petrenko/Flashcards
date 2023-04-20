@@ -1,0 +1,89 @@
+.learning-view {
+  width: 100%;
+  max-width: 900px;
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(2, max-content) 1fr max-content;
+  gap: var(--g-20);
+  grid-template-areas:
+    "learning-navigation"
+    "learning-set-name"
+    "learning-card"
+    "cards-navigation";
+  align-items: center;
+  overflow-y: auto;
+}
+
+.learning-navigation {
+  grid-area: learning-navigation;
+}
+
+.learning-title {
+  text-align: center;
+}
+
+.learning-card {
+  grid-area: learning-card;
+  justify-self: center;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr max-content;
+  gap: var(--g-20);
+}
+
+.learning-cards {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.learning-cards::-webkit-scrollbar {
+  display: none;
+}
+
+.learning-cards > div {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+.card__navigation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.card-keywords-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--g-20);
+}
+
+.learning-card__buttons {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-20);
+}
+
+.cards-navigation {
+  grid-area: cards-navigation;
+  display: flex;
+  justify-content: center;
+  gap: calc(var(--g-20) * 2);
+}
+
+.learning-button {
+  width: 200px;
+}
+
+.content {
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: normal;
+  line-height: inherit;
+}

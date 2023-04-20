@@ -1,0 +1,47 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/normalize.css}">
+  <link rel="stylesheet" th:href="@{/css/variables.css}">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/shared.css}">
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/edit-set-view.css}">
+  <title>Flashcards</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header" th:insert="header :: header_fragment"></header>
+      <main class="main">
+          <div class="edit-set-view hidden-scroll">
+              <div class="navigation edit-set-navigation">
+                  <a th:href="@{/folder/{id}(id=${setEditDto.folderId})}" class="button bg-dark dark-border">Go to folder</a>
+                  <button class="button bg-dark dark-border auto-margin-left" type="reset">Clear</button>
+                  <button class="button bg-dark dark-border" type="submit" form="set-edit-form">Save</button>
+              </div>
+              <form class="set-edit-form" id="set-edit-form" th:action="@{/set/{id}/edit(id=${setEditDto.id})}" th:object="${setEditDto}" th:method="PUT">
+                  <div class="card folder-name">
+                      <input class="card__content dark-placeholder" type="text" title="Folder name"
+                             th:field="*{folderName}" placeholder="Enter folder name *" required>
+                  </div>
+                  <div class="card set-name">
+                      <input class="card__content dark-placeholder" type="text" title="Set name"
+                             th:field="*{name}" placeholder="Enter set name *" required>
+                  </div>
+                  <div class="card set-description">
+            <textarea class="card__content" title="Set description"
+                      th:field="*{description}" placeholder="Enter set description"></textarea>
+                  </div>
+              </form>
+          </div>
+      </main>
+  </div>
+</body>
+
+</html>

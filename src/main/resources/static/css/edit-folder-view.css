@@ -1,0 +1,34 @@
+.folder-edit-view {
+  width: 100%;
+  max-width: 900px;
+  height: 100%;
+  display: grid;
+  grid-template-rows: max-content minmax(max-content, 1fr);
+  gap: var(--g-20);
+  grid-template-areas:
+    "folder-edit-view-nav"
+    "folder-edit-form";
+  overflow-y: auto;
+}
+
+.folder-edit-view-nav {
+  grid-area: folder-edit-view-nav;
+}
+
+.folder-edit-form {
+  grid-area: folder-edit-form;
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  grid-template-areas:
+    "folder-name"
+    "folder-description";
+  gap: var(--g-20);
+}
+
+.folder-name {
+  grid-area: folder-name;
+}
+
+.folder-description {
+  grid-area: folder-description;
+}

@@ -1,6 +1,6 @@
 # Flashcards
 
-## What are Flashcards?
+## What is Flashcards?
 
 Flashcards are a tool used for organizing information, learning, and memorization. Flashcards usually consist of a question (or term) and an answer (or definition). This version of Flashcards also has a third side with the option to display an expanded answer with additional explanations. However, if you don't need the expanded answer, you can choose not to use it.
 

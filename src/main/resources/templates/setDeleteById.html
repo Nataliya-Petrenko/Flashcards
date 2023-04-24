@@ -19,10 +19,10 @@
 <div class="wrapper">
     <header class="header" th:insert="header :: header_fragment"></header>
     <main class="main">
-        <div class="set-view">
+        <div class="set-view" th:object="${setEditDto}">
             <nav class="navigation set-navigation">
                 <a th:href="@{/folder/{id}/(id=${setEditDto.folderId})}" class="button bg-dark dark-border auto-margin-right">&#60; Go to folder</a>
-                <form th:action="@{/set/{id}/delete(id=${setEditDto.id})}" th:object="${setEditDto}" th:method="DELETE">
+                <form th:action="@{/set/{id}/delete(id=${setEditDto.id})}" th:method="DELETE">
                     <button class="button bg-dark dark-border auto-margin-left" type="submit">Yes, delete set</button>
                 </form>
                 <a class="button bg-dark dark-border" th:href="@{/set/{id}(id=*{id})}">No, back to set</a>

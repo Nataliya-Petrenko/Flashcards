@@ -321,3 +321,8 @@ a {
 .multi-text{
 word-break: break-word;
 }
+
+.image {
+  max-width: 100%;
+  height:auto
+}

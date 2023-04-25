@@ -170,16 +170,18 @@ To start work, run the application and go to the page http://localhost:8081.
 ## Technologies
 The following technologies were used in the creation of this application: 
 
-Java, 
+<li>Java, 
 
-Postgresql, 
+<li>Postgresql, 
 
-Spring (Boot, Core, Data, Web, MVC, Security), 
+<li>Spring (Boot, Core, Data, Web, MVC, Security), 
 
-Lombok, 
+<li>Lombok, 
 
-Thymeleaf, 
+<li>Flyway,
 
-HTML, CSS.
+<li>Thymeleaf, 
+
+<li>HTML, CSS.
 
 ## The web application is under development.

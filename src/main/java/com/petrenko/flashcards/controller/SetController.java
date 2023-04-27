@@ -40,14 +40,9 @@ public class SetController {
 
     @GetMapping("/set/create")
     public ModelAndView getCreateSetForm(ModelAndView modelAndView) {
-        LOGGER.info("invoked");
-
         final SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto();
-        LOGGER.info("new setFolderNameSetNameDescriptionDto {}", setDto);
         modelAndView.addObject("setDto", setDto);
-
         modelAndView.setViewName("setCreate");
-        LOGGER.info("before show setCreate.html");
         return modelAndView;
     }
 
@@ -56,43 +51,31 @@ public class SetController {
                                    BindingResult bindingResult,
                                    Principal principal,
                                    ModelAndView modelAndView) {
-        LOGGER.info("SetFolderNameSetNameDescriptionDto from form {}", setDto);
+        LOGGER.trace("SetFolderNameSetNameDescriptionDto from form {}", setDto);
         if (bindingResult.hasErrors()) {
-            LOGGER.info("return with input error {}", setDto);
+            LOGGER.error("return with input error {}", setDto);
             modelAndView.addObject("setDto", setDto);
             modelAndView.setViewName("setCreate");
             return modelAndView;
         }
-
         final String userId = principal.getName();
-        LOGGER.info("userId {}", userId);
-
+        LOGGER.trace("userId {}", userId);
         final SetOfCards savedSetOfCards = setOfCardsService.saveSetFolderNameSetNameDescriptionDto(userId, setDto);
-        LOGGER.info("set saved {}", savedSetOfCards);
 
-        String red = "redirect:/set/" + savedSetOfCards.getId();
-        modelAndView.setViewName(red);
-        LOGGER.info("before {}", red);
+        modelAndView.setViewName("redirect:/set/" + savedSetOfCards.getId());
         return modelAndView;
     }
 
     @GetMapping("/set/create/{id}")  // with fill folder name by setId
     public ModelAndView getSetForm(@PathVariable("id") String id,
                                    ModelAndView modelAndView) {
-        LOGGER.info("invoked");
-
+        LOGGER.info("invoked with folder id {}", id);
         final SetFolderNameSetNameDescriptionDto setDto = new SetFolderNameSetNameDescriptionDto();
-        LOGGER.info("new SetFolderNameSetNameDescriptionDto {}", setDto);
-
         final String folderName = folderService.getNameById(id);
-        LOGGER.info("folderName getNameById {}", folderName);
-
         setDto.setFolderName(folderName);
-
         modelAndView.addObject("setDto", setDto);
 
         modelAndView.setViewName("setCreate");
-        LOGGER.info("before show setCreate");
         return modelAndView;
     }
 
@@ -102,16 +85,12 @@ public class SetController {
         LOGGER.info("set id from link: {}", id);
 
         final SetViewByIdDto setViewByIdDto = setOfCardsService.getSetViewByIdDto(id);
-
-        LOGGER.info("setViewByIdDto: {}", setViewByIdDto);
         modelAndView.addObject("setViewByIdDto", setViewByIdDto);
 
         final List<CardIdQuestionDto> cards = cardService.getBySetId(id);
-        LOGGER.info("List<CardIdQuestionDto>: {}", cards);
         modelAndView.addObject("cards", cards);
 
         modelAndView.setViewName("setById");
-        LOGGER.info("before show setById.html");
         return modelAndView;
     }
 
@@ -120,13 +99,9 @@ public class SetController {
     public ModelAndView getSetEditForm(@PathVariable("id") String id,
                                        ModelAndView modelAndView) {
         LOGGER.info("set id from link: {}", id);
-
         final SetEditDto setEditDto = setOfCardsService.getSetEditDto(id);
-        LOGGER.info("setEditDto: {}", setEditDto);
         modelAndView.addObject("setEditDto", setEditDto);
-
         modelAndView.setViewName("setEdit");
-        LOGGER.info("before show setEdit.html");
         return modelAndView;
     }
 
@@ -137,22 +112,15 @@ public class SetController {
                                 ModelAndView modelAndView) {
         LOGGER.info("setEditDto from form: {}", setEditDto);
         if (bindingResult.hasErrors()) {
-            LOGGER.info("return with input error {}", setEditDto);
+            LOGGER.error("return with input error {}", setEditDto);
             modelAndView.addObject("setEditDto", setEditDto);
             modelAndView.setViewName("setEdit");
             return modelAndView;
         }
-
         final String userId = principal.getName();
-        LOGGER.info("userId {}", userId);
-
+        LOGGER.trace("userId {}", userId);
         final SetOfCards savedSetOfCards = setOfCardsService.updateSetOfCardsBySetEditDto(userId, setEditDto);
-        LOGGER.info("savedSetOfCards: {}", savedSetOfCards);
-
-        String red = "redirect:/set/" + setEditDto.getId();
-        modelAndView.setViewName(red);
-        LOGGER.info("before {}", red);
-
+        modelAndView.setViewName("redirect:/set/" + setEditDto.getId());
         return modelAndView;
     }
 
@@ -160,17 +128,13 @@ public class SetController {
     public ModelAndView getSetDeleteForm(@PathVariable("id") String id,
                                          ModelAndView modelAndView) {
         LOGGER.info("set id from link: {}", id);
-
         final SetEditDto setEditDto = setOfCardsService.getSetEditDto(id);
-        LOGGER.info("setEditDto: {}", setEditDto);
         modelAndView.addObject("setEditDto", setEditDto);
 
         final List<CardIdQuestionDto> cards = cardService.getBySetId(id);
-        LOGGER.info("List<CardIdQuestionDto>: {}", cards);
         modelAndView.addObject("cards", cards);
 
         modelAndView.setViewName("setDeleteById");
-        LOGGER.info("before show setDeleteById.html");
         return modelAndView;
     }
 
@@ -178,12 +142,8 @@ public class SetController {
     public ModelAndView deleteSet(@PathVariable("id") String id,
                                   ModelAndView modelAndView) {
         LOGGER.info("set id from link: {}", id);
-
         setOfCardsService.deleteAllById(id);
-        LOGGER.info("setOfCards is deleted");
-
         modelAndView.setViewName("redirect:/folder");
-        LOGGER.info("before redirect:/folder");
         return modelAndView;
     }
 

@@ -26,21 +26,18 @@ public class CardService {
     }
 
     public void deleteById(final String id) {
-        LOGGER.info("invoked");
         cardRepository.deleteById(id);
+        LOGGER.info("card with id: '{}' deleted", id);
     }
 
     public List<CardIdQuestionDto> getBySetId(final String setId) {
-        LOGGER.info("invoked");
         final List<CardIdQuestionDto> cardsIdQuestionDto = cardRepository.findBySetOfCardsId(setId);
-        LOGGER.info("List<CardIdQuestionDto> {}", cardsIdQuestionDto);
+        LOGGER.info("List<CardIdQuestionDto> for setId '{}': {}", setId, cardsIdQuestionDto);
         return cardsIdQuestionDto;
     }
 
     @Transactional
     public Card saveCardCreatingDtoToCard(final String userId, final CardCreatingDto cardCreatingDto) {
-        LOGGER.info("invoked");
-
         final String folderName = cardCreatingDto.getFolderName();
         final String setName = cardCreatingDto.getSetOfCardsName();
 
@@ -58,7 +55,7 @@ public class CardService {
 
         final Card savedCard = cardRepository.save(card);
 
-        LOGGER.info("savedCard {}", savedCard);
+        LOGGER.info("For userId '{}' and CardCreatingDto '{}' was savedCard '{}'", userId, cardCreatingDto, savedCard);
         return savedCard;
     }
 
@@ -93,7 +90,7 @@ public class CardService {
     }
 
     private String getPreviousOrLastCardId(final String setId, final String cardId) {
-        LOGGER.info("invoked");
+        LOGGER.info("invoked with setId '{}' and cardId '{}'", setId, cardId);
         final String previousOrLastId = cardRepository.getPreviousId(setId, cardId)
                 .orElse(cardRepository.getLastId(setId)
                         .orElseThrow(() -> new IllegalArgumentException("Unable to find any previous or last card " +
@@ -103,7 +100,7 @@ public class CardService {
     }
 
     private String getNextOrFirstCardId(final String setId, final String cardId) {
-        LOGGER.info("invoked");
+        LOGGER.info("invoked with setId '{}' and cardId '{}'", setId, cardId);
         final String nextOrFirstId = cardRepository.getNextId(setId, cardId)
                 .orElse(cardRepository.getFirstId(setId)
                         .orElseThrow(() -> new IllegalArgumentException("Unable to find any next or first card " +
@@ -125,7 +122,7 @@ public class CardService {
 
     @Transactional
     public Card updateCardByCardEditDto(final String userId, final CardEditDto cardEditDto) {
-        LOGGER.info("invoked");
+        LOGGER.info("invoked with userId '{}' and cardEditDto '{}'", userId, cardEditDto);
 
         final String folderName = cardEditDto.getFolderName();
         final String setName = cardEditDto.getSetOfCardsName();
@@ -140,33 +137,30 @@ public class CardService {
         card.setSetOfCards(setOfCards);
 
         final Card savedCard = cardRepository.save(card);
-
         LOGGER.info("savedCard {}", savedCard);
 
         return savedCard;
     }
 
     public List<CardIdQuestionDto> getAll() {
-        LOGGER.info("invoked");
         final List<CardIdQuestionDto> cards = cardRepository.getAll();
         LOGGER.info("cards {}", cards);
         return cards;
     }
 
     public List<CardIdQuestionDto> getBySearch(final String search) {
-        LOGGER.info("invoked");
         final List<CardIdQuestionDto> cards = cardRepository.getBySearch(search);
-        LOGGER.info("cards {}", cards);
+        LOGGER.info("for search '{}': cards {}", search, cards);
         return cards;
     }
 
     public Optional<String> getFirstId(String setId) {
-        LOGGER.info("invoked");
+        LOGGER.info("invoked for setId '{}'", setId);
         return cardRepository.getFirstId(setId);
     }
 
     public void deleteBySetId(String setId) {
-        LOGGER.info("invoked");
         cardRepository.deleteBySetId(setId);
+        LOGGER.info("deleted cards with setId '{}'", setId);
     }
 }

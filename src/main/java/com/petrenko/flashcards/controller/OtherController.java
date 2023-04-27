@@ -13,7 +13,6 @@ public class OtherController {
 
     @GetMapping("/info")
     public ModelAndView getInfo(ModelAndView modelAndView) {
-        LOGGER.info("invoked");
         modelAndView.setViewName("info");
         return modelAndView;
     }

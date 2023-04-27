@@ -32,15 +32,14 @@ public class FolderService {
     }
 
     public List<FolderIdNameDto> getFoldersIdNameDtoByPersonId(final String userId) {
-        LOGGER.info("invoked");
         final List<FolderIdNameDto> folderIdNameDto = folderRepository.getFoldersIdNameDtoByPersonId(userId);
-        LOGGER.info("folderNameIdDto {}", folderIdNameDto);
+        LOGGER.info("folderNameIdDto '{}' for userId '{}'", folderIdNameDto, userId);
         return folderIdNameDto;
     }
 
     @Transactional
     public Folder saveFolderCreateDtoToFolder(final String userId, final FolderCreateDto folderCreateDto) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}' and folderCreateDto '{}'", userId, folderCreateDto);
 
         final Folder folder = getFolderWithNameOrNew(userId, folderCreateDto.getName());
         LOGGER.info("getFolderWithNameOrNew {}", folder);
@@ -55,7 +54,7 @@ public class FolderService {
 
 
     public Folder getFolderWithNameOrNew(final String userId, final String folderName) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}' and folderName '{}'", userId, folderName);
         final Folder folder = folderRepository.findByUserIdAndName(userId, folderName)
                 .orElseGet(() -> {
                     Folder newFolder = new Folder();
@@ -69,7 +68,7 @@ public class FolderService {
 
     @Transactional
     public FolderByIdDto getFolderByIdDto(final String userId, final String folderId) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}' and folderId '{}'", userId, folderId);
 
         final FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
                 .getFolderIdNameDescriptionDto(folderId).orElseThrow(() ->
@@ -89,7 +88,7 @@ public class FolderService {
     }
 
     private String getPreviousOrLastFolderId(final String userId, final String folderId) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}' and folderId '{}'", userId, folderId);
         final String previousOrLastFolderId = folderRepository.getPreviousId(userId, folderId)
                 .orElse(folderRepository.getLastId(userId)
                         .orElseThrow(() -> new IllegalArgumentException("Unable to find any previous or last folder " +
@@ -99,7 +98,7 @@ public class FolderService {
     }
 
     private String getNextOrFirstFolderId(final String userId, final String folderId) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}' and folderId '{}'", userId, folderId);
         final String nextOrFirstFolderId = folderRepository.getNextId(userId, folderId)
                 .orElse(folderRepository.getFirstId(userId)
                         .orElseThrow(() -> new IllegalArgumentException("Unable to find any next or first folder " +
@@ -109,7 +108,7 @@ public class FolderService {
     }
 
     public FolderIdNameDescriptionDto getFolderIdNameDescriptionDto(final String folderId) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for folderId '{}'", folderId);
         final FolderIdNameDescriptionDto folderIdNameDescriptionDto = folderRepository
                 .getFolderIdNameDescriptionDto(folderId)
                 .orElseThrow(() -> new IllegalArgumentException("Folder information not found. Folder ID: " + folderId));
@@ -120,7 +119,7 @@ public class FolderService {
     @Transactional
     public Folder updateFolderByFolderIdNameDescriptionDto(final String userId,
                                                            final FolderIdNameDescriptionDto folderIdNameDescriptionDto) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}' and folderIdNameDescriptionDto '{}'", userId, folderIdNameDescriptionDto);
 
         final String newName = folderIdNameDescriptionDto.getName();
 
@@ -142,21 +141,20 @@ public class FolderService {
 
     @Transactional
     public void deleteAllByFolderId(final String folderId) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for folderId '{}'", folderId);
         final List<String> setsId = folderRepository.getSetsIdByFolderId(folderId);
         setsId.forEach(s -> {
             cardService.deleteBySetId(s);
             setOfCardsService.deleteById(s);
         });
         folderRepository.deleteById(folderId);
-        LOGGER.info("done");
+        LOGGER.info("deleted folder with folderId '{}'", folderId);
     }
 
     public String getNameById(final String folderId) {
-        LOGGER.info("invoked");
         final String folderName = folderRepository.findNameById(folderId).orElseThrow(() ->
                 new IllegalArgumentException("Folder name not found. Folder ID: " + folderId));
-        LOGGER.info("folderName {}", folderName);
+        LOGGER.info("folderName '{}' for folderId '{}'", folderName, folderId);
         return folderName;
     }
 

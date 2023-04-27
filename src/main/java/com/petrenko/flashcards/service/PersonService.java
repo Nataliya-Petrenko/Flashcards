@@ -33,13 +33,13 @@ public class PersonService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for username '{}'", username);
         return personRepository.findPersonByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public Person getById(final String userId) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}'", userId);
         final Person person = personRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("User not found. User ID: " + userId));
         LOGGER.info("Person findById {}", person);
@@ -47,7 +47,7 @@ public class PersonService implements UserDetailsService {
     }
 
     public Person saveRegistrationPersonDtoToPerson(final RegistrationPersonDto user) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for RegistrationPersonDto '{}'", user);
         if (user.getPassword() == null) {
             throw new IllegalArgumentException("Password is incorrect");
         }
@@ -64,7 +64,7 @@ public class PersonService implements UserDetailsService {
         person.setLastName(user.getLastName());
 
         final long countOfPerson = personRepository.count();
-        LOGGER.info("countOfPerson {}", countOfPerson);
+        LOGGER.trace("countOfPerson {}", countOfPerson);
         if (countOfPerson == 0) {
             LOGGER.info("first user");
             person.setRole(Role.ADMIN);
@@ -78,7 +78,7 @@ public class PersonService implements UserDetailsService {
     }
 
     public EditProfileDto getEditProfileDtoByUserId(final String userId) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}'", userId);
         final EditProfileDto editProfileDto = personRepository.getEditProfileDtoByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User information for editing not found. User ID: " + userId));
         LOGGER.info("editProfileDto {}", editProfileDto);
@@ -87,7 +87,7 @@ public class PersonService implements UserDetailsService {
 
     @Transactional
     public Person updatePersonFromEditProfileDto(final String userId, final EditProfileDto editProfileDto) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}' and editProfileDto '{}'", userId, editProfileDto);
 
         final String newEmail = editProfileDto.getEmail();
         final String newFirstName = editProfileDto.getFirstName();
@@ -102,14 +102,13 @@ public class PersonService implements UserDetailsService {
     }
 
     public List<UsersInfoDto> getAll() {
-        LOGGER.info("invoked");
         final List<UsersInfoDto> users = personRepository.getUsersInfoDto();
         LOGGER.info("users {}", users);
         return users;
     }
 
     public UsersInfoDto getUsersInfoDto(final String userId) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}'", userId);
         final UsersInfoDto user = personRepository.getUserInfoDto(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User information not found. User ID: " + userId));
 
@@ -119,7 +118,7 @@ public class PersonService implements UserDetailsService {
 
     @Transactional
     public void turnBlockingUser(final String userId) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}'", userId);
         final boolean enable = personRepository.getEnable(userId);
         if (enable) {
             blockUser(userId);
@@ -129,18 +128,18 @@ public class PersonService implements UserDetailsService {
     }
 
     private void blockUser(final String userId) {
-        LOGGER.info("invoked");
         personRepository.blockUser(userId, false);
+        LOGGER.trace("userId '{}' is blocked", userId);
     }
 
     private void unblockUser(final String userId) {
-        LOGGER.info("invoked");
         personRepository.blockUser(userId, true);
+        LOGGER.trace("userId '{}' is unblocked", userId);
     }
 
     @Transactional
     public void changeRoleUser(final String userId) {
-        LOGGER.info("invoked");
+        LOGGER.trace("invoked for userId '{}'", userId);
         String role = personRepository.getRole(userId);
         if (role.equals("USER")) {
             makeAdmin(userId);
@@ -150,21 +149,19 @@ public class PersonService implements UserDetailsService {
     }
 
     public void makeAdmin(String userId) {
-        LOGGER.info("invoked");
         personRepository.updateRole(userId, Role.ADMIN);
+        LOGGER.trace("userId '{}' is admin", userId);
     }
 
     public void makeUser(String userId) {
-        LOGGER.info("invoked");
         personRepository.updateRole(userId, Role.USER);
+        LOGGER.trace("userId '{}' is user", userId);
     }
 
     public List<UsersInfoDto> getBySearch(final String search) {
-        LOGGER.info("invoked");
         final List<UsersInfoDto> users = personRepository.getBySearch(search);
-        LOGGER.info("users {}", users);
+        LOGGER.info("for search '{}': users {}", search, users);
         return users;
     }
-
 
 }

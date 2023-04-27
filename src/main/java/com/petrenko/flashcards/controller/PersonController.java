@@ -31,12 +31,9 @@ public class PersonController {
 
     @GetMapping("/registration")
     public ModelAndView getRegistrationForm(ModelAndView modelAndView) {
-        LOGGER.info("invoked");
         final RegistrationPersonDto registrationPersonDto = new RegistrationPersonDto();
         modelAndView.addObject("registrationPersonDto", registrationPersonDto);
-        LOGGER.info("new RegistrationPersonDto() {}", registrationPersonDto);
         modelAndView.setViewName("registration");
-        LOGGER.info("before show registration.html");
         return modelAndView;
     }
 
@@ -44,24 +41,19 @@ public class PersonController {
     public ModelAndView saveNewPerson(@ModelAttribute @Valid RegistrationPersonDto registrationPersonDto,
                                       BindingResult bindingResult,
                                       ModelAndView modelAndView) {
-        LOGGER.info("invoked");
         if (bindingResult.hasErrors()) {
-            LOGGER.info("return with input error {}", registrationPersonDto);
+            LOGGER.error("return with input error {}", registrationPersonDto);
             modelAndView.addObject("registrationPersonDto", registrationPersonDto);
             modelAndView.setViewName("registration");
             return modelAndView;
         }
         final Person savedPerson = personService.saveRegistrationPersonDtoToPerson(registrationPersonDto);
-        LOGGER.info("savedPerson {}", savedPerson);
-
         modelAndView.setViewName("redirect:/folder");
-        LOGGER.info("before redirect:/folder");
         return modelAndView;
     }
 
     @GetMapping("/login")
     public ModelAndView loginPage(ModelAndView modelAndView) {
-        LOGGER.info("invoked");
         modelAndView.setViewName("login");
         return modelAndView;
     }
@@ -69,16 +61,13 @@ public class PersonController {
     @GetMapping("/profile")
     public ModelAndView getProfileForm(ModelAndView modelAndView,
                                        Principal principal) {
-        LOGGER.info("invoked");
         String userId = principal.getName();
-        LOGGER.info("userId {}", userId);
+        LOGGER.trace("userId {}", userId);
 
         final EditProfileDto editProfileDto = personService.getEditProfileDtoByUserId(userId);
-        LOGGER.info("editProfileDto {}", editProfileDto);
         modelAndView.addObject("editProfileDto", editProfileDto);
 
         modelAndView.setViewName("profileEdit");
-        LOGGER.info("before show profileEdit.html");
         return modelAndView;
     }
 
@@ -87,35 +76,27 @@ public class PersonController {
                                     BindingResult bindingResult,
                                     ModelAndView modelAndView,
                                     Principal principal) {
-        LOGGER.info("editProfileDto from form {}", editProfileDto);
+        LOGGER.trace("editProfileDto from form {}", editProfileDto);
         if (bindingResult.hasErrors()) {
-            LOGGER.info("return with input error {}", editProfileDto);
+            LOGGER.error("return with input error {}", editProfileDto);
             modelAndView.addObject("editProfileDto", editProfileDto);
             modelAndView.setViewName("profileEdit");
             return modelAndView;
         }
 
         final String userId = principal.getName();
-        final Person savedPerson = personService.updatePersonFromEditProfileDto(userId, editProfileDto);
-        LOGGER.info("savedPerson {}", savedPerson);
+        personService.updatePersonFromEditProfileDto(userId, editProfileDto);
 
         modelAndView.setViewName("redirect:/");
-        LOGGER.info("before redirect:/");
         return modelAndView;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user")
     public ModelAndView getAllUsers(ModelAndView modelAndView) {
-        LOGGER.info("invoked");
-
         final List<UsersInfoDto> users = personService.getAll();
-
-        LOGGER.info("users {}", users);
         modelAndView.addObject("users", users);
-
         modelAndView.setViewName("users");
-        LOGGER.info("before show users.html");
         return modelAndView;
     }
 
@@ -123,15 +104,10 @@ public class PersonController {
     @GetMapping("/user/{id}")
     public ModelAndView getUser(@PathVariable("id") String id,
                                 ModelAndView modelAndView) {
-        LOGGER.info("invoked");
-
+        LOGGER.info("invoked with id: {}", id);
         final UsersInfoDto user = personService.getUsersInfoDto(id);
-
-        LOGGER.info("user {}", user);
         modelAndView.addObject("user", user);
-
         modelAndView.setViewName("userInfo");
-        LOGGER.info("before show userInfo.html");
         return modelAndView;
     }
 
@@ -140,14 +116,8 @@ public class PersonController {
     public ModelAndView makeBlock(@PathVariable("id") String id,
                                  ModelAndView modelAndView) {
         LOGGER.info("invoked with id: {}", id);
-
         personService.turnBlockingUser(id);
-        LOGGER.info("user blocked/unblocked");
-
-        String red = "redirect:/user/" + id;
-        modelAndView.setViewName(red);
-        LOGGER.info("before {}", red);
-
+        modelAndView.setViewName("redirect:/user/" + id);
         return modelAndView;
     }
 
@@ -156,14 +126,8 @@ public class PersonController {
     public ModelAndView makeAdmin(@PathVariable("id") String id,
                                   ModelAndView modelAndView) {
         LOGGER.info("invoked with id: {}", id);
-
         personService.changeRoleUser(id);
-        LOGGER.info("user role is turned (user/admin)");
-
-        String red = "redirect:/user/" + id;
-        modelAndView.setViewName(red);
-        LOGGER.info("before {}", red);
-
+        modelAndView.setViewName("redirect:/user/" + id);
         return modelAndView;
     }
 
@@ -171,18 +135,10 @@ public class PersonController {
     @PutMapping("/user")
     public ModelAndView searchUser(@RequestParam("search") String search,
                                    ModelAndView modelAndView) {
-        LOGGER.info("invoked");
-
         final List<UsersInfoDto> users = personService.getBySearch(search);
-
-        LOGGER.info("users {}", users);
         modelAndView.addObject("users", users);
-
         modelAndView.setViewName("users");
-        LOGGER.info("before show users.html");
         return modelAndView;
     }
-
-
 
 }

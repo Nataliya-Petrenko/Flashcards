@@ -141,7 +141,7 @@ public class PersonService implements UserDetailsService {
     public void changeRoleUser(final String userId) {
         LOGGER.trace("invoked for userId '{}'", userId);
         String role = personRepository.getRole(userId);
-        if (role.equals("USER")) {
+        if (Role.USER.equals(Role.valueOf(role))) {
             makeAdmin(userId);
         } else {
             makeUser(userId);

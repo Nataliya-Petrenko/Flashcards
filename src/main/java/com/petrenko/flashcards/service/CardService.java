@@ -6,9 +6,11 @@ import com.petrenko.flashcards.repository.CardRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -142,7 +144,7 @@ public class CardService {
         return savedCard;
     }
 
-    public List<CardIdQuestionDto> getAll() {
+    public List<CardIdQuestionDto> getAll() { // todo delete when pagination will finish
         final List<CardIdQuestionDto> cards = cardRepository.getAll();
         LOGGER.info("cards {}", cards);
         return cards;
@@ -152,6 +154,15 @@ public class CardService {
         final List<CardIdQuestionDto> cards = cardRepository.getBySearch(search);
         LOGGER.info("for search '{}': cards {}", search, cards);
         return cards;
+    }
+
+    public Page<CardIdQuestionDto> getAllPage(final Pageable pageable) {
+        Slice<CardIdQuestionDto> cards = cardRepository.getAllPage(pageable);
+        Page<CardIdQuestionDto> page = new PageImpl<>(cards.getContent(), pageable, cards.getNumberOfElements());
+
+        LOGGER.info("cards {}", cards);
+        cards.stream().forEach(System.out::println);
+        return page;
     }
 
     public Optional<String> getFirstId(String setId) {

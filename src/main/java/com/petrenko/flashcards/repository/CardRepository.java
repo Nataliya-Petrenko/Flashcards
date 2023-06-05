@@ -2,6 +2,9 @@ package com.petrenko.flashcards.repository;
 
 import com.petrenko.flashcards.dto.*;
 import com.petrenko.flashcards.model.Card;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -126,7 +129,15 @@ public interface CardRepository extends CrudRepository<Card, String> {
             question)
             FROM Card
             """)
-    List<CardIdQuestionDto> getAll();
+    List<CardIdQuestionDto> getAll(); // todo delete when pagination will finish
+
+    @Query("""
+            SELECT new com.petrenko.flashcards.dto.CardIdQuestionDto(
+            id,
+            question)
+            FROM Card
+            """)
+    Slice<CardIdQuestionDto> getAllPage(Pageable pageable);
 
     @Query("""
             SELECT new com.petrenko.flashcards.dto.CardIdQuestionDto(

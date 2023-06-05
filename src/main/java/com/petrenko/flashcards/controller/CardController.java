@@ -6,6 +6,7 @@ import com.petrenko.flashcards.service.CardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping()
@@ -26,9 +30,23 @@ public class CardController {
     }
 
     @GetMapping("/")
-    public ModelAndView getAllUsers(ModelAndView modelAndView) {
+    public ModelAndView getAllCards(ModelAndView modelAndView) {
         final List<CardIdQuestionDto> cards = cardService.getAll();
         modelAndView.addObject("cards", cards);
+        modelAndView.setViewName("search");
+        return modelAndView;
+    }
+
+    @GetMapping("/pagination") // todo depending from page in site and cards in page
+    public ModelAndView getAllCardsPage(ModelAndView modelAndView) {
+//        int currentSize = size.orElse(5);
+        int currentSize = 5;
+//        int currentPage = page.orElse(1);
+        int currentPage = 1;
+        Pageable pageable = PageRequest.of(currentPage - 1, currentSize, Sort.by("question").descending().and(Sort.by("id")));
+        final Page<CardIdQuestionDto> cardsPage = cardService.getAllPage(pageable);
+
+        modelAndView.addObject("cards", cardsPage.getContent());
         modelAndView.setViewName("search");
         return modelAndView;
     }
@@ -62,9 +80,9 @@ public class CardController {
 
     @PostMapping("/card/create")
     public ModelAndView saveNewCard(@ModelAttribute CardCreatingDto cardCreatingDto,
-                                   BindingResult bindingResult,
-                                   ModelAndView modelAndView,
-                                   Principal principal) {
+                                    BindingResult bindingResult,
+                                    ModelAndView modelAndView,
+                                    Principal principal) {
         LOGGER.trace("cardCreatingDto from form {}", cardCreatingDto);
         if (bindingResult.hasErrors()) {
             LOGGER.error("return with input error {}", cardCreatingDto);
@@ -91,7 +109,7 @@ public class CardController {
 
     @GetMapping("/card/{id}/learning")
     public ModelAndView getCardByIdLearning(@PathVariable("id") String id,
-                                    ModelAndView modelAndView) {
+                                            ModelAndView modelAndView) {
         LOGGER.trace("card id from link: {}", id);
         final CardByIdDto cardByIdDto = cardService.getCardByIdDto(id);
         modelAndView.addObject("card", cardByIdDto);

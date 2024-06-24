@@ -6,6 +6,35 @@ Flashcards are a tool used for organizing information, learning, and memorizatio
 
 Flashcards are commonly used in studying for exams or learning new theoretical material, as they can help with recalling important information quickly and efficiently. 
 
+### Key Features:
+
+<li> User Roles: The application supports two distinct user roles - Administrator and User.
+<li> User: Users can create, read, update, and delete flashcards, sets, and folders. They can also edit their profiles and use advanced functionalities like card search and set study mode.
+<li> Administrator: Administrators have all the capabilities of regular users, plus additional privileges to manage user roles, including the ability to block users and promote users to administrators.
+
+### Functionality:
+
+<li> CRUD Operations: Users can perform full CRUD (Create, Read, Update, Delete) operations on cards, sets, and folders, ensuring comprehensive control over their learning materials.
+<li> Card Search: A search feature allows users to quickly find specific flashcards within their sets.
+<li> Set Study Mode: Users can enter a study mode to review and test their knowledge on selected sets of flashcards.
+<li> Profile Management: Users have the ability to update their personal information and preferences.
+
+### Technologies Used:
+
+<li>Java, 
+
+<li>Postgresql, 
+
+<li>Spring (Boot, Core, Data, Web, MVC, Security), 
+
+<li>Lombok, 
+
+<li>Flyway,
+
+<li>Thymeleaf, 
+
+<li>HTML, CSS.
+
 ## How to use the app?
 
 You can use the search to find a card. Currently, the search is performed by matching part of the question.
@@ -166,22 +195,5 @@ A Flashcard database must be created in the database-system. You can change this
 ![image](https://user-images.githubusercontent.com/110383852/233319897-3403f6fc-2eae-420e-91f7-9fa77753ab53.png)
 
 To start work, run the application and go to the page http://localhost:8081.
-
-## Technologies
-The following technologies were used in the creation of this application: 
-
-<li>Java, 
-
-<li>Postgresql, 
-
-<li>Spring (Boot, Core, Data, Web, MVC, Security), 
-
-<li>Lombok, 
-
-<li>Flyway,
-
-<li>Thymeleaf, 
-
-<li>HTML, CSS.
 
 ## The web application is under development.
